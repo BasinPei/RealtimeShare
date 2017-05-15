@@ -35,6 +35,11 @@ public class OpenScreenDialog extends BaseDialog{
         videoQuality.resY= 720;
         videoQuality._density= 1;
 
+        DisplayMetrics metrics=_context.getResources().getDisplayMetrics();
+        videoQuality.resX= metrics.widthPixels;
+        videoQuality.resY= metrics.heightPixels;
+        videoQuality._density = (int) metrics.density;
+
         AudioQuality audioQuality = AudioQuality.DEFAULT_AUDIO_QUALITY.clone();
         audioQuality.bitRate = 64000;
         audioQuality.samplingRate = 44100;

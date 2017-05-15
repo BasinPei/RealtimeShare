@@ -27,9 +27,9 @@ public class VideoViewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        if(this.getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE)
+        if(this.getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         {
-            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
+            this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
             return;
         }
 

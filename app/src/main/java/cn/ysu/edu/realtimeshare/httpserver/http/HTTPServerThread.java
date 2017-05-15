@@ -54,7 +54,6 @@ public class HTTPServerThread extends Thread
 	@Override
 	public void run()
 	{
-		// TODO: 2017/5/14 check http request
 		Log.d(TAG, "run: HttpServerTHread");
 		HTTPSocket httpSock = new HTTPSocket(sock);
 		if (httpSock.open() == false)
@@ -65,14 +64,10 @@ public class HTTPServerThread extends Thread
 
 		HTTPRequest httpReq = new HTTPRequest();
 		httpReq.setSocket(httpSock);
- 
 
 		while (httpReq.read() == true)
 		{
-			 
 			httpServer.performRequestListener(httpReq);
-			 
-		 
 			if (httpReq.isKeepAlive() == false)
 			{
 				break;

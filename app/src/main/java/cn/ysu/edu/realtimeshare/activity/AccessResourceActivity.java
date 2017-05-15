@@ -100,78 +100,28 @@ public class AccessResourceActivity extends AppCompatActivity {
                 final FileProperty fileProperty = mSharedFileList.get(position);
                 int fileType = FileOperationOfType.getFileType(fileProperty.getFileName());
                 if (fileType == FileOperationOfType.TYPE_VIDEO) {
-                    /*new Thread(new Runnable() {
-                        @Override
-                        public void run() {
-                            Socket socket = null;
-                            try {
-                                socket = new Socket(mConnectedWifiInfo.groupOwnerAddress.getHostAddress(), InitService.GROUP_OWNER_PORT);
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                            JSONObject jsonObject = new JSONObject();
-                            try {
-                                jsonObject.put(InitService.REQUEST_FLAG, InitService.REQUEST_MEDIA_FILE);
 
-                                OutputStream os = socket.getOutputStream();
-                                os.write(jsonObject.toString().getBytes());
-                                os.flush();
-                                socket.shutdownOutput();
-                            } catch (JSONException e) {
-                                e.printStackTrace();
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }*/
+                    //请求媒体文件
+                    String filePath = fileProperty.getFilePath();
+                    String suffix = cn.ysu.edu.realtimeshare.httpserver.servlet.File.getSuffixByPath(filePath);
+                    String path = "http://" + mConnectedWifiInfo.groupOwnerAddress.getHostAddress() + ":"
+                            + SharedFileOperation.HTTP_FILE_PORT + "/File/"
+                            + fileProperty.hashCode() + suffix;
 
+                   /* try {
+                        path = URLEncoder.encode(path, "utf-8");
+                    } catch (UnsupportedEncodingException e) {
+                        e.printStackTrace();
+                    }*/
 
-                            //请求媒体文件
-                            //"/File/" + hash + easyserver.servlet.File.getSuffixByPath(file.getName()));
-                            //"http://" + _hostIP + ":8000" + o._path;
-                            String filePath = fileProperty.getFilePath();
-                            String suffix = cn.ysu.edu.realtimeshare.httpserver.servlet.File.getSuffixByPath(filePath);
-                            String path= "http://" + mConnectedWifiInfo.groupOwnerAddress.getHostAddress() + ":"
-                                    + SharedFileOperation.HTTP_FILE_PORT+"/File/"
-                                    + fileProperty.hashCode() + suffix;
-
-                            /*try {
-                                path = URLEncoder.encode(path, "utf-8");
-                            } catch (UnsupportedEncodingException e) {
-                                e.printStackTrace();
-                            }*/
+                    /*Intent mediaPlayIntent = new Intent(AccessResourceActivity.this, MediaPlayerActivity.class);
+                    mediaPlayIntent.putExtra("path", path);
+                    startActivity(mediaPlayIntent);*/
 
                     Intent i = new Intent(Intent.ACTION_VIEW);
                     Uri uri = Uri.parse(path);
                     i.setData(uri);
                     startActivity(i);
-
-              /*      URL u;
-                    String path2 = new String(path);
-                    HttpURLConnection connection = null;
-                    try {
-                        u = new URL(path2);
-                        connection = (HttpURLConnection) u.openConnection();
-                        connection.setConnectTimeout(6 * 1000);
-                        connection.setDoInput(true);
-                        connection.setUseCaches(false);
-                        connection.connect();
-                        InputStream ins = connection.getInputStream();
-                        ins.close();
-
-                    } catch (MalformedURLException e) {
-                        e.printStackTrace();
-                    } catch (IOException e) {
-                        e.printStackTrace();
-                    }finally {
-                        if(connection != null){
-                            connection.disconnect();
-                        }
-                    }
-*/
-                            /*Intent i = new Intent(AccessResourceActivity.this,MediaPlayerActivity.class);
-                            i.putExtra("path", path);
-                            startActivity(i);*/
-                        /*}
-                    }).start();*/
 
 
                 } else {
@@ -358,10 +308,10 @@ public class AccessResourceActivity extends AppCompatActivity {
         protected void onPostExecute(File targetFile) {
             super.onPostExecute(targetFile);
             progressDialog.dismiss();
-            if(targetFile.exists()){
+            if (targetFile.exists()) {
                 if (targetFile.length() == 0) {
                     targetFile.delete();
-                    Toast.makeText(AccessResourceActivity.this,R.string.access_file_fail,Toast.LENGTH_LONG).show();
+                    Toast.makeText(AccessResourceActivity.this, R.string.access_file_fail, Toast.LENGTH_LONG).show();
                 } else {
                     Intent openFileIntent = FileOperationOfType.getOpenFileIntent(targetFile.getPath());
                     startActivity(openFileIntent);
@@ -444,12 +394,18 @@ public class AccessResourceActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Boolean isShareScreen) {
             progressDialog.dismiss();
-            if(!isShareScreen){//主机没有分享屏幕
-                Toast.makeText(AccessResourceActivity.this,"false",Toast.LENGTH_SHORT).show();
-            }else{//主机分享屏幕，获得rtsp路径
-                String urlPath = "rtsp://"+mConnectedWifiInfo.groupOwnerAddress.getHostAddress()+":"+ RtspServer.DEFAULT_RTSP_PORT;
-                Intent screenVideoIntent = VideoViewActivity.getIntent(AccessResourceActivity.this,urlPath);
-                AccessResourceActivity.this.startActivity(screenVideoIntent);
+            if (!isShareScreen) {//主机没有分享屏幕
+                Toast.makeText(AccessResourceActivity.this, "false", Toast.LENGTH_SHORT).show();
+            } else {//主机分享屏幕，获得rtsp路径
+                String urlPath = "rtsp://" + mConnectedWifiInfo.groupOwnerAddress.getHostAddress() + ":" + RtspServer.DEFAULT_RTSP_PORT;
+
+                Intent i = new Intent(Intent.ACTION_VIEW);
+                Uri uri = Uri.parse(urlPath);
+                i.setData(uri);
+                startActivity(i);
+
+                /*Intent screenVideoIntent = VideoViewActivity.getIntent(AccessResourceActivity.this,urlPath);
+                AccessResourceActivity.this.startActivity(screenVideoIntent);*/
             }
         }
     }

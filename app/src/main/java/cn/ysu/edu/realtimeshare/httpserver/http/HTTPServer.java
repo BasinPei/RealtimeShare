@@ -191,7 +191,7 @@ public class HTTPServer implements Runnable {
 
             Socket sock = serverSock.accept();
 
-//            sock.setSoTimeout(getTimeout());
+            sock.setSoTimeout(getTimeout());
             return sock;
         } catch (Exception e) {
             return null;
@@ -258,7 +258,7 @@ public class HTTPServer implements Runnable {
                 /**
                  *  add in 2016/4/24 by KerriGan
                  */
-                sock.setSoTimeout(100);
+//                sock.setSoTimeout(1000);
                 if (sock != null) {
                     Debug.message("sock = " + sock.getRemoteSocketAddress());
                 }

@@ -394,7 +394,6 @@ public class SessionBuilder {
 				new MediaScreenEncoder(testWrapper, new MediaEncoder.MediaEncoderListener() {
 					@Override
 					public void onPrepared(MediaEncoder encoder) {
-						Log.i(TAG, "MP4Config.mp4 开始重新创建");
 						new Thread(new Runnable() {
 							@Override
 							public void run() {

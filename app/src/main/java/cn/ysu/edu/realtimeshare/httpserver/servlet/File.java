@@ -78,7 +78,6 @@ public class File implements ServletBase{
                 return ;
             }
 
-
             HTTPResponse httpRes = new HTTPResponse();
             httpRes.setContentType(contentType);
             httpRes.setStatusCode(HTTPStatus.OK);
