@@ -1,6 +1,7 @@
 package cn.ysu.edu.realtimeshare.activity;
 
 import android.annotation.TargetApi;
+import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -15,8 +16,10 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.IBinder;
+import android.provider.Settings;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentStatePagerAdapter;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.FrameLayout;
@@ -45,6 +48,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
     private boolean isWifiP2pEnabled = false;
     private boolean isRetryChannel = false;
     private boolean isGroupOwner = false;
+    private int mConnectionState = WifiP2pDevice.UNAVAILABLE;
 
     private WifiP2pManager mWifiP2pManager;
     private WifiP2pManager.Channel mChannel;
@@ -130,7 +134,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                                 mWifiP2pManager.removeGroup(mChannel, null);
                                 mLocalDeviceFragment.setCreateGroupSwitch(false);
 
-                                // TODO: 2017/5/11 concel share screen
                                 closeShareScreen();
                                 mLocalDeviceFragment.setShareScreenSwitch(false);
                             }
@@ -163,6 +166,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 @Override
                 public void onThisDeviceChangeResult(WifiP2pDevice wifiP2pDevice) {
                     //当前设备WiFi状态发生变化
+                    mConnectionState = wifiP2pDevice.status;
                     mLocalDeviceFragment.updateThisDevice(wifiP2pDevice);
                     mNearByDeviceFragment.setDeviceStatus(wifiP2pDevice);
                     mMineSettingsFragment.updateThisDeviceName(wifiP2pDevice);
@@ -253,7 +257,26 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
                         @Override
                         public void onFailure(int reason) {
-                            Toast.makeText(MainActivity.this, R.string.local_create_group_fail_tip, Toast.LENGTH_SHORT).show();
+                            if(mConnectionState == WifiP2pDevice.CONNECTED){
+                                AlertDialog.Builder tipDialog = new AlertDialog.Builder(MainActivity.this);
+                                tipDialog.setTitle(R.string.tip_dialog);
+                                tipDialog.setMessage(R.string.local_create_group_fail_tip);
+                                tipDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                    }
+                                });
+                                tipDialog.setNegativeButton(R.string.concel, new DialogInterface.OnClickListener() {
+                                    @Override
+                                    public void onClick(DialogInterface dialog, int which) {
+
+                                    }
+                                });
+                                tipDialog.create().show();
+                            }else{
+                                Toast.makeText(MainActivity.this, R.string.local_create_group_fail_tip, Toast.LENGTH_SHORT).show();
+                            }
                             switchCallBack.onSwithResult(false);
                         }
                     });
