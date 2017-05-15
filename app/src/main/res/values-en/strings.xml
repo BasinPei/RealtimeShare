@@ -1,0 +1,90 @@
+<resources>
+    <string name="app_name">RealtimeShare</string>
+    <string name="welcome">Launch</string>
+    <string name="exit_tip">Press Back Again To Exit Application</string>
+
+    <string name="tab_local_device">LocalDevice</string>
+    <string name="tab_nearby_device">NearByDevice</string>
+    <string name="tab_mine">Mine</string>
+
+    <string name="local_device">Local Device</string>
+    <string name="local_wlan">WLAN</string>
+    <string name="local_wlan_open">OPEN</string>
+    <string name="local_wlan_close">CLOSE</string>
+    <string name="local_create_group">Create Group</string>
+    <string name="local_add_share_file">Add Share File</string>
+    <string name="local_share_screen">Share Screen</string>
+    <string name="local_connected_devices">Connected Devices</string>
+    <string name="local_none_connected_devices">None Connected Devices</string>
+    <string name="local_create_group_fail_tip">Create Group Fail!Yry Open WLAN Again!</string>
+    <string name="local_share_screen_fail_tip">You are not GroupOwner!Create group first!</string>
+
+    <string name="nearby_current_status">Current Status</string>
+    <string name="nearby_current_connected_status">Current Connection Status  </string>
+    <string name="nearby_connected_device_name">Connected Device Name</string>
+    <string name="nearby_access_device_connected_resource">Access Connected Device Resource</string>
+    <string name="nearby_avaliable_groupowner_devices">Avaliable Group Owner Devices</string>
+    <string name="nearby_none_avaliable_devices">None Avaliable Group Owner Devices</string>
+    <string name="nearby_searching_peers">Searching Peers...</string>
+
+    <string name="settings_settings">Settings</string>
+    <string name="settings_device_name">"My Device Name</string>
+    <string name="settings_manage_shared_files">Manage Shared Files</string>
+    <string name="settings_tools">Tool</string>
+    <string name="settings_tool_screen_capture">Screen Capture</string>
+    <string name="settings_others">Others</string>
+    <string name="settings_feedback">FeedBack</string>
+    <string name="settings_help">Help</string>
+    <string name="settings_about">About</string>
+
+    <string name="file_category">File Category</string>
+    <string name="file_category_application">Application</string>
+    <string name="file_category_compress">Compress</string>
+    <string name="file_category_document">Document</string>
+    <string name="file_category_image">Image</string>
+    <string name="file_category_music">Music</string>
+    <string name="file_category_video">Video</string>
+    <string name="file_category_others">Others</string>
+    <string name="file_directory_browsing">File Directory Browsing</string>
+    <string name="file_mobile_storage">Mobile Storage</string>
+
+    <string name="file_directory_location">Current Location:</string>
+    <string name="file_scan_shared_files">Browsing Shared Files</string>
+    <string name="file_shared_list">Shared Files List</string>
+
+
+    <string name="search_loading">Loading...</string>
+    <string name="access_resource_share_screen">Share Screen</string>
+    <string name="access_resource_connected_device_screen">Access Connected Device Screen</string>
+    <string name="access_resource_connected_device_files">Access Connected Device Shared Files</string>
+
+    <string name="device_state_available">Available</string>
+    <string name="device_state_invited">Invited</string>
+    <string name="device_state_connected">Connected</string>
+    <string name="device_state_failed">Failed</string>
+    <string name="device_state_unavailable">Unavailable</string>
+    <string name="device_state_unknow">Unknow</string>
+    <string name="discover_peers">Search</string>
+    <string name="tip_wifi_not_enable">WiFi is not Enable.Please open WLAN first.</string>
+
+    <string name="tip_dialog">Tip</string>
+    <string name="ok">OK</string>
+    <string name="concel">Concel</string>
+    <string name="connect_with_device">Connect With</string>
+    <string name="connecting_dialog_tip">Connecting...</string>
+    <string name="manager_connect_failed">Connect Fail !</string>
+    <string name="manager_connect_success">Connect Success !</string>
+
+    <string name="channel_again_tip">Channel lost. Trying again...</string>
+    <string name="channel_lost_tip">Severe! Channel is probably lost premanently. Try Disable/Re-Enable P2P.</string>
+
+    <string name="wlan_state_tip">WLAN is closed!Please open WLAN first!</string>
+    <string name="access_file_fail">Access File Failed!</string>
+
+    <string name="screen_capture_file_brows">Browse Screen Capture</string>
+    <string name="screen_capture_file_path">Storage File Path</string>
+    <!--<string name="screen_capture_tip">Android version is lower than LOLLIPOP!Can't enable the function！</string>-->
+    <string name="media_file_fail_tip">Video file not exist！</string>
+
+
+</resources>

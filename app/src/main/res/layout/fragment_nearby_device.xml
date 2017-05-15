@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/devider_content_height"
+        android:background="@color/devider_back">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:text="@string/nearby_current_status" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="@dimen/fragment_horizontal_margin"
+                android:text="@string/nearby_current_connected_status"
+                android:textColor="@color/tab_selected" />
+
+            <TextView
+                android:id="@+id/nearby_device_status"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:padding="@dimen/fragment_horizontal_margin"
+                android:text="@string/device_state_unknow"
+                android:textColor="@color/tab_normal" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/nearby_device_name_container"
+            android:visibility="gone"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="0.5dp"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:background="@color/tab_normal"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/fragment_horizontal_margin"
+                    android:text="@string/nearby_connected_device_name"
+                    android:textColor="@color/tab_selected" />
+
+                <TextView
+                    android:id="@+id/nearby_device_connected_name"
+                    android:layout_width="0dp"
+                    android:layout_weight="1"
+                    android:layout_height="match_parent"
+                    android:gravity="center_vertical"
+                    android:padding="@dimen/fragment_horizontal_margin"
+                    android:text="@string/device_state_unknow"
+                    android:textColor="@color/tab_normal" />
+            </LinearLayout>
+        </LinearLayout>
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/devider_back">
+
+        <Button
+            android:id="@+id/nearby_access_resource"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/main_button_height"
+            android:layout_gravity="center"
+            android:background="@drawable/button_back"
+            android:layout_margin="@dimen/devider_height"
+            android:text="@string/nearby_access_device_connected_resource"
+            android:textColor="@android:color/white"
+            android:textSize="@dimen/main_button_text_size" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/devider_content_height"
+        android:background="@color/devider_back">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:text="@string/nearby_avaliable_groupowner_devices" />
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <TextView
+            android:id="@+id/nearby_none_device_tip"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="@string/nearby_none_avaliable_devices"
+            android:textColor="@color/tab_normal"
+            android:textSize="18sp" />
+
+        <ListView
+            android:id="@+id/nearby_avaliable_devices"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+    </FrameLayout>
+
+
+</LinearLayout>

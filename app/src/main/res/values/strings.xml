@@ -1,0 +1,90 @@
+<resources>
+
+    <string name="app_name">RealtimeShare</string>
+    <string name="welcome">立即体验</string>
+    <string name="exit_tip">再按一次返回键退出</string>
+
+    <string name="tab_local_device">本地设备</string>
+    <string name="tab_nearby_device">附近设备</string>
+    <string name="tab_mine">我的</string>
+
+    <string name="local_device">本地设备</string>
+    <string name="local_wlan">WLAN</string>
+    <string name="local_wlan_open">打开</string>
+    <string name="local_wlan_close">关闭</string>
+    <string name="local_create_group">创建群组</string>
+    <string name="local_add_share_file">添加分享文件</string>
+    <string name="local_share_screen">分享屏幕</string>
+    <string name="local_connected_devices">已连接设备</string>
+    <string name="local_none_connected_devices">无设备连接</string>
+    <string name="local_create_group_fail_tip">创建群组失败！请尝试重启WLAN！</string>
+    <string name="local_share_screen_fail_tip">尚未创建群组</string>
+
+    <string name="nearby_current_status">当前状态</string>
+    <string name="nearby_current_connected_status">当前连接状态</string>
+    <string name="nearby_connected_device_name">已连接设备名称</string>
+    <string name="nearby_access_device_connected_resource">获取已连接设备资源</string>
+    <string name="nearby_avaliable_groupowner_devices">可连接的服务群组设备</string>
+    <string name="nearby_none_avaliable_devices">无可连接的服务群组设备</string>
+    <string name="nearby_searching_peers">搜索设备...</string>
+
+    <string name="settings_settings">设置</string>
+    <string name="settings_device_name">我的设备名称</string>
+    <string name="settings_manage_shared_files">管理分享文件</string>
+    <string name="settings_tools">工具</string>
+    <string name="settings_tool_screen_capture">录屏助手</string>
+    <string name="settings_others">其他</string>
+    <string name="settings_feedback">反馈</string>
+    <string name="settings_help">帮助</string>
+    <string name="settings_about">关于</string>
+
+    <string name="file_category">文件分类</string>
+    <string name="file_category_application">应用</string>
+    <string name="file_category_compress">压缩包</string>
+    <string name="file_category_document">文档</string>
+    <string name="file_category_image">图片</string>
+    <string name="file_category_music">音乐</string>
+    <string name="file_category_video">视频</string>
+    <string name="file_category_others">其他</string>
+    <string name="file_directory_browsing">文件目录浏览</string>
+    <string name="file_mobile_storage">手机存储</string>
+
+    <string name="file_directory_location">当前目录：</string>
+    <string name="file_scan_shared_files">查看已分享文件</string>
+    <string name="file_shared_list">分享文件列表</string>
+
+
+    <string name="search_loading">加载中...</string>
+    <string name="access_resource_share_screen">屏幕共享</string>
+    <string name="access_resource_connected_device_screen">获取连接设备的屏幕</string>
+    <string name="access_resource_connected_device_files">获取连接设备的分享文件</string>
+
+    <string name="device_state_available">可用</string>
+    <string name="device_state_invited">连接中</string>
+    <string name="device_state_connected">已连接</string>
+    <string name="device_state_failed">失败</string>
+    <string name="device_state_unavailable">不可用</string>
+    <string name="device_state_unknow">未知</string>
+    <string name="discover_peers">搜索</string>
+    <string name="tip_wifi_not_enable">WLAN处于关闭状态！请先打开WLAN！</string>
+
+    <string name="tip_dialog">提示</string>
+    <string name="ok">确定</string>
+    <string name="concel">取消</string>
+    <string name="connect_with_device">连接</string>
+    <string name="connecting_dialog_tip">连接中...</string>
+    <string name="manager_connect_failed">连接失败!</string>
+    <string name="manager_connect_success">连接成功!</string>
+
+    <string name="channel_again_tip">信号丢失！正重新连接...</string>
+    <string name="channel_lost_tip">信号可能暂时丢失！尝试重启WLAN!</string>
+
+    <string name="wlan_state_tip">WLAN未打开！请先打开WLAN！</string>
+    <string name="access_file_fail">获取文件失败！</string>
+
+    <string name="screen_capture_file_brows">查看录屏文件</string>
+    <string name="screen_capture_file_path">录屏存储路径：</string>
+    <string name="screen_capture_enable_false">Android版本低于5.0，无法启用此功能！</string>
+    <string name="media_file_fail_tip">访问的视频文件不存在！</string>
+
+</resources>

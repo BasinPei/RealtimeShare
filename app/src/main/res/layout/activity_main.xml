@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/activity_main"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="cn.ysu.edu.realtimeshare.activity.MainActivity">
+
+    <cn.ysu.edu.realtimeshare.view.tab.TabContainerView
+        android:id="@+id/tab_containerview_main"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:textColor="@color/tab_normal"
+        app:selectedTextColor="@color/tab_selected"
+        app:divideLineColor="@color/tab_normal"
+        app:divideLineHeight="2"/>
+</RelativeLayout>

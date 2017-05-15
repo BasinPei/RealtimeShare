@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/devider_content_height"
+        android:background="@color/devider_back">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:text="@string/access_resource_share_screen" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/access_shared_screen"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal"
+        android:paddingLeft="@dimen/fragment_horizontal_margin">
+
+        <ImageView
+            android:layout_width="@dimen/item_icon_size"
+            android:layout_height="@dimen/item_icon_size"
+            android:layout_gravity="center"
+            android:src="@mipmap/ic_phone" />
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:layout_weight="1"
+            android:gravity="center_vertical"
+            android:text="@string/access_resource_connected_device_screen"
+            android:textColor="@color/tab_selected" />
+
+        <Button
+            android:layout_width="@dimen/item_icon_size"
+            android:layout_height="@dimen/item_icon_size"
+            android:layout_marginRight="@dimen/fragment_horizontal_margin"
+            android:background="@mipmap/itemarrow" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/item_height"
+        android:orientation="horizontal"
+        android:background="@color/devider_back">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:text="@string/access_resource_connected_device_files" />
+
+    </LinearLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/refresh_shared_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <ListView
+                android:id="@+id/shared_file_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+
+        </android.support.v4.widget.SwipeRefreshLayout>
+
+
+
+    </FrameLayout>
+
+
+</LinearLayout>

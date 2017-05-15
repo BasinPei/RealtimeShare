@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/devider_content_height"
+            android:background="@color/devider_back">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:text="@string/local_device" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal">
+
+            <ImageView
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:layout_gravity="center_vertical"
+                android:src="@mipmap/net_neighbor" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/local_device_name"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/app_name"
+                    android:layout_weight="1"/>
+
+                <TextView
+                    android:id="@+id/local_device_status"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:gravity="center_vertical"
+                    android:text="@string/app_name"
+                    android:layout_weight="1"/>
+            </LinearLayout>
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/devider_height"
+            android:background="@color/devider_back" />
+
+        <LinearLayout
+            android:id="@+id/local_set_wifi"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/fragment_horizontal_margin">
+
+            <ImageView
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_wlan" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center_vertical|left"
+                android:text="@string/local_wlan"
+                android:textColor="@color/tab_selected" />
+
+            <TextView
+                android:id="@+id/local_wifi_state"
+                android:layout_width="0dp"
+                android:layout_weight="1"
+                android:layout_height="match_parent"
+                android:layout_marginRight="@dimen/fragment_horizontal_margin"
+                android:gravity="center_vertical|right"
+                android:textColor="@color/tab_normal"/>
+
+            <Button
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
+                android:layout_marginRight="@dimen/fragment_horizontal_margin"
+                android:background="@mipmap/itemarrow" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:background="@color/tab_normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/fragment_horizontal_margin">
+
+            <ImageView
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_create_group" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/local_create_group"
+                android:textColor="@color/tab_selected" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/switch_create_group"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/fragment_horizontal_margin" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/devider_height"
+            android:background="@color/devider_back" />
+
+        <LinearLayout
+            android:id="@+id/local_add_share_file"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/fragment_horizontal_margin">
+
+            <ImageView
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_file_share" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/local_add_share_file"
+                android:textColor="@color/tab_selected" />
+
+            <Button
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
+                android:layout_marginRight="@dimen/fragment_horizontal_margin"
+                android:background="@mipmap/itemarrow" />
+
+        </LinearLayout>
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.5dp"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:background="@color/tab_normal" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/item_height"
+            android:orientation="horizontal"
+            android:paddingLeft="@dimen/fragment_horizontal_margin">
+
+            <ImageView
+                android:layout_width="@dimen/item_icon_size"
+                android:layout_height="@dimen/item_icon_size"
+                android:layout_gravity="center"
+                android:src="@mipmap/ic_screen_share" />
+
+            <TextView
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:layout_weight="1"
+                android:gravity="center_vertical"
+                android:text="@string/local_share_screen"
+                android:textColor="@color/tab_selected" />
+
+            <android.support.v7.widget.SwitchCompat
+                android:id="@+id/local_share_screen"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_vertical"
+                android:layout_marginRight="@dimen/fragment_horizontal_margin" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/devider_content_height"
+            android:background="@color/devider_back">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+                android:text="@string/local_connected_devices" />
+        </LinearLayout>
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/local_none_connected_tip"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/local_none_connected_devices"
+                android:textColor="@color/tab_normal"
+                android:gravity="center"/>
+
+            <ListView
+                android:id="@+id/local_connected_devices_list"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:visibility="gone"/>
+        </FrameLayout>
+
+    </LinearLayout>
+
+</LinearLayout>

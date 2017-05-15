@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/devider_back"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/devider_content_height">
+
+        <TextView
+            android:layout_width="0dp"
+            android:layout_weight="1"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:text="@string/screen_capture_file_path" />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:background="@android:color/white"
+        android:layout_height="@dimen/devider_content_height">
+
+        <TextView
+            android:text="/cn.ysu.edu.realtimeshare/RecordingScreen"
+            android:layout_marginLeft="@dimen/fragment_horizontal_margin"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_vertical|right"
+            android:textColor="@color/tab_normal"/>
+
+    </LinearLayout>
+
+
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <LinearLayout
+            android:id="@+id/btn_group"
+            android:layout_gravity="center"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerInParent="true"
+            android:orientation="horizontal">
+
+            <ImageButton
+                android:id="@+id/btn_pause"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:background="@drawable/btn_pause"
+                android:scaleType="fitXY" />
+
+            <ImageButton
+                android:id="@+id/btn_stop"
+                android:layout_width="100dp"
+                android:layout_height="100dp"
+                android:layout_marginLeft="10dp"
+                android:background="@drawable/btn_stop"
+                android:scaleType="fitXY" />
+        </LinearLayout>
+
+
+        <ImageButton
+            android:id="@+id/btn_start"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:background="@drawable/btn_start"
+            android:scaleType="fitXY" />
+    </FrameLayout>
+
+    <Button
+        android:id="@+id/view_screen_capture"
+        android:layout_width="match_parent"
+        android:layout_height="@dimen/main_button_height"
+        android:layout_margin="@dimen/fragment_horizontal_margin"
+        android:background="@color/colorAccent"
+        android:text="@string/screen_capture_file_brows"
+        android:layout_alignParentBottom="true"
+        android:textColor="@android:color/white"
+        android:textSize="18sp" />
+
+</LinearLayout>
