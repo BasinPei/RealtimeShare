@@ -444,7 +444,6 @@ public class HTTPRequest extends HTTPPacket
 			length = lastPos - firstPos + 1;
 		}
 		return httpSock.post(httpRes, offset, length, isHeadRequest());
-		// httpSock.close();
 	}
 
 	// //////////////////////////////////////////////

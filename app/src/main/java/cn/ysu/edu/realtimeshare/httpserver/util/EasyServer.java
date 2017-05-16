@@ -17,26 +17,6 @@ import cn.ysu.edu.realtimeshare.httpserver.servlet.ServletBase;
  * Created by KerriGan on 2016/4/22.
  */
 
-//        example:
-//        byte[]content=array.toString().getBytes("utf-8");
-//        HTTPResponse httpRes=new HTTPResponse();
-//        httpRes.setContentType("*/*");
-//        httpRes.setStatusCode(HTTPStatus.OK);
-//        httpRes.setContentLength(content.length);
-//        httpRes.setContent(content);
-//        httpReq.post(httpRes);
-
-
-//        HTTPResponse httpRes = new HTTPResponse();
-//        httpRes.setContentType(contentType);
-//        httpRes.setStatusCode(HTTPStatus.OK);
-//        httpRes.setContentLength(contentLen);
-//        httpRes.setContentInputStream(contentIn);
-//
-//        httpReq.post(httpRes);
-//
-//        contentIn.close();
-
 public class EasyServer extends Thread implements cn.ysu.edu.realtimeshare.httpserver.http.HTTPRequestListener {
 
     public static final String TAG = "EasyServer";
@@ -103,7 +83,7 @@ public class EasyServer extends Thread implements cn.ysu.edu.realtimeshare.https
 
         ServletBase file = new File();
         file.doGet(httpReq, res);
-
+        return;
     }
 
 }

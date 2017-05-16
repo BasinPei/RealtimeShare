@@ -417,7 +417,6 @@ public class RtspServer extends Service {
 					Log.e(TAG,"Response was not sent properly");
 					break;
 				}
-
 			}
 
 			// Streaming stops when client disconnects

@@ -150,19 +150,24 @@ public class HTTPServer implements Runnable {
     }
 
 
-    public boolean open(String addr, int port) {
+    public boolean open(final String addr,final int port) {
         if (serverSock != null) {
             return true;
         }
-        try {
-            bindAddr = InetAddress.getByName(addr);
-            bindPort = port;
-            serverSock = new ServerSocket(bindPort, 0, bindAddr);
+        // fix 2017/05/16 ServerSocket create on MainThreadException
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    bindAddr = InetAddress.getByName(addr);
+                    bindPort = port;
+                    serverSock = new ServerSocket(bindPort, 0, bindAddr);
+                } catch (IOException e) {
+                    return;
+                }
+            }
+        }).start();
 
-
-        } catch (IOException e) {
-            return false;
-        }
         return true;
     }
 
@@ -244,12 +249,12 @@ public class HTTPServer implements Runnable {
             return;
         }
 
-//        Thread thisThread = Thread.currentThread();
-//        while (httpServerThread == thisThread) {
+        Thread thisThread = Thread.currentThread();
+        while (httpServerThread == thisThread) {
 
-        while(true){
+//        while(true){
 
-//            Thread.yield();
+            Thread.yield();
             Socket sock = null;
             try {
                 Debug.message("accept ...");
@@ -258,7 +263,7 @@ public class HTTPServer implements Runnable {
                 /**
                  *  add in 2016/4/24 by KerriGan
                  */
-//                sock.setSoTimeout(1000);
+                sock.setSoTimeout(1000);
                 if (sock != null) {
                     Debug.message("sock = " + sock.getRemoteSocketAddress());
                 }
