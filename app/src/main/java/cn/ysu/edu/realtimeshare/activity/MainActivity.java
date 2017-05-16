@@ -352,8 +352,14 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
             _rtspServer.addCallbackListener(new RtspServer.CallbackListener() {
                 @Override
-                public void onError(RtspServer server, Exception e, int error) {
-                    Toast.makeText(MainActivity.this, "RTSP服务开启失败", Toast.LENGTH_SHORT).show();
+                public void onError(RtspServer server, Exception e, final int error) {
+                    runOnUiThread(new Runnable() {
+                        @Override
+                        public void run() {
+                            Toast.makeText(MainActivity.this, "RTSP服务开启失败-->"+error, Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
                 }
 
                 @Override

@@ -27,6 +27,7 @@ import android.content.SharedPreferences.Editor;
 import android.content.SharedPreferences.OnSharedPreferenceChangeListener;
 import android.os.Binder;
 import android.os.IBinder;
+import android.os.Looper;
 import android.preference.PreferenceManager;
 import android.util.Log;
 
@@ -64,7 +65,7 @@ public class RtspServer extends Service {
 	public static String SERVER_NAME = "MajorKernelPanic RTSP Server";
 
 	/** Port used by default. */
-	public static final int DEFAULT_RTSP_PORT = 8086;
+	public static final int DEFAULT_RTSP_PORT = 8890;
 
 	/** Port already in use. */
 	public final static int ERROR_BIND_FAILED = 0x00;
@@ -158,7 +159,13 @@ public class RtspServer extends Service {
 		if (!mEnabled || mRestart) stop();
 		if (mEnabled && mListenerThread == null) {
 			try {
-				mListenerThread = new RequestListener();
+				new Thread(new Runnable() {
+					@Override
+					public void run() {
+						mListenerThread = new RequestListener();
+					}
+				}).start();
+
 			} catch (Exception e) {
 				mListenerThread = null;
 			}
@@ -363,12 +370,15 @@ public class RtspServer extends Service {
 		}
 
 		public void run() {
+			//fix bug on 乐视2 pro
+			Looper.prepare();
+
 			Request request;
 			Response response;
 
 			Log.i(TAG, "Connection from "+mClient.getInetAddress().getHostAddress());
 
-			while (!Thread.interrupted()) {
+			while (true) {
 
 				request = null;
 				response = null;
