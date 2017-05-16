@@ -228,13 +228,17 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
      * 更新已连接设备列表
      */
     public void updateConnectedDevices() {
-        mWifiP2pManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
-            @Override
-            public void onGroupInfoAvailable(WifiP2pGroup group) {
-                ArrayList<WifiP2pDevice> connectedDevices = (ArrayList<WifiP2pDevice>) group.getClientList();
-                mLocalDeviceFragment.updateConnectedDevices(connectedDevices);
-            }
-        });
+        if(mWifiP2pManager != null){
+            mWifiP2pManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
+                @Override
+                public void onGroupInfoAvailable(WifiP2pGroup group) {
+                    ArrayList<WifiP2pDevice> connectedDevices = new ArrayList<>();
+                    connectedDevices.addAll(group.getClientList());
+                    mLocalDeviceFragment.updateConnectedDevices(connectedDevices);
+                }
+            });
+        }
+
     }
 
     /**

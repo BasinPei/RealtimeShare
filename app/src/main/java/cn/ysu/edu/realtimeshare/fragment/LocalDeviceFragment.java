@@ -149,7 +149,9 @@ public class LocalDeviceFragment extends Fragment{
      * @param connectedDevices
      */
     public void updateConnectedDevices(ArrayList<WifiP2pDevice> connectedDevices){
-        mWiFiPeerDeviceAdapter.resetData(connectedDevices);
+        if(connectedDeviceList != null){
+            mWiFiPeerDeviceAdapter.resetData(connectedDevices);
+        }
     }
 
     public interface SwitchCallBack{

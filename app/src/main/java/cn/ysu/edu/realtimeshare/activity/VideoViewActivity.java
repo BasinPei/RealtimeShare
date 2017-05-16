@@ -9,6 +9,8 @@ import android.content.pm.ActivityInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Window;
+import android.view.WindowManager;
 
 import cn.ysu.edu.realtimeshare.R;
 import io.vov.vitamio.LibsChecker;
@@ -25,8 +27,8 @@ public class VideoViewActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
         super.onCreate(savedInstanceState);
-
         if(this.getRequestedOrientation()!= ActivityInfo.SCREEN_ORIENTATION_PORTRAIT)
         {
             this.setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
@@ -37,6 +39,7 @@ public class VideoViewActivity extends AppCompatActivity {
             return;
 
         setContentView(R.layout.activity_video_view);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
 
         init();
     }
@@ -74,17 +77,9 @@ public class VideoViewActivity extends AppCompatActivity {
             _videoView.setOnPreparedListener(new MediaPlayer.OnPreparedListener() {
                 @Override
                 public void onPrepared(MediaPlayer mp) {
-                    mp.setPlaybackSpeed(1.0f);
                 }
             });
 
         }
-    }
-
-    public static final Intent getIntent(Context context,String videoPath)
-    {
-        Intent i=new Intent(context,VideoViewActivity.class);
-        i.putExtra("path",videoPath);
-        return i;
     }
 }

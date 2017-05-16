@@ -208,7 +208,10 @@ public class NearByDeviceFragment extends Fragment implements WifiP2pManager.Pee
 
         if(info.groupFormed && info.isGroupOwner){
             //group owner action
-//            mContext.updateConnectedDevices();
+            if(getActivity() != null){
+                ((MainActivity)getActivity()).updateConnectedDevices();
+            }
+
         }else if(info.groupFormed){
             //client action
             Toast.makeText(getActivity(),R.string.manager_connect_success,Toast.LENGTH_SHORT).show();
