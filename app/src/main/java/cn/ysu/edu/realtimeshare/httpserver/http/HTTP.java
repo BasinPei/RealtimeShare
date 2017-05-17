@@ -104,7 +104,7 @@ public class HTTP
 	public static final String STATUS_LINE_DELIM = " ";
 
 	public static final int DEFAULT_PORT = 80;
-	public static final int DEFAULT_CHUNK_SIZE = 512 * 1024;
+	public static final int DEFAULT_CHUNK_SIZE = 5 * 1024 * 1024;
 	public static final int DEFAULT_TIMEOUT = 15;
 
 	// //////////////////////////////////////////////

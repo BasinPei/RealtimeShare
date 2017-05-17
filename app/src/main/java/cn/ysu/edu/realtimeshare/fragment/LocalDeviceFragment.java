@@ -160,7 +160,7 @@ public class LocalDeviceFragment extends Fragment{
     }
 
     public void clearConnectedPeers() {
-        mWiFiPeerDeviceAdapter.resetData(null);
+        mWiFiPeerDeviceAdapter.resetData(new ArrayList<WifiP2pDevice>());
         noneConnectedDeviceTip.setVisibility(View.VISIBLE);
     }
 

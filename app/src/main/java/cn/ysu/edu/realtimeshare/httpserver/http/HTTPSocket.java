@@ -267,34 +267,31 @@ public class HTTPSocket {
                     : contentLength;
             int readLen = in.read(readBuf, 0, (int) readSize);
             Thread current = Thread.currentThread();
-            synchronized (HTTPSocket.class){
-                while (0 < readLen && readCnt < contentLength) {
-                    if (isChunkedResponse == true) {
-                        // Thanks for Lee Peik Feng <pflee@users.sourceforge.CyberGarage.net>
-                        // (07/07/05)
-                        String chunSizeBuf = Long.toHexString(readLen);
+            while (0 < readLen && readCnt < contentLength) {
+                if (isChunkedResponse == true) {
+                    // Thanks for Lee Peik Feng <pflee@users.sourceforge.CyberGarage.net>
+                    // (07/07/05)
+                    String chunSizeBuf = Long.toHexString(readLen);
 
-                        out.write(chunSizeBuf.getBytes());
+                    out.write(chunSizeBuf.getBytes());
 
-                        out.write(HTTP.CRLF.getBytes());
-                    }
-
-                    //// TODO: 2017/5/16  thread on pause another thread
-                    out.write(readBuf, 0, readLen);
-
-                    Thread thread = Thread.currentThread();
-                    Log.d(TAG, "post: "+thread.equals(current));
-
-                    if (isChunkedResponse == true) {
-                        out.write(HTTP.CRLF.getBytes());
-                    }
-                    readCnt += readLen;
-                    readSize = (chunkSize < (contentLength - readCnt)) ? chunkSize
-                            : (contentLength - readCnt);
-                    readLen = in.read(readBuf, 0, (int) readSize);
+                    out.write(HTTP.CRLF.getBytes());
                 }
-            }
 
+                //// TODO: 2017/5/16  thread on pause another thread
+                out.write(readBuf, 0, readLen);
+
+                Thread thread = Thread.currentThread();
+                Log.d(TAG, "post: " + thread.equals(current));
+
+                if (isChunkedResponse == true) {
+                    out.write(HTTP.CRLF.getBytes());
+                }
+                readCnt += readLen;
+                readSize = (chunkSize < (contentLength - readCnt)) ? chunkSize
+                        : (contentLength - readCnt);
+                readLen = in.read(readBuf, 0, (int) readSize);
+            }
 
 
             if (isChunkedResponse == true) {
