@@ -248,6 +248,11 @@ public class NearByDeviceFragment extends Fragment implements WifiP2pManager.Pee
 
     }
 
+    public void setDisconnect() {
+        connectedDeviceNameContainer.setVisibility(View.GONE);
+        btn_accessResource.setEnabled(false);
+    }
+
     /**
      * An interface-callback for the activity to listen to fragment interaction
      * events.

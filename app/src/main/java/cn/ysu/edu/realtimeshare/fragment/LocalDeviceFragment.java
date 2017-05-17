@@ -119,8 +119,6 @@ public class LocalDeviceFragment extends Fragment{
             tv_deviceName .setText(wifiP2pDevice.deviceName);
             tv_deviceStatus.setText(WiFiPeerDeviceAdapter.getDeviceStatus(wifiP2pDevice.status));
         }
-
-
     }
 
     public void setWifiEnable(boolean isWifiP2pEnabled) {
@@ -159,6 +157,11 @@ public class LocalDeviceFragment extends Fragment{
                 noneConnectedDeviceTip.setVisibility(View.VISIBLE);
             }
         }
+    }
+
+    public void clearConnectedPeers() {
+        mWiFiPeerDeviceAdapter.resetData(null);
+        noneConnectedDeviceTip.setVisibility(View.VISIBLE);
     }
 
     public interface SwitchCallBack{

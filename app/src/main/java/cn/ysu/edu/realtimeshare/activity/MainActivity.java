@@ -153,19 +153,30 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 @Override
                 public void onConnectionChangeResult(NetworkInfo networkInfo) {
                     //建立或断开连接
+                    //TODO check disconnect
+
                     if (networkInfo.isConnected()) {
                         // we are connected with the other device, request connection
                         // info to find group owner IP
                         mWifiP2pManager.requestConnectionInfo(mChannel, mNearByDeviceFragment);
                     } else {
                         // It's a disconnect
-                        resetData();
+                        if(isGroupOwner){
+                            //主机更新已连接设备列表
+                            updateConnectedDevices();
+                        }else {
+                            //从机更新可连接服务设备列表
+                            discoverPeers();
+                            //设置已连接设备名称不可见和Button enable
+                            mNearByDeviceFragment.setDisconnect();
+                        }
+
                     }
                 }
 
                 @Override
                 public void onThisDeviceChangeResult(WifiP2pDevice wifiP2pDevice) {
-                    //当前设备WiFi状态发生变化
+                    //当前设备状态发生变化
                     mConnectionState = wifiP2pDevice.status;
                     mLocalDeviceFragment.updateThisDevice(wifiP2pDevice);
                     mNearByDeviceFragment.setDeviceStatus(wifiP2pDevice);
@@ -315,6 +326,8 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                     }
                 });
             }
+
+            mLocalDeviceFragment.clearConnectedPeers();
         }
     }
 
@@ -326,7 +339,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         if (SessionBuilder.getInstance().getMediaProjection() == null
                 && _openScreenDialog.isOpen()) {
             //has no permission to record screen
-            Toast.makeText(this, "没有获取到权限，可重新安装。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
             mLocalDeviceFragment.setShareScreenSwitch(false);
 
             if (_isServiceStart) {
