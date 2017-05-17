@@ -7,7 +7,11 @@ import android.os.Environment;
 import android.os.Handler;
 import android.os.Message;
 import android.support.annotation.Nullable;
+import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.SearchView;
+import android.text.TextUtils;
+import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
@@ -47,6 +51,7 @@ public class FileListByTypeActivity extends AppCompatActivity {
     ListView fileList;
     TextView noneFileTip;
     ProgressDialog progressDialog;
+    SearchView searchView;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -106,6 +111,7 @@ public class FileListByTypeActivity extends AppCompatActivity {
         getSupportActionBar().setTitle(titleResId);
 
         fileList = (ListView) findViewById(R.id.file_type_list);
+        fileList.setTextFilterEnabled(true);
         mFileItemSelectAdapter = new FileItemSelectAdapter(this);
         fileList.setAdapter(mFileItemSelectAdapter);
         fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -118,6 +124,34 @@ public class FileListByTypeActivity extends AppCompatActivity {
         });
 
         noneFileTip = (TextView) findViewById(R.id.file_type_none_tip);
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.search_file_menu,menu);
+        searchView = (SearchView) MenuItemCompat.getActionView(menu.findItem(R.id.search_file));
+        searchView.setOnQueryTextListener(new QueryListener());
+        return true;
+    }
+
+    //搜索文本监听器
+    private class QueryListener implements SearchView.OnQueryTextListener
+    {
+
+        @Override
+        public boolean onQueryTextSubmit(String query) {
+            return true;
+        }
+
+        @Override
+        public boolean onQueryTextChange(String newText) {
+            if(TextUtils.isEmpty(newText)){
+                fileList.clearTextFilter();//清除ListView过滤
+            }else{
+                fileList.setFilterText(newText);
+            }
+            return true;
+        }
     }
 
     private void loadData() {
