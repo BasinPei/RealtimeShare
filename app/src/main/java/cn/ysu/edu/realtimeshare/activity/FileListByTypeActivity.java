@@ -11,6 +11,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -42,7 +43,9 @@ public class FileListByTypeActivity extends AppCompatActivity {
     private ArrayList<FileProperty> mFileList = new ArrayList<>();
     private ArrayList<File> mSearchListData = new ArrayList<>();
     private Handler mUpdateListHandler;
+
     ListView fileList;
+    TextView noneFileTip;
     ProgressDialog progressDialog;
 
     @Override
@@ -58,6 +61,10 @@ public class FileListByTypeActivity extends AppCompatActivity {
                         if (progressDialog != null && progressDialog.isShowing()) {
                             progressDialog.dismiss();
                         }
+                        if(mFileList.size() == 0){
+                            noneFileTip.setVisibility(View.VISIBLE);
+                        }
+
                         break;
                     default:
                         break;
@@ -109,6 +116,8 @@ public class FileListByTypeActivity extends AppCompatActivity {
                 startActivity(openFileIntent);
             }
         });
+
+        noneFileTip = (TextView) findViewById(R.id.file_type_none_tip);
     }
 
     private void loadData() {

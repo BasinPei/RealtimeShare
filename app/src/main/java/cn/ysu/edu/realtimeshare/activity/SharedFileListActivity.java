@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
@@ -25,7 +26,9 @@ import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
 public class SharedFileListActivity extends AppCompatActivity {
     private ArrayList<FileProperty> mSharedFileListData = new ArrayList<>();
     private FileItemScanAdapter mFileItemScanAdapter;
-    private ListView mSharedList;
+
+    ListView mSharedList;
+    TextView noneFileTip;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -33,9 +36,6 @@ public class SharedFileListActivity extends AppCompatActivity {
         setContentView(R.layout.activity_file_shared_list);
         mSharedFileListData = SharedFileOperation.getSharedFileList();
         initView();
-        mFileItemScanAdapter = new FileItemScanAdapter(this);
-        mSharedList.setAdapter(mFileItemScanAdapter);
-        mFileItemScanAdapter.resetData(mSharedFileListData);
     }
 
     private void initView() {
@@ -48,6 +48,14 @@ public class SharedFileListActivity extends AppCompatActivity {
                 startActivity(openFileIntent);
             }
         });
+        noneFileTip = (TextView) findViewById(R.id.file_shared_none_tip);
+        if (mSharedFileListData.size() > 0) {
+            noneFileTip.setVisibility(View.GONE);
+            mFileItemScanAdapter = new FileItemScanAdapter(this);
+            mSharedList.setAdapter(mFileItemScanAdapter);
+            mFileItemScanAdapter.resetData(mSharedFileListData);
+        }
+
     }
 
 }

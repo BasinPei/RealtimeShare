@@ -46,12 +46,15 @@
     <string name="file_category_music">音乐</string>
     <string name="file_category_video">视频</string>
     <string name="file_category_others">其他</string>
+    <string name="file_type_none_tip">暂无此类型文件</string>
     <string name="file_directory_browsing">文件目录浏览</string>
     <string name="file_mobile_storage">手机存储</string>
 
     <string name="file_directory_location">当前目录：</string>
     <string name="file_scan_shared_files">查看已分享文件</string>
+    <string name="file_empty_directory_tip">文件夹为空</string>
     <string name="file_shared_list">分享文件列表</string>
+    <string name="file_shared_none_tip">暂无分享文件</string>
 
 
     <string name="search_loading">加载中...</string>
@@ -69,6 +72,7 @@
     <string name="tip_wifi_not_enable">WLAN处于关闭状态！请先打开WLAN！</string>
 
     <string name="tip_dialog">提示</string>
+    <string name="go_set">去设置</string>
     <string name="ok">确定</string>
     <string name="concel">取消</string>
     <string name="connect_with_device">连接</string>

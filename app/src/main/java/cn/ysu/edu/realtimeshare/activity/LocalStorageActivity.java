@@ -35,6 +35,7 @@ public class LocalStorageActivity extends AppCompatActivity {
 
     TextView tv_currentLocation;
     ListView lv_fileList;
+    TextView tv_emptyDirectoryTip;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -57,6 +58,11 @@ public class LocalStorageActivity extends AppCompatActivity {
                 switch (msg.what) {
                     case UPDATE_LIST_FLAG:
                         mFileItemSelectAdapter.resetData(mFileData);
+                        if(mFileData.size() == 0){
+                            tv_emptyDirectoryTip.setVisibility(View.VISIBLE);
+                        }else if(mFileData.size() > 0){
+                            tv_emptyDirectoryTip.setVisibility(View.GONE);
+                        }
                         break;
                     default:
                         break;
@@ -68,6 +74,7 @@ public class LocalStorageActivity extends AppCompatActivity {
     private void initView() {
         tv_currentLocation = (TextView) findViewById(R.id.file_current_location);
         lv_fileList = (ListView) findViewById(R.id.file_storage_list);
+        tv_emptyDirectoryTip = (TextView) findViewById(R.id.storage_empty_directory);
 
         lv_fileList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override

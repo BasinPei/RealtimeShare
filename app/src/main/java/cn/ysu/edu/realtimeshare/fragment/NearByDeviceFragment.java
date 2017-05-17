@@ -11,6 +11,7 @@ import android.net.wifi.p2p.WifiP2pDeviceList;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Bundle;
+import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.app.AlertDialog;
@@ -147,7 +148,22 @@ public class NearByDeviceFragment extends Fragment implements WifiP2pManager.Pee
                     progressDialog.setCanceledOnTouchOutside(false);
                     ((MainActivity) getActivity()).discoverPeers();
                 }else{
-                    Toast.makeText(getActivity(), R.string.tip_wifi_not_enable, Toast.LENGTH_SHORT).show();
+                    AlertDialog.Builder tipDialog = new AlertDialog.Builder(getActivity());
+                    tipDialog.setTitle(R.string.tip_dialog);
+                    tipDialog.setMessage(R.string.tip_wifi_not_enable);
+                    tipDialog.setPositiveButton(R.string.go_set, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                        }
+                    });
+                    tipDialog.setNegativeButton(R.string.concel, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+
+                        }
+                    });
+                    tipDialog.create().show();
                 }
 
 
@@ -162,19 +178,23 @@ public class NearByDeviceFragment extends Fragment implements WifiP2pManager.Pee
         if(progressDialog != null && progressDialog.isShowing()){
             progressDialog.dismiss();
         }
+
         mAvaliableDevices.clear();
         for(WifiP2pDevice wifiP2pDevice:peers.getDeviceList()){
             if(wifiP2pDevice.isGroupOwner()){
                 mAvaliableDevices.add(wifiP2pDevice);
             }
         }
+
         if(mWiFiPeerDeviceAdapter != null){
             mWiFiPeerDeviceAdapter.resetData(mAvaliableDevices);
         }
+
+        //根据可连接服务设备个数设置提示
         if(tv_nearByNoneDevices != null){
-            if(mAvaliableDevices.size() == 0){
+            if(mAvaliableDevices.size() > 0){
                 tv_nearByNoneDevices.setVisibility(View.GONE);
-            }else if(mAvaliableDevices.size() > 0){
+            }else if(mAvaliableDevices.size() == 0){
                 tv_nearByNoneDevices.setVisibility(View.VISIBLE);
             }
         }

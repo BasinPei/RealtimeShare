@@ -43,6 +43,7 @@ public class LocalDeviceFragment extends Fragment{
     CompoundButton.OnCheckedChangeListener mShareScreenSwitchListener;
 
     ListView connectedDeviceList;
+    TextView noneConnectedDeviceTip;
 
     @Nullable
     @Override
@@ -55,6 +56,7 @@ public class LocalDeviceFragment extends Fragment{
     private void initView() {
         tv_deviceName = (TextView) mContentView.findViewById(R.id.local_device_name);
         tv_deviceStatus = (TextView) mContentView.findViewById(R.id.local_device_status);
+        noneConnectedDeviceTip = (TextView) mContentView.findViewById(R.id.local_none_connected_tip);
         updateThisDevice(mThisDevice);
 
         setWifiEnable = (LinearLayout) mContentView.findViewById(R.id.local_set_wifi);
@@ -150,7 +152,12 @@ public class LocalDeviceFragment extends Fragment{
      */
     public void updateConnectedDevices(ArrayList<WifiP2pDevice> connectedDevices){
         if(connectedDeviceList != null){
-            mWiFiPeerDeviceAdapter.resetData(connectedDevices);
+            if(connectedDevices.size() > 0){
+                noneConnectedDeviceTip.setVisibility(View.GONE);
+                mWiFiPeerDeviceAdapter.resetData(connectedDevices);
+            }else if(connectedDevices.size() == 0){
+                noneConnectedDeviceTip.setVisibility(View.VISIBLE);
+            }
         }
     }
 

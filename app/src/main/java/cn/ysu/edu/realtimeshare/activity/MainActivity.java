@@ -228,7 +228,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
      * 更新已连接设备列表
      */
     public void updateConnectedDevices() {
-        if(mWifiP2pManager != null){
+        if (mWifiP2pManager != null) {
             mWifiP2pManager.requestGroupInfo(mChannel, new WifiP2pManager.GroupInfoListener() {
                 @Override
                 public void onGroupInfoAvailable(WifiP2pGroup group) {
@@ -261,33 +261,44 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
                         @Override
                         public void onFailure(int reason) {
-                            if(mConnectionState == WifiP2pDevice.CONNECTED){
-                                AlertDialog.Builder tipDialog = new AlertDialog.Builder(MainActivity.this);
-                                tipDialog.setTitle(R.string.tip_dialog);
-                                tipDialog.setMessage(R.string.local_create_group_fail_tip);
-                                tipDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
-                                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
-                                    }
-                                });
-                                tipDialog.setNegativeButton(R.string.concel, new DialogInterface.OnClickListener() {
-                                    @Override
-                                    public void onClick(DialogInterface dialog, int which) {
+                            AlertDialog.Builder tipDialog = new AlertDialog.Builder(MainActivity.this);
+                            tipDialog.setTitle(R.string.tip_dialog);
+                            tipDialog.setMessage(R.string.local_create_group_fail_tip);
+                            tipDialog.setPositiveButton(R.string.go_set, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                                }
+                            });
+                            tipDialog.setNegativeButton(R.string.concel, new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
 
-                                    }
-                                });
-                                tipDialog.create().show();
-                            }else{
-                                Toast.makeText(MainActivity.this, R.string.local_create_group_fail_tip, Toast.LENGTH_SHORT).show();
-                            }
+                                }
+                            });
+                            tipDialog.create().show();
                             switchCallBack.onSwithResult(false);
                         }
                     });
                 }
             } else {
                 switchCallBack.onSwithResult(false);
-                Toast.makeText(this, R.string.wlan_state_tip, Toast.LENGTH_SHORT).show();
+                AlertDialog.Builder tipDialog = new AlertDialog.Builder(this);
+                tipDialog.setTitle(R.string.tip_dialog);
+                tipDialog.setMessage(R.string.wlan_state_tip);
+                tipDialog.setPositiveButton(R.string.go_set, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        startActivity(new Intent(Settings.ACTION_WIFI_SETTINGS));
+                    }
+                });
+                tipDialog.setNegativeButton(R.string.concel, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+                tipDialog.create().show();
             }
 
         } else {//移除群组
@@ -310,29 +321,25 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        _openScreenDialog.onActivityResult(requestCode,resultCode,data);
+        _openScreenDialog.onActivityResult(requestCode, resultCode, data);
 
-        if(SessionBuilder.getInstance().getMediaProjection()==null
-                &&_openScreenDialog.isOpen())
-        {
+        if (SessionBuilder.getInstance().getMediaProjection() == null
+                && _openScreenDialog.isOpen()) {
             //has no permission to record screen
-            Toast.makeText(this,"没有获取到权限，可重新安装。", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, "没有获取到权限，可重新安装。", Toast.LENGTH_SHORT).show();
             mLocalDeviceFragment.setShareScreenSwitch(false);
 
-            if(_isServiceStart)
-            {
-                _isServiceStart=false;
-                try
-                {
+            if (_isServiceStart) {
+                _isServiceStart = false;
+                try {
                     this.unbindService(_rtspServerConnection);
-                }catch (Exception e){}
+                } catch (Exception e) {
+                }
 
-                this.stopService(new Intent(this,RtspServer.class));
+                this.stopService(new Intent(this, RtspServer.class));
                 SharedFileOperation.setIsShareScreen(false);
             }
-        }
-        else if(!_openScreenDialog.isOpen())
-        {
+        } else if (!_openScreenDialog.isOpen()) {
             mLocalDeviceFragment.setShareScreenSwitch(false);
         }
     }
@@ -356,7 +363,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(MainActivity.this, "RTSP服务开启失败-->"+error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "RTSP服务开启失败-->" + error, Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -366,7 +373,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 public void onMessage(RtspServer server, int message) {
                     switch (message) {
                         case RtspServer.MESSAGE_STREAMING_STARTED:
-                            Toast.makeText(MainActivity.this,"RTSP服务开启",Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, "RTSP服务开启", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }
@@ -428,7 +435,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    private void closeShareScreen(){
+    private void closeShareScreen() {
         if (_openScreenDialog.getMediaProjection() != null) {
             _openScreenDialog.getMediaProjection().stop();
         }
@@ -438,7 +445,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         }
 
         MainActivity.this.stopService(
-                new Intent(MainActivity.this,RtspServer.class));
+                new Intent(MainActivity.this, RtspServer.class));
         SharedFileOperation.setIsShareScreen(false);
 
     }
@@ -474,7 +481,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(mInitService != null){
+        if (mInitService != null) {
             mInitService.setWiFiRecevieListener(null);
 
             if (!isGroupOwner) {
@@ -497,10 +504,9 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 mInitService.restoreSharedFileList(SharedFileOperation.getSharedFileList());
             }
         }
-        if(_isServiceStart)
-        {
+        if (_isServiceStart) {
             MainActivity.this.unbindService(_rtspServerConnection);
-            _rtspServerConnection=null;
+            _rtspServerConnection = null;
         }
     }
 }

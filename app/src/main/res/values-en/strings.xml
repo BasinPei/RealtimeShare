@@ -45,11 +45,13 @@
     <string name="file_category_music">Music</string>
     <string name="file_category_video">Video</string>
     <string name="file_category_others">Others</string>
+    <string name="file_type_none_tip">This Type of File None</string>
     <string name="file_directory_browsing">File Directory Browsing</string>
     <string name="file_mobile_storage">Mobile Storage</string>
 
     <string name="file_directory_location">Current Location:</string>
     <string name="file_scan_shared_files">Browsing Shared Files</string>
+    <string name="file_empty_directory_tip">Directory is Empty</string>
     <string name="file_shared_list">Shared Files List</string>
 
 
@@ -68,6 +70,7 @@
     <string name="tip_wifi_not_enable">WiFi is not Enable.Please open WLAN first.</string>
 
     <string name="tip_dialog">Tip</string>
+    <string name="go_set">Setting</string>
     <string name="ok">OK</string>
     <string name="concel">Concel</string>
     <string name="connect_with_device">Connect With</string>

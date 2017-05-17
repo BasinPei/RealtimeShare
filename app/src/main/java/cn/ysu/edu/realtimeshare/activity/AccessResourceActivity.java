@@ -16,6 +16,7 @@ import android.widget.AbsListView;
 import android.widget.AdapterView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONArray;
@@ -61,6 +62,7 @@ public class AccessResourceActivity extends AppCompatActivity {
     LinearLayout getSharedScreenContainer;
     ListView lv_sharedFileList;
     SwipeRefreshLayout swipeRefreshLayout;
+    TextView noneSharedFileTip;
 
 
     @Override
@@ -90,6 +92,8 @@ public class AccessResourceActivity extends AppCompatActivity {
                 new GetSharedFileListTask().execute();
             }
         });
+
+        noneSharedFileTip = (TextView) findViewById(R.id.none_shared_file_tip);
 
         lv_sharedFileList = (ListView) findViewById(R.id.shared_file_list);
         mFileItemScanAdapter = new FileItemScanAdapter(this);
@@ -155,9 +159,6 @@ public class AccessResourceActivity extends AppCompatActivity {
         @Override
         protected void onPreExecute() {
             super.onPreExecute();
-            /*progressDialog = new ProgressDialog(AccessResourceActivity.this);
-            progressDialog.setMessage(getResources().getString(R.string.search_loading));
-            progressDialog.show();*/
         }
 
         @Override
@@ -230,9 +231,12 @@ public class AccessResourceActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(ArrayList<FileProperty> fileProperties) {
             swipeRefreshLayout.setRefreshing(false);
-//            progressDialog.dismiss();
-            mFileItemScanAdapter.resetData(fileProperties);
-
+            if(fileProperties.size() > 0){
+                noneSharedFileTip.setVisibility(View.GONE);
+                mFileItemScanAdapter.resetData(fileProperties);
+            }else if(fileProperties.size() == 0){
+                noneSharedFileTip.setVisibility(View.VISIBLE);
+            }
         }
     }
 

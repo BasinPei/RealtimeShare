@@ -280,8 +280,8 @@ public class HTTPSocket {
                     }
 
                     //// TODO: 2017/5/16  thread on pause another thread
-
                     out.write(readBuf, 0, readLen);
+
                     Thread thread = Thread.currentThread();
                     Log.d(TAG, "post: "+thread.equals(current));
 

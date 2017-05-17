@@ -126,6 +126,11 @@
         android:layout_height="0dp"
         android:layout_weight="1">
 
+        <ListView
+            android:id="@+id/nearby_avaliable_devices"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
         <TextView
             android:id="@+id/nearby_none_device_tip"
             android:layout_width="match_parent"
@@ -134,11 +139,6 @@
             android:text="@string/nearby_none_avaliable_devices"
             android:textColor="@color/tab_normal"
             android:textSize="18sp" />
-
-        <ListView
-            android:id="@+id/nearby_avaliable_devices"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
 
     </FrameLayout>
 

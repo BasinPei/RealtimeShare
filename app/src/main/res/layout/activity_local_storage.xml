@@ -7,6 +7,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="@dimen/devider_content_height"
+        android:background="@color/tab_normal"
         android:orientation="horizontal">
 
         <TextView
@@ -33,9 +34,24 @@
         android:layout_height="0.5dp"
         android:background="@color/tab_selected"/>
 
-    <ListView
-        android:id="@+id/file_storage_list"
+    <FrameLayout
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_weight="1"/>
+        android:layout_weight="1">
+
+        <ListView
+            android:id="@+id/file_storage_list"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
+
+        <TextView
+            android:id="@+id/storage_empty_directory"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone"
+            android:textSize="24sp"
+            android:text="@string/file_empty_directory_tip"
+            android:textColor="@color/tab_normal"
+            android:gravity="center"/>
+    </FrameLayout>
 </LinearLayout>
