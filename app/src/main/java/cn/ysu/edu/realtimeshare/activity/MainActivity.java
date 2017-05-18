@@ -48,7 +48,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
     private boolean isWifiP2pEnabled = false;
     private boolean isRetryChannel = false;
     private boolean isGroupOwner = false;
-    private int mConnectionState = WifiP2pDevice.UNAVAILABLE;
+
 
     private WifiP2pManager mWifiP2pManager;
     private WifiP2pManager.Channel mChannel;
@@ -177,7 +177,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 @Override
                 public void onThisDeviceChangeResult(WifiP2pDevice wifiP2pDevice) {
                     //当前设备状态发生变化
-                    mConnectionState = wifiP2pDevice.status;
                     mLocalDeviceFragment.updateThisDevice(wifiP2pDevice);
                     mNearByDeviceFragment.setDeviceStatus(wifiP2pDevice);
                     mMineSettingsFragment.updateThisDeviceName(wifiP2pDevice);
