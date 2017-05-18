@@ -1,7 +1,6 @@
 package cn.ysu.edu.realtimeshare.activity;
 
 import android.annotation.TargetApi;
-import android.app.Dialog;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.DialogInterface;
@@ -14,16 +13,11 @@ import android.net.wifi.p2p.WifiP2pGroup;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.Environment;
 import android.os.IBinder;
 import android.provider.Settings;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
-import android.widget.FrameLayout;
-import android.widget.RadioGroup;
 import android.widget.Toast;
 
 import java.util.ArrayList;
@@ -121,6 +115,9 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 SharedFileOperation.getSharedFileList().clear();
                 SharedFileOperation.setSharedFileList(mInitService.getSharedFileList());
                 mLocalDeviceFragment.setCreateGroupSwitch(true);
+                if(mInitService.isShareScreenScreen()){
+                    mLocalDeviceFragment.setShareScreenSwitch(true);
+                }
             }
 
             mInitService.setWiFiRecevieListener(new OnWiFiRecevieListener() {
@@ -133,9 +130,10 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                             if (mWifiP2pManager != null) {
                                 mWifiP2pManager.removeGroup(mChannel, null);
                                 mLocalDeviceFragment.setCreateGroupSwitch(false);
+                                if(isShareScreen){
+                                    closeShareScreen();
+                                }
 
-                                closeShareScreen();
-                                mLocalDeviceFragment.setShareScreenSwitch(false);
                             }
                         }
                         resetData();
@@ -265,6 +263,8 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                         public void onSuccess() {
                             isGroupOwner = true;
                             mInitService.initServerSocket();
+                            mInitService.setGroupOwner(true);
+                            switchCallBack.onSwithResult(true);
                         }
 
                         @Override
@@ -286,11 +286,13 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                             });
                             tipDialog.create().show();
                             switchCallBack.onSwithResult(false);
+                            mInitService.setGroupOwner(false);
                         }
                     });
                 }
             } else {
                 switchCallBack.onSwithResult(false);
+                mInitService.setGroupOwner(false);
                 AlertDialog.Builder tipDialog = new AlertDialog.Builder(this);
                 tipDialog.setTitle(R.string.tip_dialog);
                 tipDialog.setMessage(R.string.wlan_state_tip);
@@ -310,21 +312,38 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
             }
 
         } else {//移除群组
-            if (mWifiP2pManager != null) {
-                mWifiP2pManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
-                    @Override
-                    public void onSuccess() {
-                        isGroupOwner = false;
+            AlertDialog.Builder tipDialog = new AlertDialog.Builder(this);
+            tipDialog.setTitle(R.string.tip_dialog);
+            tipDialog.setMessage(R.string.wlan_state_tip);
+            tipDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    if (mWifiP2pManager != null) {
+                        mWifiP2pManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
+                            @Override
+                            public void onSuccess() {
+                                isGroupOwner = false;
+                                closeShareScreen();
+                                switchCallBack.onSwithResult(false);
+                            }
+
+                            @Override
+                            public void onFailure(int reason) {
+                                switchCallBack.onSwithResult(true);
+                            }
+                        });
                     }
 
-                    @Override
-                    public void onFailure(int reason) {
-                        switchCallBack.onSwithResult(true);
-                    }
-                });
-            }
-
-            mLocalDeviceFragment.clearConnectedPeers();
+                    mLocalDeviceFragment.clearConnectedPeers();
+                }
+            });
+            tipDialog.setNegativeButton(R.string.concel, new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    switchCallBack.onSwithResult(true);
+                }
+            });
+            tipDialog.create().show();
         }
     }
 
@@ -339,10 +358,10 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
             Toast.makeText(this, R.string.permission_access_fail_tip, Toast.LENGTH_SHORT).show();
             mLocalDeviceFragment.setShareScreenSwitch(false);
 
-            if (_isServiceStart) {
-                _isServiceStart = false;
+            if (isShareScreen) {
+                isShareScreen = false;
                 try {
-                    this.unbindService(_rtspServerConnection);
+                    this.unbindService(mRtspServerConnection);
                 } catch (Exception e) {
                 }
 
@@ -358,10 +377,10 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
      * 开启屏幕共享
      */
     private OpenScreenDialog _openScreenDialog;
-    private boolean _isServiceStart = false;
+    private boolean isShareScreen = false;
 
     public RtspServer _rtspServer;
-    private ServiceConnection _rtspServerConnection = new ServiceConnection() {
+    private ServiceConnection mRtspServerConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             _rtspServer = ((RtspServer.LocalBinder) service).getService();
@@ -418,11 +437,11 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                         } else {
                             MainActivity.this.bindService(
                                     new Intent(MainActivity.this, RtspServer.class),
-                                    _rtspServerConnection,
+                                    mRtspServerConnection,
                                     Context.BIND_AUTO_CREATE);
 
                             switchCallBack.onSwithResult(true);
-                            _isServiceStart = true;
+                            isShareScreen = true;
                             SharedFileOperation.setIsShareScreen(true);
                         }
                     }
@@ -448,15 +467,15 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         if (_openScreenDialog.getMediaProjection() != null) {
             _openScreenDialog.getMediaProjection().stop();
         }
-        if (_isServiceStart) {
-            _isServiceStart = false;
-            MainActivity.this.unbindService(_rtspServerConnection);
+        if (isShareScreen) {
+            isShareScreen = false;
+            MainActivity.this.unbindService(mRtspServerConnection);
         }
 
         MainActivity.this.stopService(
                 new Intent(MainActivity.this, RtspServer.class));
         SharedFileOperation.setIsShareScreen(false);
-
+        mLocalDeviceFragment.setShareScreenSwitch(false);
     }
 
 
@@ -490,11 +509,14 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if (isShareScreen) {
+            MainActivity.this.unbindService(mRtspServerConnection);
+            mRtspServerConnection = null;
+        }
         if (mInitService != null) {
             mInitService.setWiFiRecevieListener(null);
 
             if (!isGroupOwner) {
-                mInitService.setIsBackgroudExecute(false);
                 stopService(mServiceIntent);
                 mWifiP2pManager.cancelConnect(mChannel, new WifiP2pManager.ActionListener() {
                     @Override
@@ -510,12 +532,10 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
             } else {
                 mInitService.setIsBackgroudExecute(true);
+                mInitService.setShareScreenScreen(isShareScreen);
                 mInitService.restoreSharedFileList(SharedFileOperation.getSharedFileList());
             }
         }
-        if (_isServiceStart) {
-            MainActivity.this.unbindService(_rtspServerConnection);
-            _rtspServerConnection = null;
-        }
+
     }
 }

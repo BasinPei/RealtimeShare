@@ -181,7 +181,7 @@ public class RtspServer extends Service {
 		if (mListenerThread != null) {
 			try {
 				mListenerThread.kill();
-				for ( cn.ysu.edu.realtimeshare.librtsp.Session session : mSessions.keySet() ) {
+				for ( cn.ysu.edu.realtimeshare.librtsp.Session session : mSessions.keySet()) {
 				    if ( session != null ) {
 				    	if (session.isStreaming()) session.stop();
 				    }

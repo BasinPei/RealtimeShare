@@ -52,10 +52,14 @@ public class InitService extends Service {
 
     private MainActivity.OnWiFiRecevieListener mOnWiFiRecevieListener;
     private ArrayList<FileProperty> mSharedListData = new ArrayList<>();
+    private Thread mServerSocketThread;
 
     private BroadcastReceiver mWiFiDirectBroadcastRecevier = null;
     private final IntentFilter mIntentFilter = new IntentFilter();
     private boolean isBackgroudExecute = false;
+    private boolean isShareScreenScreen = false;
+    private boolean isGroupOwner = false;
+
 
     private boolean isRemainResult = true;
     private boolean remainWifiIsEnable = false;
@@ -84,7 +88,7 @@ public class InitService extends Service {
         mEasyServer = new EasyServer();
         mEasyServer.start();
         //监听Socket连接
-        new Thread(new Runnable() {
+        mServerSocketThread = new Thread(new Runnable() {
             @Override
             public void run() {
                 if(mServerSocket == null){
@@ -110,7 +114,8 @@ public class InitService extends Service {
                     }
                 }
             }
-        }).start();
+        });
+        mServerSocketThread.start();
 
     }
 
@@ -145,7 +150,17 @@ public class InitService extends Service {
         super.onDestroy();
         unregisterReceiver(mWiFiDirectBroadcastRecevier);
 
-        if(isBackgroudExecute){
+        if(isGroupOwner){
+            if(mServerSocketThread != null){
+                try {
+                    mServerSocket.close();
+                    mServerSocketThread.join();
+                } catch (Exception e) {
+                } finally {
+                    mServerSocketThread = null;
+                }
+            }
+
             HTTPServerList httpServerList = mEasyServer.getHttpServerList();
             httpServerList.stop();
             httpServerList.close();
@@ -191,6 +206,18 @@ public class InitService extends Service {
 
     public void setIsBackgroudExecute(boolean isBackgroudExecute){
         this.isBackgroudExecute = isBackgroudExecute;
+    }
+
+    public boolean isShareScreenScreen() {
+        return isShareScreenScreen;
+    }
+
+    public void setShareScreenScreen(boolean shareScreenScreen) {
+        isShareScreenScreen = shareScreenScreen;
+    }
+
+    public void setGroupOwner(boolean groupOwner) {
+        isGroupOwner = groupOwner;
     }
 
     public ArrayList<FileProperty> getSharedFileList(){

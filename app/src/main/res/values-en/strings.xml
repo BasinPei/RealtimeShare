@@ -18,6 +18,7 @@
     <string name="local_none_connected_devices">None Connected Devices</string>
     <string name="local_create_group_fail_tip">Create Group Fail!Yry Open WLAN Again!</string>
     <string name="local_share_screen_fail_tip">You are not GroupOwner!Create group first!</string>
+    <string name="local_remove_group">Confirm to remove group？</string>
 
     <string name="nearby_current_status">Current Status</string>
     <string name="nearby_current_connected_status">Current Connection Status  </string>
