@@ -135,9 +135,11 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
 
         @Override
         protected void publishResults(CharSequence constraint, FilterResults results) {
-            ArrayList<FileProperty> filterDataList = (ArrayList<FileProperty>) results.values;
-            if(filterDataList.size() > 0){
-                FileItemSelectAdapter.this.resetData((ArrayList<FileProperty>) results.values);
+            mFilterOriginList.clear();
+            mFilterOriginList.addAll((ArrayList<FileProperty>) results.values);
+
+            if(mFilterOriginList.size() > 0){
+                FileItemSelectAdapter.this.resetData(mFilterOriginList);
             }else{
                 FileItemSelectAdapter.this.notifyDataSetInvalidated();
             }
