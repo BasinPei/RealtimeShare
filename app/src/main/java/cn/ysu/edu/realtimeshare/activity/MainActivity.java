@@ -435,8 +435,10 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                             switchCallBack.onSwithResult(false);
                             SharedFileOperation.setIsShareScreen(false);
                         } else {
+                            Intent rtspServiceIntent = new Intent(MainActivity.this, RtspServer.class);
+                            MainActivity.this.startActivity(rtspServiceIntent);
                             MainActivity.this.bindService(
-                                    new Intent(MainActivity.this, RtspServer.class),
+                                    rtspServiceIntent,
                                     mRtspServerConnection,
                                     Context.BIND_AUTO_CREATE);
 
@@ -470,12 +472,11 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         if (isShareScreen) {
             isShareScreen = false;
             MainActivity.this.unbindService(mRtspServerConnection);
+            MainActivity.this.stopService(
+                    new Intent(MainActivity.this, RtspServer.class));
+            SharedFileOperation.setIsShareScreen(false);
+            mLocalDeviceFragment.setShareScreenSwitch(false);
         }
-
-        MainActivity.this.stopService(
-                new Intent(MainActivity.this, RtspServer.class));
-        SharedFileOperation.setIsShareScreen(false);
-        mLocalDeviceFragment.setShareScreenSwitch(false);
     }
 
 
