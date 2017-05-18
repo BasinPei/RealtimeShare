@@ -7,7 +7,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 /**
- * Created by KerriGan on 2016/6/16.
+ * Created by BasinPei on 2017/6/16.
  */
 public class AssetsUtil {
 

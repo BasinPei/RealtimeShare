@@ -46,7 +46,7 @@ public class MediaPlayerActivity extends ActionBarActivity {
     private PlayerControl _playerControl = new PlayerControl();
 
     /**
-     * add in 2016/5/4 fixed crash bug, by KerriGan
+     * add in 2017/5/4 fixed crash bug, by BasinPei
      */
     private boolean _isBufferFinish = false;
     private ProgressDialog _progressDlg = null;
@@ -185,7 +185,7 @@ public class MediaPlayerActivity extends ActionBarActivity {
                 public void onBufferingUpdate(MediaPlayer mp, int percent) {
 
                     /**
-                     *  fixed in 2016/5/4 crash bug,by KerriGan
+                     *  fixed in 2017/5/4 crash bug,by BasinPei
                      */
                     if (percent > 0.1) {
                         _progressDlg.dismiss();

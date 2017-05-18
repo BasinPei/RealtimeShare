@@ -14,7 +14,7 @@ import cn.ysu.edu.realtimeshare.R;
 import cn.ysu.edu.realtimeshare.file.bean.FileProperty;
 
 /**
- * Created by Administrator on 2017/4/17.
+ * Created by BasinPei on 2017/4/17.
  */
 
 public class FileItemScanAdapter extends BaseAdapter {

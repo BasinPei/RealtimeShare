@@ -331,7 +331,7 @@ public class SessionBuilder {
 		.setAudioQuality(mAudioQuality)
 		.setContext(mContext)
 		.setCallback(mCallback)
-		/**Customize element,add in 2016/6/3 by KerriGan*/
+		/**Customize element,add in 2017/6/3 by BasinPei*/
 		.setMediaProjection(_mediaProjection);
 	}
 

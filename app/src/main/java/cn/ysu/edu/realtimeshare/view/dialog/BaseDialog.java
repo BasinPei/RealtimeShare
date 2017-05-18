@@ -6,7 +6,7 @@ import android.content.Context;
 import android.view.View;
 
 /**
- * Created by KerriGan on 2016/4/23.
+ * Created by BasinPei on 2017/4/23.
  */
 public abstract class BaseDialog {
 

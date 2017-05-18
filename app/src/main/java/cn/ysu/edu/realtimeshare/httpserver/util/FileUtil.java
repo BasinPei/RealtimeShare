@@ -5,7 +5,7 @@ import android.os.Environment;
 import java.io.File;
 
 /**
- * Created by KerriGan in 2016.4.25
+ * Created by BasinPei in 2017/4/25
  */
 public class FileUtil
 {

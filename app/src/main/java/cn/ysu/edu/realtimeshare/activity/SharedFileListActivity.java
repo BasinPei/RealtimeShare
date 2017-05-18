@@ -20,7 +20,7 @@ import cn.ysu.edu.realtimeshare.file.operation.FileOperationOfType;
 import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
 
 /**
- * Created by Administrator on 2017/4/17.
+ * Created by BasinPei on 2017/4/17.
  */
 
 public class SharedFileListActivity extends AppCompatActivity {

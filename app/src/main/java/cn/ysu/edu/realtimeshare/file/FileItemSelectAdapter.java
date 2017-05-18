@@ -20,7 +20,7 @@ import cn.ysu.edu.realtimeshare.file.bean.FileProperty;
 import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
 
 /**
- * Created by Administrator on 2017/4/16.
+ * Created by BasinPei on 2017/4/16.
  */
 
 public class FileItemSelectAdapter extends FileItemScanAdapter implements Filterable{

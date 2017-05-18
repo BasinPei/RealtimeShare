@@ -1,7 +1,7 @@
 package cn.ysu.edu.realtimeshare.librtsp;
 
 /**
- * Created by KerriGan on 2016/6/12.
+ * Created by BasinPei on 2017/6/12.
  */
 public class PreferenceInfo {
 

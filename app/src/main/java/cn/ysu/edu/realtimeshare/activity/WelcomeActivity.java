@@ -16,7 +16,7 @@ import cn.ysu.edu.realtimeshare.R;
 import cn.ysu.edu.realtimeshare.librtsp.PreferenceInfo;
 
 /**
- * Created by Administrator on 2017/5/7.
+ * Created by BasinPei on 2017/5/7.
  */
 
 public class WelcomeActivity extends AppCompatActivity {

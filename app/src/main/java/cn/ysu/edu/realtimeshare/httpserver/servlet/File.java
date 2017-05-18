@@ -13,7 +13,7 @@ import cn.ysu.edu.realtimeshare.httpserver.http.HTTPStatus;
 import cn.ysu.edu.realtimeshare.httpserver.util.FileUtil;
 
 /**
- * Created by KerriGan on 2016/4/24.
+ * Created by BasinPei on 2017/4/24.
  */
 public class File implements ServletBase{
 

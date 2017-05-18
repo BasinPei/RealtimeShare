@@ -7,7 +7,7 @@ import android.opengl.Matrix;
 import android.util.Log;
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public class TextureOffscreen {
     private static final boolean DEBUG = false;

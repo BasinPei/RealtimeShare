@@ -36,7 +36,7 @@ import cn.ysu.edu.realtimeshare.R;
 import cn.ysu.edu.realtimeshare.wifip2p.WiFiPeerDeviceAdapter;
 
 /**
- * Created by Administrator on 2017/4/14.
+ * Created by BasinPei on 2017/4/14.
  */
 
 public class NearByDeviceFragment extends Fragment implements WifiP2pManager.PeerListListener, WifiP2pManager.ConnectionInfoListener {

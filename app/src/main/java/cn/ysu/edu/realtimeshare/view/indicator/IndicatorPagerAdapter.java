@@ -7,7 +7,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 
 /**
- * Created by Administrator on 2017/5/7.
+ * Created by BasinPei on 2017/5/7.
  */
 
 public class IndicatorPagerAdapter extends PagerAdapter {

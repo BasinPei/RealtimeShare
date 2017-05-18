@@ -5,7 +5,7 @@ import android.view.Surface;
 import android.view.SurfaceHolder;
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public class WindowSurface extends EglSurfaceBase {
     private Surface mSurface;

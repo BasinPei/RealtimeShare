@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import cn.ysu.edu.realtimeshare.R;
 
 /**
- * Created by Administrator on 2017/4/18.
+ * Created by BasinPei on 2017/4/18.
  */
 
 public class WiFiPeerDeviceAdapter extends BaseAdapter {

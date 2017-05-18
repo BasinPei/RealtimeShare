@@ -7,7 +7,7 @@ import java.util.concurrent.LinkedBlockingDeque;
 import java.util.concurrent.LinkedBlockingQueue;
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public abstract class EglTask implements Runnable {
     private static final String TAG = "EglTask";

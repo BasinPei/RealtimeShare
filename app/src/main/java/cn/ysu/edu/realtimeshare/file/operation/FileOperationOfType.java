@@ -8,7 +8,7 @@ import java.io.File;
 import cn.ysu.edu.realtimeshare.R;
 
 /**
- * Created by Administrator on 2017/4/17.
+ * Created by BasinPei on 2017/4/17.
  */
 public class FileOperationOfType {
     public static final int TYPE_AUDIO = 1;

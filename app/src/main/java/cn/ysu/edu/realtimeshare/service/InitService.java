@@ -33,7 +33,7 @@ import cn.ysu.edu.realtimeshare.httpserver.util.EasyServer;
 import cn.ysu.edu.realtimeshare.wifip2p.WiFiDirectBroadcastRecevier;
 
 /**
- * Created by Administrator on 2017/4/20.
+ * Created by BasinPei on 2017/4/20.
  */
 
 public class InitService extends Service {

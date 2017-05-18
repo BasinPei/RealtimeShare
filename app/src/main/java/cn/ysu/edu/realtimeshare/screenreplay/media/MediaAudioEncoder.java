@@ -13,7 +13,7 @@ import java.io.IOException;
 import java.nio.ByteBuffer;
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public class MediaAudioEncoder extends MediaEncoder {
     private static final String TAG = "MediaAudioEncoder";

@@ -17,7 +17,7 @@ import java.util.GregorianCalendar;
 import java.util.Locale;
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public class MediaMuxerWrapper {
     private static final boolean DEBUG = false;

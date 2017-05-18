@@ -214,7 +214,7 @@ public class HTTPSocket {
         }
 
         /**
-         *  fix in 2016/4/25 by KerriGan
+         *  fix in 2017/4/25 by BasinPei
          */
         try {
             this.getSocket().close();
@@ -302,7 +302,7 @@ public class HTTPSocket {
             out.flush();
 
             /**
-             * 	add in 2016/4/29 by KerriGan
+             * 	add in 2017/4/29 by BasinPei
              */
             HTTPSocket.this.getSocket().close();
         } catch (IOException e) {

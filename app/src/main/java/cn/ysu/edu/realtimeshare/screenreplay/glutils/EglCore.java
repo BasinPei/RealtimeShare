@@ -11,7 +11,7 @@ import android.util.Log;
 import android.view.Surface;
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public final class EglCore {
     private static final String TAG = "EglCore";

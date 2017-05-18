@@ -23,7 +23,7 @@ import cn.ysu.edu.realtimeshare.screenreplay.glutils.WindowSurface;
 
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public class MediaScreenEncoder extends MediaVideoEncoderBase {
     private static final String TAG = "MediaScreenEncoder";

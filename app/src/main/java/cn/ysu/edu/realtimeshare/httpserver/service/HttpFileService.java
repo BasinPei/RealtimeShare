@@ -9,7 +9,7 @@ import cn.ysu.edu.realtimeshare.httpserver.util.HttpFileServer;
 
 
 /**
- * Created by KerriGan on 2016/4/ico_setting_normal.
+ * Created by BasinPei on 2017/4/ico_setting_normal.
  */
 public class HttpFileService extends Service {
     private HttpFileServer _httpFileServer = null;

@@ -14,7 +14,7 @@ import cn.ysu.edu.realtimeshare.httpserver.servlet.File;
 import cn.ysu.edu.realtimeshare.httpserver.servlet.ServletBase;
 
 /**
- * Created by KerriGan on 2016/4/22.
+ * Created by BasinPei on 2017/4/22.
  */
 
 public class EasyServer extends Thread implements cn.ysu.edu.realtimeshare.httpserver.http.HTTPRequestListener {

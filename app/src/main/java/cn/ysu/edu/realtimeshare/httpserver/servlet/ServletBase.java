@@ -5,7 +5,7 @@ import cn.ysu.edu.realtimeshare.httpserver.http.HTTPRequest;
 import cn.ysu.edu.realtimeshare.httpserver.http.HTTPResponse;
 
 /**
- * Created by KerriGan on 2016/4/22.
+ * Created by BasinPei on 2017/4/22.
  */
 public interface ServletBase {
 

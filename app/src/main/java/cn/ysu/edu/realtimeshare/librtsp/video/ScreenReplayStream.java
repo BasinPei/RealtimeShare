@@ -21,7 +21,7 @@ import cn.ysu.edu.realtimeshare.screenreplay.media.MediaMuxerWrapper;
 import cn.ysu.edu.realtimeshare.screenreplay.media.MediaScreenEncoder;
 
 /**
- * Created by KerriGan on 2016/5/31.
+ * Created by BasinPei on 2017/5/31.
  */
 public class ScreenReplayStream extends VideoStream implements MediaEncoder.MediaEncoderListener{
 

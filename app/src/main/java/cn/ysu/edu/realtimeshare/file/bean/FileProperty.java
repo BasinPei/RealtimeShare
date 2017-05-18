@@ -3,7 +3,7 @@ package cn.ysu.edu.realtimeshare.file.bean;
 import java.io.Serializable;
 
 /**
- * Created by Administrator on 2017/4/15.
+ * Created by BasinPei on 2017/4/15.
  */
 
 public class FileProperty implements Serializable{

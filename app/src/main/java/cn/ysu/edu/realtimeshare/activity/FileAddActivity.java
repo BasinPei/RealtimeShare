@@ -11,7 +11,7 @@ import android.widget.LinearLayout;
 import cn.ysu.edu.realtimeshare.R;
 
 /**
- * Created by Administrator on 2017/4/15.
+ * Created by BasinPei on 2017/4/15.
  */
 
 public class FileAddActivity extends AppCompatActivity {

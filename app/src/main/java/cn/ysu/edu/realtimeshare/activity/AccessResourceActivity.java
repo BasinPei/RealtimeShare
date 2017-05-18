@@ -47,7 +47,7 @@ import cn.ysu.edu.realtimeshare.librtsp.rtsp.RtspServer;
 import cn.ysu.edu.realtimeshare.service.InitService;
 
 /**
- * Created by Administrator on 2017/4/18.
+ * Created by BasinPei on 2017/4/18.
  */
 
 public class AccessResourceActivity extends AppCompatActivity {

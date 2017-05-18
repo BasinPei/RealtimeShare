@@ -9,7 +9,7 @@ import java.lang.ref.WeakReference;
 import java.nio.ByteBuffer;
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public abstract class MediaEncoder implements Runnable {
     private static final String TAG = "MediaEncoder";
@@ -179,7 +179,7 @@ public abstract class MediaEncoder implements Runnable {
         synchronized (mSync) {
             if (!mIsCapturing || mRequestStop) {
                 //there is bug,do not call onStopped ,when the capture time is too short.
-                //add in 2016/6/6 by KerriGan
+                //add in 2017/6/6 by BasinPei
                 mRequestStop=true;
                 //end
                 return;

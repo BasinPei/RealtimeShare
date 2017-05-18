@@ -17,7 +17,7 @@ import cn.ysu.edu.realtimeshare.R;
 import cn.ysu.edu.realtimeshare.activity.ScreenCaptureActivity;
 
 /**
- * Created by Administrator on 2017/4/14.
+ * Created by BasinPei on 2017/4/14.
  */
 
 public class MineSettingsFragment extends Fragment {

@@ -261,7 +261,7 @@ public class HTTPServer implements Runnable {
 
                 sock = accept();
                 /**
-                 *  add in 2016/4/24 by KerriGan
+                 *  add in 2016/4/24 by BasinPei
                  */
                 sock.setSoTimeout(1000);
                 if (sock != null) {

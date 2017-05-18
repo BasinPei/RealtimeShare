@@ -19,7 +19,7 @@ import cn.ysu.edu.realtimeshare.screenreplay.media.MediaScreenEncoder;
 
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public class ScreenRecorderService extends IntentService {
     private static final boolean DEBUG = false;
@@ -134,7 +134,7 @@ public class ScreenRecorderService extends IntentService {
                     try {
                         sMuxer = new MediaMuxerWrapper(".mp4"); // if you record audio only, ".m4a" is also OK.
 
-                        //change output path add in 2016.6.30 by KerriGan.
+
                         if (_outputPath != null)
                             sMuxer.setOutputPath(_outputPath, true);
 

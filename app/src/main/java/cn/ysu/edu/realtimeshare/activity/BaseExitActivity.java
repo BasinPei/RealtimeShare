@@ -10,7 +10,7 @@ import android.widget.Toast;
 import cn.ysu.edu.realtimeshare.R;
 
 /**
- * Created by Administrator on 2017/5/8.
+ * Created by BasinPei on 2017/5/8.
  */
 
 public class BaseExitActivity extends AppCompatActivity {

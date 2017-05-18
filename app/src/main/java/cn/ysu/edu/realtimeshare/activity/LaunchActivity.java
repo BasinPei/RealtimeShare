@@ -26,7 +26,7 @@ import cn.ysu.edu.realtimeshare.view.indicator.IndicatorPagerAdapter;
 import cn.ysu.edu.realtimeshare.view.indicator.IndicatorTransformer;
 
 /**
- * Created by Administrator on 2017/5/7.
+ * Created by BasinPei on 2017/5/7.
  */
 public class LaunchActivity extends BaseExitActivity{
     private ArrayList<View> mDisplayView = new ArrayList<>();

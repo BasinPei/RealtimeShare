@@ -24,7 +24,7 @@ import cn.ysu.edu.realtimeshare.service.InitService;
 
 
 /**
- * Created by KerriGan on 2016/4/10.
+ * Created by BasinPei on 2017/4/10.
  */
 public class HttpFileServer extends Thread implements cn.ysu.edu.realtimeshare.httpserver.http.HTTPRequestListener{
     public static final String CONTENT_EXPORT_URI = "/http";

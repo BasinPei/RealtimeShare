@@ -4,7 +4,7 @@ import android.support.v4.view.ViewPager;
 import android.view.View;
 
 /**
- * Created by Administrator on 2017/5/8.
+ * Created by BasinPei on 2017/5/8.
  */
 
 public class IndicatorTransformer implements ViewPager.PageTransformer {

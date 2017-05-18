@@ -28,7 +28,7 @@ import cn.ysu.edu.realtimeshare.file.operation.FileSearchUtil;
 import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
 
 /**
- * Created by Administrator on 2017/4/15.
+ * Created by BasinPei on 2017/4/15.
  */
 
 public class FileListByTypeActivity extends AppCompatActivity {

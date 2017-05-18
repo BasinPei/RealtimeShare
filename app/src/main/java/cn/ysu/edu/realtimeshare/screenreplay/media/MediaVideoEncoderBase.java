@@ -12,7 +12,7 @@ import android.view.Surface;
 import java.io.IOException;
 
 /**
- * Created by KerriGan on 2016/5/27.
+ * Created by BasinPei on 2017/5/27.
  */
 public abstract class MediaVideoEncoderBase extends MediaEncoder {
     private static final String TAG = "MediaVideoEncoderBase";
