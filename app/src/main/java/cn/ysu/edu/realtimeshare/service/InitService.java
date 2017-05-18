@@ -50,6 +50,8 @@ public class InitService extends Service {
     private EasyServer mEasyServer=null;
     private ServerSocket mServerSocket = null;
 
+
+
     private MainActivity.OnWiFiRecevieListener mOnWiFiRecevieListener;
     private ArrayList<FileProperty> mSharedListData = new ArrayList<>();
     private Thread mServerSocketThread;
