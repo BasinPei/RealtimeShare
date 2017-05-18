@@ -79,6 +79,7 @@ public class FileProperty implements Serializable{
 
         if (isDirectory != that.isDirectory) return false;
         if (iconSrcID != that.iconSrcID) return false;
+        if(!fileSize.equals(that.fileSize)) return false;
         if(!filePath.equals(that.filePath)) return false;
         if(!fileName.equals(that.fileName)) return false;
         return true;

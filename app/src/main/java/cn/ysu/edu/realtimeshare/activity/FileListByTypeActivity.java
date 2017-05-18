@@ -137,16 +137,16 @@ public class FileListByTypeActivity extends AppCompatActivity {
     //搜索文本监听器
     private class QueryListener implements SearchView.OnQueryTextListener
     {
-
         @Override
         public boolean onQueryTextSubmit(String query) {
-            return true;
+            return false;
         }
 
         @Override
         public boolean onQueryTextChange(String newText) {
             if(TextUtils.isEmpty(newText)){
-                fileList.clearTextFilter();//清除ListView过滤
+                mFileItemSelectAdapter.resetData(mFileList);
+
             }else{
                 fileList.setFilterText(newText);
             }

@@ -12,6 +12,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 import cn.ysu.edu.realtimeshare.R;
 import cn.ysu.edu.realtimeshare.file.bean.FileProperty;
@@ -23,7 +25,8 @@ import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
 
 public class FileItemSelectAdapter extends FileItemScanAdapter implements Filterable{
     private FileFilter mFileFilter;
-    private ArrayList<FileProperty> mFilterOriginList;
+    private ArrayList<FileProperty> mFilterOriginList = new ArrayList<>();
+    private Map<FileProperty,Boolean> mSelectedMap;
 
     public FileItemSelectAdapter(Context context) {
         super(context);
@@ -69,17 +72,19 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
             viewHolder.fileSize.setVisibility(View.VISIBLE);
             viewHolder.isSelected.setVisibility(View.VISIBLE);
             viewHolder.fileSize.setText(temp.getFileSize());
-            viewHolder.isSelected.setChecked(temp.isSelected());
-            viewHolder.isSelected.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+
+            viewHolder.isSelected.setChecked(mSelectedMap.get(temp));
+            viewHolder.isSelected.setOnClickListener(new View.OnClickListener() {
                 @Override
-                public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                    if(isChecked){
+                public void onClick(View v) {
+                    boolean lastSelected = mSelectedMap.get(temp);
+                    if(!lastSelected){
                         SharedFileOperation.addSharedFile(temp);
-                        temp.setSelected(true);
                     }else {
                         SharedFileOperation.deleteSharedFile(temp);
-                        temp.setSelected(false);
                     }
+                    mSelectedMap.put(temp,!lastSelected);
+
                 }
             });
         }
@@ -97,8 +102,25 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
 
     @Override
     public void resetData(ArrayList<FileProperty> fileInfo) {
-        super.resetData(fileInfo);
-        mFilterOriginList = mFileDataList;
+        if(mSelectedMap == null){
+            mSelectedMap = new HashMap<>(fileInfo.size());
+            for(FileProperty selectedHolder:fileInfo){
+                boolean isSelected = false;
+                for(FileProperty judgeSelected:SharedFileOperation.getSharedFileList()){
+                    if(selectedHolder.equals(judgeSelected)){
+                        isSelected = true;
+                        break;
+                    }
+                }
+                mSelectedMap.put(selectedHolder,isSelected);
+            }
+        }
+        mFileDataList.clear();
+        mFileDataList.addAll(fileInfo);
+
+        mFilterOriginList.clear();
+        mFilterOriginList.addAll(mFileDataList);
+        notifyDataSetChanged();
     }
 
     class ViewHolder {
