@@ -153,8 +153,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 @Override
                 public void onConnectionChangeResult(NetworkInfo networkInfo) {
                     //建立或断开连接
-                    //TODO check disconnect
-
                     if (networkInfo.isConnected()) {
                         // we are connected with the other device, request connection
                         // info to find group owner IP

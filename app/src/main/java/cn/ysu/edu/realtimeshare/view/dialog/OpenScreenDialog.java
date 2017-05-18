@@ -121,7 +121,7 @@ public class OpenScreenDialog extends BaseDialog{
 
 
             _progressDialog=new ProgressDialog(_context);
-            _progressDialog.setMessage("正在准备");
+            _progressDialog.setMessage(_context.getResources().getString(R.string.prepare));
             _progressDialog.show();
             _progressDialog.setCancelable(false);
 

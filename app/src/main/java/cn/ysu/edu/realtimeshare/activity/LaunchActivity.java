@@ -62,6 +62,7 @@ public class LaunchActivity extends BaseExitActivity{
         View indicatorFirst = layoutInflater.inflate(R.layout.indicator_first,null);
         View indicatorSecond = layoutInflater.inflate(R.layout.indicator_second,null);
         View indicatorThird = layoutInflater.inflate(R.layout.indicator_third,null);
+
         mDisplayView.add(indicatorFirst);
         mDisplayView.add(indicatorSecond);
         mDisplayView.add(indicatorThird);
@@ -69,7 +70,7 @@ public class LaunchActivity extends BaseExitActivity{
         viewPager = (ViewPager) findViewById(R.id.view_pager_indicator);
         mIndicatorPagerAdapter = new IndicatorPagerAdapter(mDisplayView);
         viewPager.setAdapter(mIndicatorPagerAdapter);
-//        viewPager.setPageTransformer(true,new IndicatorTransformer());
+        viewPager.setPageTransformer(true,new IndicatorTransformer());
 
         indicatorContainer = (LinearLayout) findViewById(R.id.la_indicator);
         LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT,ViewGroup.LayoutParams.WRAP_CONTENT);
@@ -119,10 +120,10 @@ public class LaunchActivity extends BaseExitActivity{
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
                 //页面滚动时小白点移动的距离，通过设置setLayoutparams不断更新位置
-                float leftMargin = mDistance * (position + positionOffset);
+                /*float leftMargin = mDistance * (position + positionOffset);
                 RelativeLayout.LayoutParams params = (RelativeLayout.LayoutParams) lightDot.getLayoutParams();
                 params.leftMargin = (int) leftMargin;
-                lightDot.setLayoutParams(params);
+                lightDot.setLayoutParams(params);*/
             }
 
             @Override

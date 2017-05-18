@@ -113,8 +113,7 @@ public class NearByDeviceFragment extends Fragment implements WifiP2pManager.Pee
                             if(progressDialog != null && progressDialog.isShowing()){
                                 progressDialog.dismiss();
                             }
-                            progressDialog = ProgressDialog.show(getActivity(),null,getResources().getString(R.string.connecting_dialog_tip),true);
-                            progressDialog.setCanceledOnTouchOutside(false);
+                            progressDialog = ProgressDialog.show(getActivity(),null,getResources().getString(R.string.connecting_dialog_tip),true,true);
 
                             ((NearByDeviceFragment.DeviceActionListener)getActivity()).connect(config);
                         }
@@ -144,8 +143,7 @@ public class NearByDeviceFragment extends Fragment implements WifiP2pManager.Pee
                     if(progressDialog != null && progressDialog.isShowing()){
                         progressDialog.dismiss();
                     }
-                    progressDialog = ProgressDialog.show(getActivity(),null,getResources().getString(R.string.nearby_searching_peers),true);
-                    progressDialog.setCanceledOnTouchOutside(false);
+                    progressDialog = ProgressDialog.show(getActivity(),null,getResources().getString(R.string.nearby_searching_peers),true,true);
                     ((MainActivity) getActivity()).discoverPeers();
                 }else{
                     AlertDialog.Builder tipDialog = new AlertDialog.Builder(getActivity());
