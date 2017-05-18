@@ -338,7 +338,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         if (SessionBuilder.getInstance().getMediaProjection() == null
                 && _openScreenDialog.isOpen()) {
             //has no permission to record screen
-            Toast.makeText(this, "权限获取失败", Toast.LENGTH_SHORT).show();
+            Toast.makeText(this, R.string.permission_access_fail_tip, Toast.LENGTH_SHORT).show();
             mLocalDeviceFragment.setShareScreenSwitch(false);
 
             if (_isServiceStart) {
@@ -375,7 +375,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                     runOnUiThread(new Runnable() {
                         @Override
                         public void run() {
-                            Toast.makeText(MainActivity.this, "RTSP服务开启失败-->" + error, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(MainActivity.this, R.string.rtsp_server_create_fail + error, Toast.LENGTH_SHORT).show();
                         }
                     });
 
@@ -385,7 +385,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 public void onMessage(RtspServer server, int message) {
                     switch (message) {
                         case RtspServer.MESSAGE_STREAMING_STARTED:
-                            Toast.makeText(MainActivity.this, "RTSP服务开启", Toast.LENGTH_SHORT).show();
                             break;
                     }
                 }

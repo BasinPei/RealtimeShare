@@ -90,5 +90,6 @@
     <string name="screen_capture_file_path">录屏存储路径：</string>
     <string name="screen_capture_enable_false">Android版本低于5.0，无法启用此功能！</string>
     <string name="media_file_fail_tip">访问的视频文件不存在！</string>
-
+    <string name="permission_access_fail_tip">权限获取失败</string>
+    <string name="rtsp_server_create_fail">RTSP服务开始失败</string>
 </resources>
