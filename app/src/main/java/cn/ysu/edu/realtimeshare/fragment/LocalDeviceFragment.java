@@ -10,6 +10,7 @@ import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.SwitchCompat;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -17,6 +18,7 @@ import android.widget.CompoundButton;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
@@ -71,6 +73,7 @@ public class LocalDeviceFragment extends Fragment{
             }
         });
         tv_wifiStatus = (TextView) mContentView.findViewById(R.id.local_wifi_state);
+        setWifiEnable(((MainActivity)getActivity()).isWifiP2pEnabled());
 
         mShareScreenSwitch = (SwitchCompat) mContentView.findViewById(R.id.local_share_screen);
         mShareScreenSwitchListener = new CompoundButton.OnCheckedChangeListener() {
@@ -94,6 +97,7 @@ public class LocalDeviceFragment extends Fragment{
                 ((MainActivity)getActivity()).switchCreateGroup(isChecked,new SwitchCallBack(){
                     @Override
                     public void onSwithResult(boolean switchResult) {
+                        Log.d("testSwitch", "onSwithResult: ------->");
                         setCreateGroupSwitch(switchResult);
                     }
                 });
@@ -107,6 +111,7 @@ public class LocalDeviceFragment extends Fragment{
             tv_deviceName.setText(deviceName);
             tv_deviceStatus.setText(R.string.device_state_connected);
         }
+        Log.d("testSwitch", "initView: ");
         setCreateGroupSwitch(isBackExcute);
 
         connectedDeviceList  = (ListView) mContentView.findViewById(R.id.local_connected_devices_list);
@@ -148,19 +153,19 @@ public class LocalDeviceFragment extends Fragment{
 
     }
 
-    public void setCreateGroupSwitch(boolean isGroupOwner){
+    public void setCreateGroupSwitch(boolean isCheck){
         if(mCreateGroupSwitch != null){
             mCreateGroupSwitch.setOnCheckedChangeListener(null);
-            mCreateGroupSwitch.setChecked(isGroupOwner);
+            mCreateGroupSwitch.setChecked(isCheck);
             mCreateGroupSwitch.setOnCheckedChangeListener(mCreateGroupSwitchListener);
         }
 
     }
 
-    public void setShareScreenSwitch(boolean isGroupOwner){
+    public void setShareScreenSwitch(boolean isCheck){
         if(mShareScreenSwitch != null){
             mShareScreenSwitch.setOnCheckedChangeListener(null);
-            mShareScreenSwitch.setChecked(isGroupOwner);
+            mShareScreenSwitch.setChecked(isCheck);
             mShareScreenSwitch.setOnCheckedChangeListener(mShareScreenSwitchListener);
         }
     }

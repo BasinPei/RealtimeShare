@@ -37,6 +37,7 @@ import cn.ysu.edu.realtimeshare.file.bean.FileProperty;
 import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
 import cn.ysu.edu.realtimeshare.httpserver.http.HTTPServerList;
 import cn.ysu.edu.realtimeshare.httpserver.util.EasyServer;
+import cn.ysu.edu.realtimeshare.view.dialog.OpenScreenDialog;
 import cn.ysu.edu.realtimeshare.wifip2p.WiFiDirectBroadcastRecevier;
 
 /**
@@ -56,7 +57,7 @@ public class InitService extends Service {
 
     private EasyServer mEasyServer=null;
     private ServerSocket mServerSocket = null;
-    private MediaProjection mHostMediaProjection = null;
+    private OpenScreenDialog mOpenScreenDialog = null;
 
     private MainActivity.OnWiFiRecevieListener mOnWiFiRecevieListener;
     private ArrayList<FileProperty> mSharedListData = new ArrayList<>();
@@ -67,6 +68,7 @@ public class InitService extends Service {
     private boolean isBackgroudExecute = false;
     private boolean isShareScreenScreen = false;
     private boolean isGroupOwner = false;
+    private boolean isWifiP2pEnable = false;
 
     private boolean isRemainResult = true;
     private boolean remainWifiIsEnable = false;
@@ -74,7 +76,6 @@ public class InitService extends Service {
 
     private Notification mNotification = null;
     private NotificationManager mNotificationManager;
-    private boolean isNotificationShow = false;
     private int notificationId;
 
     @Override
@@ -112,16 +113,13 @@ public class InitService extends Service {
 
     }
 
-    public void setNotificationNotify(){
+    public void notifyNotification(){
         notificationId = (int)System.currentTimeMillis();
         mNotificationManager.notify(notificationId,mNotification);
-        isNotificationShow = true;
-
     }
 
     public void concelNotification(){
         mNotificationManager.cancel(notificationId);
-        isNotificationShow = false;
     }
 
     @Override
@@ -195,9 +193,6 @@ public class InitService extends Service {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mWiFiDirectBroadcastRecevier);
-        if(isNotificationShow){
-
-        }
 
         if(isGroupOwner){
             if(mServerSocketThread != null){
@@ -220,11 +215,19 @@ public class InitService extends Service {
     }
 
     public void setIsWifiEnable(boolean isWifiEnable){
+        isWifiP2pEnable = isWifiEnable;
         if(isRemainResult){
             remainWifiIsEnable = isWifiEnable;
         }
         if(mOnWiFiRecevieListener != null){
             mOnWiFiRecevieListener.onWifiStatusResult(isWifiEnable);
+        }
+
+        if(!isWifiEnable){
+            if (isGroupOwner){
+                //TODO close service
+
+            }
         }
     }
 
@@ -261,16 +264,20 @@ public class InitService extends Service {
         return isShareScreenScreen;
     }
 
-    public MediaProjection getmHostMediaProjection() {
-        return mHostMediaProjection;
+    public OpenScreenDialog getOpenScreenDialog() {
+        return mOpenScreenDialog;
     }
 
-    public void setmHostMediaProjection(MediaProjection mHostMediaProjection) {
-        this.mHostMediaProjection = mHostMediaProjection;
+    public void setOpenScreenDialog(OpenScreenDialog openScreenDialog) {
+        this.mOpenScreenDialog = openScreenDialog;
     }
 
     public void setShareScreenScreen(boolean shareScreenScreen) {
         isShareScreenScreen = shareScreenScreen;
+    }
+
+    public boolean isWifiP2pEnable() {
+        return isWifiP2pEnable;
     }
 
     public void setGroupOwner(boolean groupOwner) {

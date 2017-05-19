@@ -32,7 +32,6 @@ public class WiFiDirectBroadcastRecevier extends BroadcastReceiver {
             int state = intent.getIntExtra(WifiP2pManager.EXTRA_WIFI_STATE, -1);
             Log.d("testtest", "onReceive: wifi test------------>");
             if (state == WifiP2pManager.WIFI_P2P_STATE_ENABLED) {
-
                 mInitService.setIsWifiEnable(true);
             } else {
                 mInitService.setIsWifiEnable(false);
