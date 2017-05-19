@@ -40,13 +40,13 @@
     <Button
         android:id="@+id/bt_next"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_height="30dp"
         android:layout_gravity="center_vertical"
         android:layout_marginRight="@dimen/fragment_horizontal_margin"
         android:background="@drawable/notify_button_bg"
         android:textColor="@android:color/white"
         android:text="@string/close_server"
-        android:textSize="16sp"
+        android:textSize="14sp"
         />
 
 </LinearLayout>

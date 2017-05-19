@@ -19,7 +19,7 @@
     <string name="local_none_connected_devices">无设备连接</string>
     <string name="local_create_group_fail_tip">创建群组失败！请尝试重启WLAN！</string>
     <string name="local_share_screen_fail_tip">尚未创建群组</string>
-    <string name="local_remove_group">确认移出群组？</string>
+    <string name="local_remove_group">确认移除群组？</string>
 
     <string name="nearby_current_status">当前状态</string>
     <string name="nearby_current_connected_status">当前连接状态</string>

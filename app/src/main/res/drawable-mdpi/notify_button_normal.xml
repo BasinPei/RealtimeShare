@@ -6,7 +6,7 @@
     <stroke android:color="@color/colorAccent"
         android:width="2dp"/>
     <!-- 设置按钮的四个角为弧形 -->
-    <corners android:radius="5dip" />
+    <corners android:radius="10dip" />
 
     <!-- padding：Button里面的文字与Button边界的间隔 -->
     <padding
