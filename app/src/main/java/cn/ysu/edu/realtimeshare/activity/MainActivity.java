@@ -283,7 +283,8 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                             isGroupOwner = true;
                             mInitService.initServerSocket();
                             mInitService.setGroupOwner(true);
-                            mInitService.notifyNotification();
+                            mInitService.setStartForeground();
+//                            mInitService.notifyNotification();
                             switchCallBack.onSwithResult(true);
                         }
 
@@ -347,7 +348,8 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                                     closeShareScreen();
                                 }
                                 switchCallBack.onSwithResult(false);
-                                mInitService.concelNotification();
+                                mInitService.stopForeground(true);
+//                                mInitService.concelNotification();
                             }
 
                             @Override

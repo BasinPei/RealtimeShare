@@ -109,9 +109,10 @@ public class InitService extends Service {
         notifyBuilder.setContent(remoteView);
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotification = notifyBuilder.build();
+    }
 
-        startForeground(10001, mNotification);
-
+    public void setStartForeground(){
+        startForeground((int)System.currentTimeMillis(), mNotification);
     }
 
     public void notifyNotification(){
@@ -194,7 +195,6 @@ public class InitService extends Service {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mWiFiDirectBroadcastRecevier);
-        stopForeground(false);
 
         if(isGroupOwner){
             if(mServerSocketThread != null){
