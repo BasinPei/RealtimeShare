@@ -106,10 +106,22 @@ public class InitService extends Service {
 
         RemoteViews remoteView = new RemoteViews(getPackageName(),R.layout.remote_notify);
         notifyBuilder.setContent(remoteView);
-
-        notificationId = (int)System.currentTimeMillis();
         mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify(notificationId,notifyBuilder.build());
+        mNotification = notifyBuilder.build();
+
+
+    }
+
+    public void setNotificationNotify(){
+        notificationId = (int)System.currentTimeMillis();
+        mNotificationManager.notify(notificationId,mNotification);
+        isNotificationShow = true;
+
+    }
+
+    public void concelNotification(){
+        mNotificationManager.cancel(notificationId);
+        isNotificationShow = false;
     }
 
     @Override
@@ -183,7 +195,9 @@ public class InitService extends Service {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mWiFiDirectBroadcastRecevier);
-        mNotificationManager.cancel(notificationId);
+        if(isNotificationShow){
+
+        }
 
         if(isGroupOwner){
             if(mServerSocketThread != null){
@@ -333,10 +347,7 @@ public class InitService extends Service {
 //                        clientSocket.shutdownOutput();
                         break;
                     case REQUEST_MEDIA_FILE:
-                        //启动Http响应
-                        /*Log.d(TAG, "run:启动Http响应 ");
-                        mEasyServer = new EasyServer();
-                        mEasyServer.start();*/
+
                         break;
                     case REQUEST_SHARE_SCREEN:
                         JSONObject resultJsonObject = new JSONObject();

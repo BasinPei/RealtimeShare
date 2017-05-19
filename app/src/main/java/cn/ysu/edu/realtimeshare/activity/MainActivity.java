@@ -546,6 +546,5 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 mInitService.restoreSharedFileList(SharedFileOperation.getSharedFileList());
             }
         }
-
     }
 }
