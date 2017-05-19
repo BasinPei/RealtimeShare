@@ -41,7 +41,18 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
     private boolean isWifiP2pEnabled = false;
     private boolean isRetryChannel = false;
+
+    public boolean isBackExcute() {
+        return isBackExcute;
+    }
+
+    public boolean isBackShareScreen() {
+        return isBackShareScreen;
+    }
+
     private boolean isGroupOwner = false;
+    private boolean isBackExcute = false;
+    private boolean isBackShareScreen = false;
 
 
     private WifiP2pManager mWifiP2pManager;
@@ -94,7 +105,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         mNearByDeviceFragment.clearPeers();
     }
 
-
     @Override
     protected void onResume() {
         super.onResume();
@@ -114,10 +124,10 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
             if (mInitService.getIsBackgroudExecute()) {
                 SharedFileOperation.getSharedFileList().clear();
                 SharedFileOperation.setSharedFileList(mInitService.getSharedFileList());
-                mLocalDeviceFragment.setCreateGroupSwitch(true);
-                if(mInitService.isShareScreenScreen()){
-                    mLocalDeviceFragment.setShareScreenSwitch(true);
-                }
+                isBackExcute = true;
+                isBackShareScreen = mInitService.isShareScreenScreen();
+                mLocalDeviceFragment.setCreateGroupSwitch(isBackExcute);
+                mLocalDeviceFragment.setShareScreenSwitch(isBackShareScreen);
             }
 
             mInitService.setWiFiRecevieListener(new OnWiFiRecevieListener() {
@@ -314,7 +324,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         } else {//移除群组
             AlertDialog.Builder tipDialog = new AlertDialog.Builder(this);
             tipDialog.setTitle(R.string.tip_dialog);
-            tipDialog.setMessage(R.string.wlan_state_tip);
+            tipDialog.setMessage(R.string.local_remove_group);
             tipDialog.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
@@ -323,7 +333,9 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                             @Override
                             public void onSuccess() {
                                 isGroupOwner = false;
-                                closeShareScreen();
+                                if(isShareScreen){
+                                    closeShareScreen();
+                                }
                                 switchCallBack.onSwithResult(false);
                             }
 
@@ -436,7 +448,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                             SharedFileOperation.setIsShareScreen(false);
                         } else {
                             Intent rtspServiceIntent = new Intent(MainActivity.this, RtspServer.class);
-                            MainActivity.this.startActivity(rtspServiceIntent);
+                            MainActivity.this.startService(rtspServiceIntent);
                             MainActivity.this.bindService(
                                     rtspServiceIntent,
                                     mRtspServerConnection,

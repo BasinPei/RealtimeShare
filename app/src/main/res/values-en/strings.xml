@@ -93,5 +93,6 @@
     <string name="rtsp_server_create_fail">RTSP Server Create Failed</string>
     <string name="prepare">Preparing...</string>
 
-
+    <string name="running">Running...</string>
+    <string name="close_server">Close Server</string>
 </resources>

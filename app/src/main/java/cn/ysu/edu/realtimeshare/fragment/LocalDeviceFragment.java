@@ -81,6 +81,7 @@ public class LocalDeviceFragment extends Fragment{
             }
         };
         mShareScreenSwitch.setOnCheckedChangeListener(mShareScreenSwitchListener);
+        setShareScreenSwitch(((MainActivity)getActivity()).isBackShareScreen());
 
         mCreateGroupSwitch = (SwitchCompat) mContentView.findViewById(R.id.switch_create_group);
         mCreateGroupSwitchListener = new CompoundButton.OnCheckedChangeListener() {
@@ -95,6 +96,7 @@ public class LocalDeviceFragment extends Fragment{
             }
         };
         mCreateGroupSwitch.setOnCheckedChangeListener(mCreateGroupSwitchListener);
+        setCreateGroupSwitch(((MainActivity) getActivity()).isBackExcute());
 
         connectedDeviceList  = (ListView) mContentView.findViewById(R.id.local_connected_devices_list);
         mWiFiPeerDeviceAdapter = new WiFiPeerDeviceAdapter(getActivity());
@@ -133,15 +135,20 @@ public class LocalDeviceFragment extends Fragment{
     }
 
     public void setCreateGroupSwitch(boolean isGroupOwner){
-        mCreateGroupSwitch.setOnCheckedChangeListener(null);
-        mCreateGroupSwitch.setChecked(isGroupOwner);
-        mCreateGroupSwitch.setOnCheckedChangeListener(mCreateGroupSwitchListener);
+        if(mCreateGroupSwitch != null){
+            mCreateGroupSwitch.setOnCheckedChangeListener(null);
+            mCreateGroupSwitch.setChecked(isGroupOwner);
+            mCreateGroupSwitch.setOnCheckedChangeListener(mCreateGroupSwitchListener);
+        }
+
     }
 
     public void setShareScreenSwitch(boolean isGroupOwner){
-        mShareScreenSwitch.setOnCheckedChangeListener(null);
-        mShareScreenSwitch.setChecked(isGroupOwner);
-        mShareScreenSwitch.setOnCheckedChangeListener(mShareScreenSwitchListener);
+        if(mShareScreenSwitch != null){
+            mShareScreenSwitch.setOnCheckedChangeListener(null);
+            mShareScreenSwitch.setChecked(isGroupOwner);
+            mShareScreenSwitch.setOnCheckedChangeListener(mShareScreenSwitchListener);
+        }
     }
 
     /**

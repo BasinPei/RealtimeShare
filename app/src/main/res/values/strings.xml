@@ -94,4 +94,7 @@
     <string name="permission_access_fail_tip">权限获取失败</string>
     <string name="rtsp_server_create_fail">RTSP服务开始失败</string>
     <string name="prepare">准备中...</string>
+
+    <string name="running">正在运行...</string>
+    <string name="close_server">关闭服务</string>
 </resources>

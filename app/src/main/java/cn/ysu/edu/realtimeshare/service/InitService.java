@@ -1,7 +1,10 @@
 package cn.ysu.edu.realtimeshare.service;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.app.Service;
 import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.net.NetworkInfo;
@@ -10,7 +13,9 @@ import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Binder;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
+import android.support.v4.app.NotificationCompat;
 import android.util.Log;
+import android.widget.RemoteViews;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -25,6 +30,7 @@ import java.net.ServerSocket;
 import java.net.Socket;
 import java.util.ArrayList;
 
+import cn.ysu.edu.realtimeshare.R;
 import cn.ysu.edu.realtimeshare.activity.MainActivity;
 import cn.ysu.edu.realtimeshare.file.bean.FileProperty;
 import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
@@ -37,20 +43,18 @@ import cn.ysu.edu.realtimeshare.wifip2p.WiFiDirectBroadcastRecevier;
  */
 
 public class InitService extends Service {
-    private static final String TAG = "InitService";
+    public static final String TAG = "InitService";
+    public static final String SHARED_FILE_PATH = "shared_file_path";
+    public static final String REQUEST_FLAG = "request_flag";
+    public static final String SHARE_SCREEN_FALG = "is_share_screen";
     public static final int GROUP_OWNER_PORT = 8988;
     public static final int REQUEST_SHARED_FILE = 1;
     public static final int REQUEST_NO_MEDIA_FILE = 2;
     public static final int REQUEST_MEDIA_FILE = 3;
     public static final int REQUEST_SHARE_SCREEN = 4;
-    public static final String SHARED_FILE_PATH = "shared_file_path";
-    public static final String REQUEST_FLAG = "request_flag";
-    public static final String SHARE_SCREEN_FALG = "is_share_screen";
 
     private EasyServer mEasyServer=null;
     private ServerSocket mServerSocket = null;
-
-
 
     private MainActivity.OnWiFiRecevieListener mOnWiFiRecevieListener;
     private ArrayList<FileProperty> mSharedListData = new ArrayList<>();
@@ -62,10 +66,13 @@ public class InitService extends Service {
     private boolean isShareScreenScreen = false;
     private boolean isGroupOwner = false;
 
-
     private boolean isRemainResult = true;
     private boolean remainWifiIsEnable = false;
     private WifiP2pDevice remainWifiP2pDevice = null;
+
+    private Notification mNotification = null;
+    private boolean isNotificationShow = false;
+    private long notificationId;
 
     @Override
     public void onCreate() {
@@ -78,6 +85,28 @@ public class InitService extends Service {
 
         mWiFiDirectBroadcastRecevier = new WiFiDirectBroadcastRecevier(this);
         registerReceiver(mWiFiDirectBroadcastRecevier, mIntentFilter);
+
+        initNotification();
+    }
+
+    private void initNotification() {
+        NotificationCompat.Builder notifyBuilder = new NotificationCompat.Builder(this);
+        notifyBuilder.setContentTitle(getResources().getString(R.string.app_name));
+        notifyBuilder.setContentText(getResources().getString(R.string.running));
+        notifyBuilder.setSmallIcon(R.mipmap.ic_wlan);
+        // 将AutoCancel设为true后，当你点击通知栏的notification后，它会自动被取消消失
+        notifyBuilder.setAutoCancel(false);
+        // 将Ongoing设为true 那么notification将不能滑动删除
+         notifyBuilder.setOngoing(true);
+        // 从Android4.1开始，可以通过以下方法，设置notification的优先级，优先级越高的，通知排的越靠前，优先级低的，不会在手机最顶部的状态栏显示图标
+        notifyBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
+
+        RemoteViews remoteView = new RemoteViews(getPackageName(),R.layout.remote_notify);
+        notifyBuilder.setContent(remoteView);
+
+        notificationId = System.currentTimeMillis();
+        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify((int) notificationId,notifyBuilder.build());
     }
 
     @Override
