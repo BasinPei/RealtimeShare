@@ -1,9 +1,11 @@
 package cn.ysu.edu.realtimeshare.fragment;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pInfo;
 import android.os.Bundle;
+import android.preference.PreferenceManager;
 import android.provider.Settings;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,8 +21,10 @@ import android.widget.TextView;
 import java.util.ArrayList;
 
 import cn.ysu.edu.realtimeshare.activity.FileAddActivity;
+import cn.ysu.edu.realtimeshare.activity.LaunchActivity;
 import cn.ysu.edu.realtimeshare.activity.MainActivity;
 import cn.ysu.edu.realtimeshare.R;
+import cn.ysu.edu.realtimeshare.librtsp.PreferenceInfo;
 import cn.ysu.edu.realtimeshare.wifip2p.WiFiPeerDeviceAdapter;
 
 /**
@@ -81,7 +85,7 @@ public class LocalDeviceFragment extends Fragment{
             }
         };
         mShareScreenSwitch.setOnCheckedChangeListener(mShareScreenSwitchListener);
-        setShareScreenSwitch(((MainActivity)getActivity()).isBackShareScreen());
+        setShareScreenSwitch(((MainActivity)getActivity()).isShareScreen());
 
         mCreateGroupSwitch = (SwitchCompat) mContentView.findViewById(R.id.switch_create_group);
         mCreateGroupSwitchListener = new CompoundButton.OnCheckedChangeListener() {
@@ -96,7 +100,14 @@ public class LocalDeviceFragment extends Fragment{
             }
         };
         mCreateGroupSwitch.setOnCheckedChangeListener(mCreateGroupSwitchListener);
-        setCreateGroupSwitch(((MainActivity) getActivity()).isBackExcute());
+        boolean isBackExcute = ((MainActivity) getActivity()).isBackExcute();
+        if(isBackExcute){
+            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(getActivity());
+            String deviceName = sharedPreferences.getString(PreferenceInfo.PREF_DEVICE_NAME,"RealtimeShare");
+            tv_deviceName.setText(deviceName);
+            tv_deviceStatus.setText(R.string.device_state_connected);
+        }
+        setCreateGroupSwitch(isBackExcute);
 
         connectedDeviceList  = (ListView) mContentView.findViewById(R.id.local_connected_devices_list);
         mWiFiPeerDeviceAdapter = new WiFiPeerDeviceAdapter(getActivity());
@@ -120,7 +131,10 @@ public class LocalDeviceFragment extends Fragment{
         if(tv_deviceName != null && wifiP2pDevice != null){
             tv_deviceName .setText(wifiP2pDevice.deviceName);
             tv_deviceStatus.setText(WiFiPeerDeviceAdapter.getDeviceStatus(wifiP2pDevice.status));
+            SharedPreferences pref= PreferenceManager.getDefaultSharedPreferences(getActivity());
+            pref.edit().putString(PreferenceInfo.PREF_DEVICE_NAME,wifiP2pDevice.deviceName).commit();
         }
+
     }
 
     public void setWifiEnable(boolean isWifiP2pEnabled) {

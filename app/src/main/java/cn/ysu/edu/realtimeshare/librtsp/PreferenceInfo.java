@@ -11,4 +11,6 @@ public class PreferenceInfo {
     /**Boolean*/
     public static final String PREF_IS_FIRST_LAUNCH="is_first_launch";
 
+    public static final String PREF_DEVICE_NAME = "device_name";
+
 }

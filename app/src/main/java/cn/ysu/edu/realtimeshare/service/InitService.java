@@ -7,6 +7,7 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.media.projection.MediaProjection;
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
@@ -55,6 +56,7 @@ public class InitService extends Service {
 
     private EasyServer mEasyServer=null;
     private ServerSocket mServerSocket = null;
+    private MediaProjection mHostMediaProjection = null;
 
     private MainActivity.OnWiFiRecevieListener mOnWiFiRecevieListener;
     private ArrayList<FileProperty> mSharedListData = new ArrayList<>();
@@ -71,8 +73,9 @@ public class InitService extends Service {
     private WifiP2pDevice remainWifiP2pDevice = null;
 
     private Notification mNotification = null;
+    private NotificationManager mNotificationManager;
     private boolean isNotificationShow = false;
-    private long notificationId;
+    private int notificationId;
 
     @Override
     public void onCreate() {
@@ -104,9 +107,9 @@ public class InitService extends Service {
         RemoteViews remoteView = new RemoteViews(getPackageName(),R.layout.remote_notify);
         notifyBuilder.setContent(remoteView);
 
-        notificationId = System.currentTimeMillis();
-        NotificationManager mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        mNotificationManager.notify((int) notificationId,notifyBuilder.build());
+        notificationId = (int)System.currentTimeMillis();
+        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        mNotificationManager.notify(notificationId,notifyBuilder.build());
     }
 
     @Override
@@ -180,6 +183,7 @@ public class InitService extends Service {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mWiFiDirectBroadcastRecevier);
+        mNotificationManager.cancel(notificationId);
 
         if(isGroupOwner){
             if(mServerSocketThread != null){
@@ -241,6 +245,14 @@ public class InitService extends Service {
 
     public boolean isShareScreenScreen() {
         return isShareScreenScreen;
+    }
+
+    public MediaProjection getmHostMediaProjection() {
+        return mHostMediaProjection;
+    }
+
+    public void setmHostMediaProjection(MediaProjection mHostMediaProjection) {
+        this.mHostMediaProjection = mHostMediaProjection;
     }
 
     public void setShareScreenScreen(boolean shareScreenScreen) {
