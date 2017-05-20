@@ -6,7 +6,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
-import android.media.projection.MediaProjection;
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pConfig;
 import android.net.wifi.p2p.WifiP2pDevice;
@@ -120,22 +119,30 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         super.onPause();
         unbindService(mFileServiceConnection);
         unbindService(mRtspServerConnection);
+        //TODO setWifiManager
+        mInitService.setmWifiP2pManager(mWifiP2pManager);
+        mInitService.setmChannel(mChannel);
+        mInitService.setShareScreen(isShareScreen);
+        mInitService.setOpenScreenDialog(mOpenScreenDialog);
+        mInitService.restoreSharedFileList(SharedFileOperation.getSharedFileList());
     }
 
     private ServiceConnection mFileServiceConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             mInitService = ((InitService.InitServiceBinder) iBinder).getInitService();
+            mInitService.setmHolderContext(MainActivity.this);
             if (mInitService.getIsBackgroudExecute()) {
                 SharedFileOperation.getSharedFileList().clear();
                 SharedFileOperation.setSharedFileList(mInitService.getSharedFileList());
                 isBackExcute = true;
-                isShareScreen = mInitService.isShareScreenScreen();
+                isShareScreen = mInitService.isShareScreen();
                 isWifiP2pEnabled = mInitService.isWifiP2pEnable();
                 mOpenScreenDialog = mInitService.getOpenScreenDialog();
                 mLocalDeviceFragment.setCreateGroupSwitch(isBackExcute);
                 mLocalDeviceFragment.setShareScreenSwitch(isShareScreen);
                 mInitService.setIsBackgroudExecute(false);
+
             }
 
             mInitService.setWiFiRecevieListener(new OnWiFiRecevieListener() {
@@ -232,8 +239,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
             @Override
             public void onSuccess() {
                 // WiFiDirectBroadcastReceiver will notify us. Ignore for now.
-
-
             }
 
             @Override
@@ -552,9 +557,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
             } else {
                 mInitService.setIsBackgroudExecute(true);
-                mInitService.setShareScreenScreen(isShareScreen);
-                mInitService.setOpenScreenDialog(mOpenScreenDialog);
-                mInitService.restoreSharedFileList(SharedFileOperation.getSharedFileList());
             }
         }
     }

@@ -1,17 +1,18 @@
 package cn.ysu.edu.realtimeshare.service;
 
+import android.annotation.TargetApi;
 import android.app.Notification;
-import android.app.NotificationManager;
+import android.app.PendingIntent;
 import android.app.Service;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.media.projection.MediaProjection;
 import android.net.NetworkInfo;
 import android.net.wifi.p2p.WifiP2pDevice;
 import android.net.wifi.p2p.WifiP2pManager;
 import android.os.Binder;
+import android.os.Build;
 import android.os.IBinder;
 import android.support.annotation.Nullable;
 import android.support.v4.app.NotificationCompat;
@@ -37,6 +38,7 @@ import cn.ysu.edu.realtimeshare.file.bean.FileProperty;
 import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
 import cn.ysu.edu.realtimeshare.httpserver.http.HTTPServerList;
 import cn.ysu.edu.realtimeshare.httpserver.util.EasyServer;
+import cn.ysu.edu.realtimeshare.librtsp.rtsp.RtspServer;
 import cn.ysu.edu.realtimeshare.view.dialog.OpenScreenDialog;
 import cn.ysu.edu.realtimeshare.wifip2p.WiFiDirectBroadcastRecevier;
 
@@ -54,8 +56,16 @@ public class InitService extends Service {
     public static final int REQUEST_NO_MEDIA_FILE = 2;
     public static final int REQUEST_MEDIA_FILE = 3;
     public static final int REQUEST_SHARE_SCREEN = 4;
+    private static final String BROADCAST_FILTER = "notification_onclick";
+    private static final String BROADCAST_FLAG_KEY = "notification_click";
+    private static final int BROADCAST_LAUNCH_VALUE = 0X1001;
+    private static final int BROADCAST_CONCEL_VALUE = 0X1002;
 
-    private EasyServer mEasyServer=null;
+    private WifiP2pManager mWifiP2pManager;
+    private WifiP2pManager.Channel mChannel;
+    private MainActivity mHolderContext;
+
+    private EasyServer mEasyServer = null;
     private ServerSocket mServerSocket = null;
     private OpenScreenDialog mOpenScreenDialog = null;
 
@@ -66,7 +76,7 @@ public class InitService extends Service {
     private BroadcastReceiver mWiFiDirectBroadcastRecevier = null;
     private final IntentFilter mIntentFilter = new IntentFilter();
     private boolean isBackgroudExecute = false;
-    private boolean isShareScreenScreen = false;
+    private boolean isShareScreen = false;
     private boolean isGroupOwner = false;
     private boolean isWifiP2pEnable = false;
 
@@ -75,8 +85,9 @@ public class InitService extends Service {
     private WifiP2pDevice remainWifiP2pDevice = null;
 
     private Notification mNotification = null;
-    private NotificationManager mNotificationManager;
-    private int notificationId;
+//    private NotificationManager mNotificationManager;
+//    private int notificationId;
+    private NotificationClickReceiver mNotificationClickReceiver;
 
     @Override
     public void onCreate() {
@@ -101,28 +112,41 @@ public class InitService extends Service {
         // 将AutoCancel设为true后，当你点击通知栏的notification后，它会自动被取消消失
         notifyBuilder.setAutoCancel(false);
         // 将Ongoing设为true 那么notification将不能滑动删除
-         notifyBuilder.setOngoing(true);
+        notifyBuilder.setOngoing(true);
         // 从Android4.1开始，可以通过以下方法，设置notification的优先级，优先级越高的，通知排的越靠前，优先级低的，不会在手机最顶部的状态栏显示图标
         notifyBuilder.setPriority(NotificationCompat.PRIORITY_MAX);
 
-        RemoteViews remoteView = new RemoteViews(getPackageName(),R.layout.remote_notify);
+        RemoteViews remoteView = new RemoteViews(getPackageName(), R.layout.remote_notify);
         notifyBuilder.setContent(remoteView);
-        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//        mNotificationManager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
         mNotification = notifyBuilder.build();
+
+        Intent notificationIntent = new Intent(BROADCAST_FILTER);
+        notificationIntent.putExtra(BROADCAST_FLAG_KEY, BROADCAST_LAUNCH_VALUE);
+        PendingIntent launchPending = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteView.setOnClickPendingIntent(R.id.launch_application, launchPending);
+
+        notificationIntent.putExtra(BROADCAST_FLAG_KEY, BROADCAST_CONCEL_VALUE);
+        PendingIntent closePending = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        remoteView.setOnClickPendingIntent(R.id.close_server, closePending);
+
+        IntentFilter filter = new IntentFilter(BROADCAST_FILTER);
+        mNotificationClickReceiver = new NotificationClickReceiver();
+        this.registerReceiver(mNotificationClickReceiver, filter);
     }
 
-    public void setStartForeground(){
-        startForeground((int)System.currentTimeMillis(), mNotification);
+    public void setStartForeground() {
+        startForeground((int) System.currentTimeMillis(), mNotification);
     }
 
-    public void notifyNotification(){
+    /*public void notifyNotification(){
         notificationId = (int)System.currentTimeMillis();
         mNotificationManager.notify(notificationId,mNotification);
-    }
+    }*/
 
-    public void concelNotification(){
+    /*public void concelNotification(){
         mNotificationManager.cancel(notificationId);
-    }
+    }*/
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
@@ -137,7 +161,7 @@ public class InitService extends Service {
         mServerSocketThread = new Thread(new Runnable() {
             @Override
             public void run() {
-                if(mServerSocket == null){
+                if (mServerSocket == null) {
                     try {
                         mServerSocket = new ServerSocket(GROUP_OWNER_PORT);
                         while (true) {
@@ -147,8 +171,8 @@ public class InitService extends Service {
                             new HandleClientRequestThread(client);
                         }
                     } catch (Exception e) {
-                        Log.e(TAG, "initServerSocket: "+e.getMessage());
-                    }finally{
+                        Log.e(TAG, "initServerSocket: " + e.getMessage());
+                    } finally {
                         if (mServerSocket != null) {
                             try {
                                 mServerSocket.close();
@@ -168,8 +192,8 @@ public class InitService extends Service {
     /**
      * get Service Instance
      */
-    public class InitServiceBinder extends Binder{
-        public InitService getInitService(){
+    public class InitServiceBinder extends Binder {
+        public InitService getInitService() {
             return InitService.this;
         }
     }
@@ -180,10 +204,10 @@ public class InitService extends Service {
         return new InitServiceBinder();
     }
 
-    public void setWiFiRecevieListener(MainActivity.OnWiFiRecevieListener onWiFiRecevieListener){
+    public void setWiFiRecevieListener(MainActivity.OnWiFiRecevieListener onWiFiRecevieListener) {
         this.mOnWiFiRecevieListener = onWiFiRecevieListener;
-        if(onWiFiRecevieListener != null){
-            if(isRemainResult){
+        if (onWiFiRecevieListener != null) {
+            if (isRemainResult) {
                 mOnWiFiRecevieListener.onWifiStatusResult(remainWifiIsEnable);
                 mOnWiFiRecevieListener.onThisDeviceChangeResult(remainWifiP2pDevice);
                 isRemainResult = false;
@@ -196,8 +220,8 @@ public class InitService extends Service {
         super.onDestroy();
         unregisterReceiver(mWiFiDirectBroadcastRecevier);
 
-        if(isGroupOwner){
-            if(mServerSocketThread != null){
+        if (isGroupOwner) {
+            if (mServerSocketThread != null) {
                 try {
                     mServerSocket.close();
                     mServerSocketThread.join();
@@ -216,54 +240,54 @@ public class InitService extends Service {
 
     }
 
-    public void setIsWifiEnable(boolean isWifiEnable){
+    public void setIsWifiEnable(boolean isWifiEnable) {
         isWifiP2pEnable = isWifiEnable;
-        if(isRemainResult){
+        if (isRemainResult) {
             remainWifiIsEnable = isWifiEnable;
         }
-        if(mOnWiFiRecevieListener != null){
+        if (mOnWiFiRecevieListener != null) {
             mOnWiFiRecevieListener.onWifiStatusResult(isWifiEnable);
         }
 
-        if(!isWifiEnable){
-            if (isGroupOwner){
+        if (!isWifiEnable) {
+            if (isGroupOwner) {
                 //TODO close service
 
             }
         }
     }
 
-    public void requestPeers(){
-        if(mOnWiFiRecevieListener != null){
+    public void requestPeers() {
+        if (mOnWiFiRecevieListener != null) {
             mOnWiFiRecevieListener.onPeersSearchResult();
         }
     }
 
-    public void onNetWorkInfo(NetworkInfo networkInfo){
-        if(mOnWiFiRecevieListener != null){
+    public void onNetWorkInfo(NetworkInfo networkInfo) {
+        if (mOnWiFiRecevieListener != null) {
             mOnWiFiRecevieListener.onConnectionChangeResult(networkInfo);
         }
     }
 
-    public void onWifiStateChange(WifiP2pDevice thisDevice){
-        if(isRemainResult){
+    public void onWifiStateChange(WifiP2pDevice thisDevice) {
+        if (isRemainResult) {
             remainWifiP2pDevice = thisDevice;
         }
-        if(mOnWiFiRecevieListener != null){
+        if (mOnWiFiRecevieListener != null) {
             mOnWiFiRecevieListener.onThisDeviceChangeResult(thisDevice);
         }
     }
 
-    public boolean getIsBackgroudExecute(){
+    public boolean getIsBackgroudExecute() {
         return isBackgroudExecute;
     }
 
-    public void setIsBackgroudExecute(boolean isBackgroudExecute){
+    public void setIsBackgroudExecute(boolean isBackgroudExecute) {
         this.isBackgroudExecute = isBackgroudExecute;
     }
 
-    public boolean isShareScreenScreen() {
-        return isShareScreenScreen;
+    public boolean isShareScreen() {
+        return isShareScreen;
     }
 
     public OpenScreenDialog getOpenScreenDialog() {
@@ -274,8 +298,8 @@ public class InitService extends Service {
         this.mOpenScreenDialog = openScreenDialog;
     }
 
-    public void setShareScreenScreen(boolean shareScreenScreen) {
-        isShareScreenScreen = shareScreenScreen;
+    public void setShareScreen(boolean shareScreen) {
+        isShareScreen = shareScreen;
     }
 
     public boolean isWifiP2pEnable() {
@@ -286,18 +310,31 @@ public class InitService extends Service {
         isGroupOwner = groupOwner;
     }
 
-    public ArrayList<FileProperty> getSharedFileList(){
+    public void setmWifiP2pManager(WifiP2pManager mWifiP2pManager) {
+        this.mWifiP2pManager = mWifiP2pManager;
+    }
+
+    public void setmChannel(WifiP2pManager.Channel mChannel) {
+        this.mChannel = mChannel;
+    }
+
+    public void setmHolderContext(MainActivity mHolderContext) {
+        this.mHolderContext = mHolderContext;
+    }
+
+    public ArrayList<FileProperty> getSharedFileList() {
         return mSharedListData;
     }
 
-    public void restoreSharedFileList(ArrayList<FileProperty> fileList){
+    public void restoreSharedFileList(ArrayList<FileProperty> fileList) {
         mSharedListData.clear();
         mSharedListData.addAll(fileList);
     }
 
     public class HandleClientRequestThread implements Runnable {
         private Socket clientSocket;
-        public HandleClientRequestThread(Socket socket){
+
+        public HandleClientRequestThread(Socket socket) {
             this.clientSocket = socket;
             new Thread(this).start();
         }
@@ -308,32 +345,32 @@ public class InitService extends Service {
                 InputStream inputStream = clientSocket.getInputStream();
                 ByteArrayOutputStream baos = new ByteArrayOutputStream();
                 byte[] by = new byte[1024];
-                int n ;
-                while((n=inputStream.read(by))!=-1){
-                    baos.write(by,0,n);
+                int n;
+                while ((n = inputStream.read(by)) != -1) {
+                    baos.write(by, 0, n);
                 }
                 baos.close();
 
                 // 处理客户端数据
-                Log.d("testtest", "run: --------->"+baos.toString());
-                JSONObject jsonObject=new JSONObject(baos.toString());
+                Log.d("testtest", "run: --------->" + baos.toString());
+                JSONObject jsonObject = new JSONObject(baos.toString());
 
                 int optionNum = jsonObject.getInt(REQUEST_FLAG);//标记动作
-                switch (optionNum){
+                switch (optionNum) {
                     case REQUEST_SHARED_FILE:
                         JSONArray jsonArray = new JSONArray();
                         ArrayList<FileProperty> sharedFileList = SharedFileOperation.getSharedFileList();
-                        for(int i = 0;i < sharedFileList.size();i++){
+                        for (int i = 0; i < sharedFileList.size(); i++) {
                             FileProperty temp = sharedFileList.get(i);
                             JSONObject jsonObjectSend = new JSONObject();
-                            jsonObjectSend.put(FileProperty.NAME_KEY,temp.getFileName());
-                            jsonObjectSend.put(FileProperty.PATH_KEY,temp.getFilePath());
-                            jsonObjectSend.put(FileProperty.SIZE_KEY,temp.getFileSize());
-                            jsonObjectSend.put(FileProperty.ICON_KEY,temp.getIconSrcID());
+                            jsonObjectSend.put(FileProperty.NAME_KEY, temp.getFileName());
+                            jsonObjectSend.put(FileProperty.PATH_KEY, temp.getFilePath());
+                            jsonObjectSend.put(FileProperty.SIZE_KEY, temp.getFileSize());
+                            jsonObjectSend.put(FileProperty.ICON_KEY, temp.getIconSrcID());
                             jsonArray.put(jsonObjectSend);
                         }
                         OutputStream fileListOutputStream = clientSocket.getOutputStream();
-                        Log.d("testtest", "run: --------->"+jsonArray.toString());
+                        Log.d("testtest", "run: --------->" + jsonArray.toString());
                         fileListOutputStream.write(jsonArray.toString().getBytes());
                         fileListOutputStream.flush();
                         fileListOutputStream.close();
@@ -344,14 +381,14 @@ public class InitService extends Service {
                         String targetFilePath = jsonObject.getString(SHARED_FILE_PATH);//标记动作
                         OutputStream fileOutputStream = clientSocket.getOutputStream();
                         InputStream fileInputStream = null;
-                        try{
+                        try {
                             fileInputStream = new FileInputStream(targetFilePath);
-                        }catch (FileNotFoundException e){
+                        } catch (FileNotFoundException e) {
                             Log.e(TAG, "onHandleIntent: FileNotFoundException");
                             fileOutputStream.close();
                             clientSocket.shutdownOutput();
                         }
-                        copyFile(fileInputStream,fileOutputStream);
+                        copyFile(fileInputStream, fileOutputStream);
                         fileOutputStream.flush();
 //                        clientSocket.shutdownOutput();
                         break;
@@ -361,7 +398,7 @@ public class InitService extends Service {
                     case REQUEST_SHARE_SCREEN:
                         JSONObject resultJsonObject = new JSONObject();
                         boolean isShareScreen = SharedFileOperation.getIsShareScreen();
-                        resultJsonObject.put(SHARE_SCREEN_FALG,isShareScreen);
+                        resultJsonObject.put(SHARE_SCREEN_FALG, isShareScreen);
                         OutputStream resultOutputStream = clientSocket.getOutputStream();
                         resultOutputStream.write(resultJsonObject.toString().getBytes());
                         resultOutputStream.flush();
@@ -371,28 +408,81 @@ public class InitService extends Service {
                 inputStream.close();
 
             } catch (Exception e) {
-                Log.e("testtest", "run: "+e.getMessage());
+                Log.e("testtest", "run: " + e.getMessage());
                 e.printStackTrace();
             }
         }
     }
 
 
-    public static boolean copyFile(InputStream inputStream,OutputStream outputStream){
+    public static boolean copyFile(InputStream inputStream, OutputStream outputStream) {
         byte buf[] = new byte[1024];
 
         int len;
-        try{
-            while((len = inputStream.read(buf)) != -1){
-                outputStream.write(buf,0,len);
+        try {
+            while ((len = inputStream.read(buf)) != -1) {
+                outputStream.write(buf, 0, len);
             }
             outputStream.close();
             inputStream.close();
-        }catch (IOException e){
-            Log.e(TAG, "copyFile: "+e.getMessage());
+        } catch (IOException e) {
+            Log.e(TAG, "copyFile: " + e.getMessage());
             return false;
         }
         return true;
     }
 
+    public class NotificationClickReceiver extends BroadcastReceiver
+    {
+
+        @Override
+        public void onReceive(Context context, Intent intent) {
+
+            if(intent.getAction().compareTo(BROADCAST_FILTER)==0)
+            {
+                switch (intent.getIntExtra(BROADCAST_FLAG_KEY,-1))
+                {
+                    case BROADCAST_LAUNCH_VALUE:
+                        if(isBackgroudExecute){
+                            Intent i=new Intent(InitService.this,MainActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            InitService.this.startActivity(i);
+                        }
+
+                        break;
+                    case BROADCAST_CONCEL_VALUE:
+                        if (mWifiP2pManager != null) {
+                            mWifiP2pManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
+                                @Override
+                                public void onSuccess() {
+                                    isGroupOwner = false;
+                                    closeShareScreen();
+                                    stopService(new Intent(InitService.this,InitService.class));
+                                    mHolderContext.finish();
+                                    InitService.this.stopForeground(true);
+                                }
+
+                                @Override
+                                public void onFailure(int reason) {
+                                }
+                            });
+                        }
+                        break;
+                }
+            }
+        }
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    private void closeShareScreen() {
+        if(mOpenScreenDialog != null){
+            mOpenScreenDialog.getMediaProjection().stop();
+        }
+
+        if (isShareScreen) {
+            isShareScreen = false;
+            stopService(new Intent(this, RtspServer.class));
+            SharedFileOperation.setIsShareScreen(false);
+        }
+    }
 }

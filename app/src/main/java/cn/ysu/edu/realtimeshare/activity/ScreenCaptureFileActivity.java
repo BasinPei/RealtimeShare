@@ -8,6 +8,7 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,6 +29,7 @@ public class ScreenCaptureFileActivity extends AppCompatActivity {
     private FileItemScanAdapter mAdapter;
 
     ListView lv_screenCaptureFile;
+    TextView tv_noneFileTip;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -56,11 +58,14 @@ public class ScreenCaptureFileActivity extends AppCompatActivity {
             }
         }
         mAdapter.resetData(mListData);
+        if(mListData.size() == 0){
+            tv_noneFileTip.setVisibility(View.VISIBLE);
+        }
 
     }
 
     private void initView() {
-
+        tv_noneFileTip = (TextView) findViewById(R.id.none_recordscreen_file_tip);
         lv_screenCaptureFile = (ListView) findViewById(R.id.screen_capture_file_list);
         lv_screenCaptureFile.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
