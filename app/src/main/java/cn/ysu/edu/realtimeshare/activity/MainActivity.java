@@ -262,7 +262,12 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 @Override
                 public void onGroupInfoAvailable(WifiP2pGroup group) {
                     ArrayList<WifiP2pDevice> connectedDevices = new ArrayList<>();
-                    connectedDevices.addAll(group.getClientList());
+                    if(group != null){
+                        connectedDevices.addAll(group.getClientList());
+                    }else {
+                        connectedDevices.addAll(new ArrayList<WifiP2pDevice>());
+                    }
+
                     mLocalDeviceFragment.updateConnectedDevices(connectedDevices);
                 }
             });

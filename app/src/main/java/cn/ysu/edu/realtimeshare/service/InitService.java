@@ -251,14 +251,13 @@ public class InitService extends Service {
         }
         if (mOnWiFiRecevieListener != null) {
             mOnWiFiRecevieListener.onWifiStatusResult(isWifiEnable);
-        }
-
-        if (!isWifiEnable) {
-            if (isGroupOwner) {
-                //TODO close service 2017/05/20
+        }else {
+            if (!isWifiEnable) {
 
             }
         }
+
+
     }
 
     public void requestPeers() {
