@@ -119,7 +119,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         super.onPause();
         unbindService(mFileServiceConnection);
         unbindService(mRtspServerConnection);
-        //TODO setWifiManager
         mInitService.setmWifiP2pManager(mWifiP2pManager);
         mInitService.setmChannel(mChannel);
         mInitService.setShareScreen(isShareScreen);

@@ -33,7 +33,10 @@ import java.net.Socket;
 import java.util.ArrayList;
 
 import cn.ysu.edu.realtimeshare.R;
+import cn.ysu.edu.realtimeshare.activity.BaseExitActivity;
+import cn.ysu.edu.realtimeshare.activity.LaunchActivity;
 import cn.ysu.edu.realtimeshare.activity.MainActivity;
+import cn.ysu.edu.realtimeshare.activity.WelcomeActivity;
 import cn.ysu.edu.realtimeshare.file.bean.FileProperty;
 import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
 import cn.ysu.edu.realtimeshare.httpserver.http.HTTPServerList;
@@ -123,16 +126,16 @@ public class InitService extends Service {
 
         Intent notificationIntent = new Intent(BROADCAST_FILTER);
         notificationIntent.putExtra(BROADCAST_FLAG_KEY, BROADCAST_LAUNCH_VALUE);
-        PendingIntent launchPending = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent launchPending = PendingIntent.getBroadcast(this, 1, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteView.setOnClickPendingIntent(R.id.launch_application, launchPending);
 
         notificationIntent.putExtra(BROADCAST_FLAG_KEY, BROADCAST_CONCEL_VALUE);
-        PendingIntent closePending = PendingIntent.getBroadcast(this, (int) System.currentTimeMillis(), notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent closePending = PendingIntent.getBroadcast(this, 2 , notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
         remoteView.setOnClickPendingIntent(R.id.close_server, closePending);
 
         IntentFilter filter = new IntentFilter(BROADCAST_FILTER);
         mNotificationClickReceiver = new NotificationClickReceiver();
-        this.registerReceiver(mNotificationClickReceiver, filter);
+        registerReceiver(mNotificationClickReceiver, filter);
     }
 
     public void setStartForeground() {
@@ -219,6 +222,7 @@ public class InitService extends Service {
     public void onDestroy() {
         super.onDestroy();
         unregisterReceiver(mWiFiDirectBroadcastRecevier);
+        unregisterReceiver(mNotificationClickReceiver);
 
         if (isGroupOwner) {
             if (mServerSocketThread != null) {
@@ -251,7 +255,7 @@ public class InitService extends Service {
 
         if (!isWifiEnable) {
             if (isGroupOwner) {
-                //TODO close service
+                //TODO close service 2017/05/20
 
             }
         }
@@ -444,11 +448,10 @@ public class InitService extends Service {
                 {
                     case BROADCAST_LAUNCH_VALUE:
                         if(isBackgroudExecute){
-                            Intent i=new Intent(InitService.this,MainActivity.class);
-                            i.setFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT);
+                            Intent i=new Intent(InitService.this,WelcomeActivity.class);
+                            i.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                             InitService.this.startActivity(i);
                         }
-
                         break;
                     case BROADCAST_CONCEL_VALUE:
                         if (mWifiP2pManager != null) {
@@ -458,6 +461,10 @@ public class InitService extends Service {
                                     isGroupOwner = false;
                                     closeShareScreen();
                                     stopService(new Intent(InitService.this,InitService.class));
+                                    Intent intent = new Intent();
+                                    intent.setClass(mHolderContext, WelcomeActivity.class);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //注意本行的FLAG设置
+                                    mHolderContext.startActivity(intent);
                                     mHolderContext.finish();
                                     InitService.this.stopForeground(true);
                                 }
