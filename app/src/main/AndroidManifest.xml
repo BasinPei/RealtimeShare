@@ -31,6 +31,7 @@
 
         <activity android:name=".activity.WelcomeActivity"
             android:theme="@style/AppWelcome"
+            android:screenOrientation="portrait"
             android:launchMode="singleTop">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -40,26 +41,32 @@
         </activity>
 
         <activity android:name=".activity.LaunchActivity"
+            android:screenOrientation="portrait"
             android:theme="@style/AppWelcome"/>
 
-        <activity android:name=".activity.MainActivity"/>
+        <activity android:name=".activity.MainActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".activity.FileAddActivity"/>
+        <activity android:name=".activity.FileAddActivity"
+            android:screenOrientation="portrait"/>
         <activity
             android:name=".activity.FileListByTypeActivity"
-            android:parentActivityName=".activity.FileAddActivity" >
+            android:parentActivityName=".activity.FileAddActivity"
+            android:screenOrientation="portrait">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.FileAddActivity" />
         </activity>
 
-        <activity android:name=".activity.LocalStorageActivity"/>
+        <activity android:name=".activity.LocalStorageActivity"
+            android:screenOrientation="portrait"/>
 
         <activity
             android:name=".activity.SharedFileListActivity"
             android:label="@string/file_shared_list"
-            android:parentActivityName=".activity.FileAddActivity" >
+            android:parentActivityName=".activity.FileAddActivity"
+            android:screenOrientation="portrait">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
@@ -68,16 +75,20 @@
 
 
 
-        <activity android:name=".activity.AccessResourceActivity"/>
-        <activity android:name=".activity.ScreenCaptureActivity"/>
+        <activity android:name=".activity.AccessResourceActivity"
+            android:screenOrientation="portrait"/>
+        <activity android:name=".activity.ScreenCaptureActivity"
+            android:screenOrientation="portrait"/>
         <activity android:name=".activity.VideoViewActivity"/>
         <activity android:name="io.vov.vitamio.activity.InitActivity"/>
-        <activity android:name=".activity.MediaPlayerActivity"/>
+        <activity android:name=".activity.MediaPlayerActivity"
+            android:screenOrientation="portrait"/>
             <!--android:configChanges="orientation|keyboardHidden|navigation"/>-->
 
         <activity
             android:name=".activity.ScreenCaptureFileActivity"
             android:label="@string/screen_capture_file_brows"
+            android:screenOrientation="portrait"
             android:parentActivityName=".activity.ScreenCaptureActivity" >
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data

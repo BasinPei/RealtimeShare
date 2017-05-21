@@ -291,6 +291,8 @@ public class HTTPSocket {
                 readSize = (chunkSize < (contentLength - readCnt)) ? chunkSize
                         : (contentLength - readCnt);
                 readLen = in.read(readBuf, 0, (int) readSize);
+                //add in 2017/05/21 By BasinPei
+                out.flush();
             }
 
 
