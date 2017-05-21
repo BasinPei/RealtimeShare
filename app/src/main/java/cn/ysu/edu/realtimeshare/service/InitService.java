@@ -474,10 +474,10 @@ public class InitService extends Service {
     private void closeServer(){
         isGroupOwner = false;
         closeShareScreen();
-        if(!isBackgroudExecute){
+//        if(!isBackgroudExecute){
             mHolderContext.setIsGroupOwner(false);
             mHolderContext.getLocalDeviceFragment().setCreateGroupSwitch(false);
-        }
+//        }
         stopService(new Intent(InitService.this,InitService.class));
         InitService.this.stopForeground(true);
     }
@@ -492,9 +492,9 @@ public class InitService extends Service {
             isShareScreen = false;
             stopService(new Intent(this, RtspServer.class));
             SharedFileOperation.setIsShareScreen(false);
-            if(!isBackgroudExecute){
+//            if(!isBackgroudExecute){
                 mHolderContext.getLocalDeviceFragment().setShareScreenSwitch(false);
-            }
+//            }
         }
     }
 }

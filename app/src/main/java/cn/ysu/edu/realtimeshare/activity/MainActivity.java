@@ -127,8 +127,10 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
     @Override
     protected void onPause() {
         super.onPause();
-        mInitService.setIsBackgroudExecute(true);
         mInitService.restoreSharedFileList(SharedFileOperation.getSharedFileList());
+        if(isGroupOwner){
+            mInitService.setIsBackgroudExecute(true);
+        }
     }
 
     private ServiceConnection mFileServiceConnection = new ServiceConnection() {
@@ -406,9 +408,10 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 try {
                     this.unbindService(mRtspServerConnection);
                 } catch (Exception e) {
+
                 }
 
-                this.stopService(new Intent(this, RtspServer.class));
+                stopService(new Intent(this, RtspServer.class));
                 SharedFileOperation.setIsShareScreen(false);
             }
         } else if (!mOpenScreenDialog.isOpen()) {
@@ -569,6 +572,8 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
                     }
                 });
+            }else {
+                mInitService.setIsBackgroudExecute(true);
             }
         }
     }
