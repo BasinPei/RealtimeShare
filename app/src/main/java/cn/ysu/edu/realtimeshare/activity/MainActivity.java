@@ -67,7 +67,11 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
         mFileServiceIntent = new Intent(MainActivity.this, InitService.class);
         mRtspServiceIntent = new Intent(MainActivity.this, RtspServer.class);
+
+        bindService(mFileServiceIntent, mFileServiceConnection, Context.BIND_AUTO_CREATE);
+        bindService(mRtspServiceIntent,mRtspServerConnection,Context.BIND_AUTO_CREATE);
         startService(mFileServiceIntent);
+
     }
 
     /**
@@ -86,6 +90,14 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
     public boolean getIsGroupOwner() {
         return isGroupOwner;
+    }
+
+    public void setIsGroupOwner(boolean isGroupOwner){
+        this.isGroupOwner = isGroupOwner;
+    }
+
+    public LocalDeviceFragment getLocalDeviceFragment(){
+        return mLocalDeviceFragment;
     }
 
     public boolean isBackExcute() {
@@ -110,19 +122,12 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
     @Override
     protected void onResume() {
         super.onResume();
-        bindService(mFileServiceIntent, mFileServiceConnection, Context.BIND_AUTO_CREATE);
-        bindService(mRtspServiceIntent,mRtspServerConnection,Context.BIND_AUTO_CREATE);
     }
 
     @Override
     protected void onPause() {
         super.onPause();
-        unbindService(mFileServiceConnection);
-        unbindService(mRtspServerConnection);
-        mInitService.setmWifiP2pManager(mWifiP2pManager);
-        mInitService.setmChannel(mChannel);
-        mInitService.setShareScreen(isShareScreen);
-        mInitService.setOpenScreenDialog(mOpenScreenDialog);
+        mInitService.setIsBackgroudExecute(true);
         mInitService.restoreSharedFileList(SharedFileOperation.getSharedFileList());
     }
 
@@ -131,10 +136,13 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
             mInitService = ((InitService.InitServiceBinder) iBinder).getInitService();
             mInitService.setmHolderContext(MainActivity.this);
+            mInitService.setmWifiP2pManager(mWifiP2pManager);
+            mInitService.setmChannel(mChannel);
             if (mInitService.getIsBackgroudExecute()) {
                 SharedFileOperation.getSharedFileList().clear();
                 SharedFileOperation.setSharedFileList(mInitService.getSharedFileList());
                 isBackExcute = true;
+                isGroupOwner = true;
                 isShareScreen = mInitService.isShareScreen();
                 isWifiP2pEnabled = mInitService.isWifiP2pEnable();
                 mOpenScreenDialog = mInitService.getOpenScreenDialog();
@@ -394,6 +402,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
             if (isShareScreen) {
                 isShareScreen = false;
+                mInitService.setShareScreen(isShareScreen);
                 try {
                     this.unbindService(mRtspServerConnection);
                 } catch (Exception e) {
@@ -412,14 +421,14 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
      */
     private boolean isShareScreen = false;
 
-    public RtspServer _rtspServer;
+    public RtspServer mRtspServer;
     private ServiceConnection mRtspServerConnection = new ServiceConnection() {
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
-            _rtspServer = ((RtspServer.LocalBinder) service).getService();
+            mRtspServer = ((RtspServer.LocalBinder) service).getService();
 
 
-            _rtspServer.addCallbackListener(new RtspServer.CallbackListener() {
+            mRtspServer.addCallbackListener(new RtspServer.CallbackListener() {
                 @Override
                 public void onError(RtspServer server, Exception e, final int error) {
                     runOnUiThread(new Runnable() {
@@ -459,6 +468,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
             if (isGroupOwner) {
                 //开始分享屏幕
                 mOpenScreenDialog = new OpenScreenDialog(this);
+                mInitService.setOpenScreenDialog(mOpenScreenDialog);
 
                 mOpenScreenDialog.show();
 
@@ -472,6 +482,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                             MainActivity.this.startService(mRtspServiceIntent);
                             switchCallBack.onSwithResult(true);
                             isShareScreen = true;
+                            mInitService.setShareScreen(isShareScreen);
                             SharedFileOperation.setIsShareScreen(true);
 
                         }
@@ -501,8 +512,8 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
         if (isShareScreen) {
             isShareScreen = false;
-            MainActivity.this.stopService(
-                    new Intent(MainActivity.this, RtspServer.class));
+            mInitService.setShareScreen(isShareScreen);
+            stopService(mRtspServiceIntent);
             SharedFileOperation.setIsShareScreen(false);
             mLocalDeviceFragment.setShareScreenSwitch(false);
         }
@@ -539,9 +550,9 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (isShareScreen) {
-            mRtspServerConnection = null;
-        }
+        unbindService(mFileServiceConnection);
+        unbindService(mRtspServerConnection);
+
         if (mInitService != null) {
             mInitService.setWiFiRecevieListener(null);
 
@@ -558,9 +569,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
                     }
                 });
-
-            } else {
-                mInitService.setIsBackgroudExecute(true);
             }
         }
     }

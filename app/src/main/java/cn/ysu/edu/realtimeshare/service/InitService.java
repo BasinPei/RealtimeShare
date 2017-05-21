@@ -221,6 +221,7 @@ public class InitService extends Service {
     @Override
     public void onDestroy() {
         super.onDestroy();
+        Log.d(TAG, "onDestroy: stopService");
         unregisterReceiver(mWiFiDirectBroadcastRecevier);
         unregisterReceiver(mNotificationClickReceiver);
 
@@ -228,7 +229,7 @@ public class InitService extends Service {
             if (mServerSocketThread != null) {
                 try {
                     mServerSocket.close();
-                    mServerSocketThread.join();
+                    mServerSocket = null;
                 } catch (Exception e) {
                 } finally {
                     mServerSocketThread = null;
@@ -249,15 +250,16 @@ public class InitService extends Service {
         if (isRemainResult) {
             remainWifiIsEnable = isWifiEnable;
         }
+
         if (mOnWiFiRecevieListener != null) {
             mOnWiFiRecevieListener.onWifiStatusResult(isWifiEnable);
-        }else {
-            if (!isWifiEnable) {
-
-            }
         }
 
-
+        if(isBackgroudExecute){
+            if (!isWifiEnable) {
+                closeServer();
+            }
+        }
     }
 
     public void requestPeers() {
@@ -355,7 +357,6 @@ public class InitService extends Service {
                 baos.close();
 
                 // 处理客户端数据
-                Log.d("testtest", "run: --------->" + baos.toString());
                 JSONObject jsonObject = new JSONObject(baos.toString());
 
                 int optionNum = jsonObject.getInt(REQUEST_FLAG);//标记动作
@@ -373,7 +374,6 @@ public class InitService extends Service {
                             jsonArray.put(jsonObjectSend);
                         }
                         OutputStream fileListOutputStream = clientSocket.getOutputStream();
-                        Log.d("testtest", "run: --------->" + jsonArray.toString());
                         fileListOutputStream.write(jsonArray.toString().getBytes());
                         fileListOutputStream.flush();
                         fileListOutputStream.close();
@@ -456,16 +456,8 @@ public class InitService extends Service {
                         if (mWifiP2pManager != null) {
                             mWifiP2pManager.removeGroup(mChannel, new WifiP2pManager.ActionListener() {
                                 @Override
-                                public void onSuccess() {
-                                    isGroupOwner = false;
-                                    closeShareScreen();
-                                    stopService(new Intent(InitService.this,InitService.class));
-                                    Intent intent = new Intent();
-                                    intent.setClass(mHolderContext, WelcomeActivity.class);
-                                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP); //注意本行的FLAG设置
-                                    mHolderContext.startActivity(intent);
-                                    mHolderContext.finish();
-                                    InitService.this.stopForeground(true);
+                                public void onSuccess(){
+                                    closeServer();
                                 }
 
                                 @Override
@@ -479,6 +471,17 @@ public class InitService extends Service {
         }
     }
 
+    private void closeServer(){
+        isGroupOwner = false;
+        closeShareScreen();
+        if(!isBackgroudExecute){
+            mHolderContext.setIsGroupOwner(false);
+            mHolderContext.getLocalDeviceFragment().setCreateGroupSwitch(false);
+        }
+        stopService(new Intent(InitService.this,InitService.class));
+        InitService.this.stopForeground(true);
+    }
+
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     private void closeShareScreen() {
         if(mOpenScreenDialog != null){
@@ -489,6 +492,9 @@ public class InitService extends Service {
             isShareScreen = false;
             stopService(new Intent(this, RtspServer.class));
             SharedFileOperation.setIsShareScreen(false);
+            if(!isBackgroudExecute){
+                mHolderContext.getLocalDeviceFragment().setShareScreenSwitch(false);
+            }
         }
     }
 }
