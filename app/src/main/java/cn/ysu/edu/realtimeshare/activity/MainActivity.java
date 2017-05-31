@@ -260,6 +260,7 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
 
     @Override
     public void disconnect() {
+        //TODO 2017/05/27 add disconnect logic
 
     }
 
@@ -303,7 +304,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                             mInitService.initServerSocket();
                             mInitService.setGroupOwner(true);
                             mInitService.setStartForeground();
-//                            mInitService.notifyNotification();
                             switchCallBack.onSwithResult(true);
                         }
 
@@ -429,8 +429,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
         @Override
         public void onServiceConnected(ComponentName name, IBinder service) {
             mRtspServer = ((RtspServer.LocalBinder) service).getService();
-
-
             mRtspServer.addCallbackListener(new RtspServer.CallbackListener() {
                 @Override
                 public void onError(RtspServer server, Exception e, final int error) {

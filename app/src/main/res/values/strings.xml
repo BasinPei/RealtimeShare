@@ -29,9 +29,8 @@
     <string name="nearby_none_avaliable_devices">无可连接的服务群组设备</string>
     <string name="nearby_searching_peers">搜索设备...</string>
 
-    <string name="settings_settings">设置</string>
     <string name="settings_device_name">我的设备名称</string>
-    <string name="settings_manage_shared_files">管理分享文件</string>
+    <string name="settings_manage_shared_files">查看分享文件</string>
     <string name="settings_tools">工具</string>
     <string name="settings_tool_screen_capture">录屏助手</string>
     <string name="settings_others">其他</string>
@@ -61,6 +60,7 @@
     <string name="search_loading">加载中...</string>
     <string name="access_resource_share_screen">屏幕共享</string>
     <string name="access_resource_connected_device_screen">获取连接设备的屏幕</string>
+    <string name="access_none_screen_tip">当前连接设备未开启屏幕分享</string>
     <string name="access_resource_connected_device_files">获取连接设备的分享文件</string>
 
     <string name="device_state_available">可用</string>

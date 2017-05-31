@@ -14,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import cn.ysu.edu.realtimeshare.R;
+import cn.ysu.edu.realtimeshare.activity.ManageShareFileActivity;
 import cn.ysu.edu.realtimeshare.activity.ScreenCaptureActivity;
 
 /**
@@ -27,6 +28,7 @@ public class MineSettingsFragment extends Fragment {
     TextView tv_deviceName;
 
     LinearLayout screenCaptureAction;
+    LinearLayout manageShareFile;
 
 
     @Nullable
@@ -53,6 +55,14 @@ public class MineSettingsFragment extends Fragment {
                     Intent startScreenCaptureIntent = new Intent(getActivity(),ScreenCaptureActivity.class);
                     startActivity(startScreenCaptureIntent);
                 }
+            }
+        });
+
+        manageShareFile = (LinearLayout) mContentView.findViewById(R.id.settings_manage_share_file);
+        manageShareFile.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(getActivity(), ManageShareFileActivity.class));
             }
         });
     }

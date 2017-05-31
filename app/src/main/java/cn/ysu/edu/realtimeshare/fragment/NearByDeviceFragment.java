@@ -104,6 +104,8 @@ public class NearByDeviceFragment extends Fragment implements WifiP2pManager.Pee
                     public void onClick(DialogInterface dialog, int which) {
                         if(((MainActivity)getActivity()).getIsGroupOwner()){
                             //提示当前设备是服务设备，是否关闭当前群组
+                            //TODO 2017/05/27
+
 
                         }else{
                             //与选择的设备连接
@@ -259,6 +261,7 @@ public class NearByDeviceFragment extends Fragment implements WifiP2pManager.Pee
     {
         void connect(WifiP2pConfig config);
 
+        //TODO 2017/05/27 call this when disconnect with GO device
         void disconnect();
     }
 }

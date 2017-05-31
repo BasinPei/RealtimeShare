@@ -28,9 +28,8 @@
     <string name="nearby_none_avaliable_devices">None Avaliable Group Owner Devices</string>
     <string name="nearby_searching_peers">Searching Peers...</string>
 
-    <string name="settings_settings">Settings</string>
     <string name="settings_device_name">"My Device Name</string>
-    <string name="settings_manage_shared_files">Manage Shared Files</string>
+    <string name="settings_manage_shared_files">Scan Shared Files</string>
     <string name="settings_tools">Tool</string>
     <string name="settings_tool_screen_capture">Screen Capture</string>
     <string name="settings_others">Others</string>
@@ -59,6 +58,7 @@
     <string name="search_loading">Loading...</string>
     <string name="access_resource_share_screen">Share Screen</string>
     <string name="access_resource_connected_device_screen">Access Connected Device Screen</string>
+    <!--<string name="access_none_screen_tip">The Connected Device didn't open Screen Share!</string>-->
     <string name="access_resource_connected_device_files">Access Connected Device Shared Files</string>
 
     <string name="device_state_available">Available</string>

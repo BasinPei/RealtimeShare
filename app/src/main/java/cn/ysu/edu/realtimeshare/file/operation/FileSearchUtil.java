@@ -17,74 +17,64 @@ import java.util.ArrayList;
 public class FileSearchUtil {
     public static final String TAG = "FileSearchUtil";
 
-    public static ArrayList<File> getAllMediaFile(String filterRootPath,Context context, ISearch search)
-    {
+    public static ArrayList<File> getAllMediaFile(String filterRootPath, Context context, ISearch search) {
 
-        String linkType=" like '%.mp4'"+" or _data like '%.wmv'";
-        linkType+=" or _data like '%.avi' or _data like '%.rmvb'"+" or _data like '%.mkv' or _data like '%.3gp'";
-        return searchFilesByType(filterRootPath,context,linkType,search);
+        String linkType = " like '%.mp4'" + " or _data like '%.wmv'";
+        linkType += " or _data like '%.avi' or _data like '%.rmvb'" + " or _data like '%.mkv' or _data like '%.3gp'";
+        return searchFilesByType(filterRootPath, context, linkType, search);
     }
 
-    public static ArrayList<File> getAllMusicFile(String filterRootPath,Context context,ISearch search)
-    {
-        String linkType=" like '%.mp3' or _data like '%.wav'or _data like '%.m4a' or _data like '%.mid' or _data like '%.xmf' or _data like '%.ogg'";
-        return searchFilesByType(filterRootPath,context,linkType,search);
+    public static ArrayList<File> getAllMusicFile(String filterRootPath, Context context, ISearch search) {
+        String linkType = " like '%.mp3' or _data like '%.wav'or _data like '%.m4a' or _data like '%.mid' or _data like '%.xmf' or _data like '%.ogg'";
+        return searchFilesByType(filterRootPath, context, linkType, search);
     }
 
-    public static ArrayList<File> getAllApkFile(String filterRootPath,Context context,ISearch search)
-    {
-        String linkType=" like '%.apk'";
-        return searchFilesByType(filterRootPath,context,linkType,search);
+    public static ArrayList<File> getAllApkFile(String filterRootPath, Context context, ISearch search) {
+        String linkType = " like '%.apk'";
+        return searchFilesByType(filterRootPath, context, linkType, search);
     }
 
 
-    public static ArrayList<File> getAllImageFile(String filterRootPath,Context context,ISearch search)
-    {
-        String linkType=" like '%.jpg' or _data like '%.png' or _data like '%.gif' or _data like '%.jpeg' or _data like '%.bmp'";
-        return searchFilesByType(filterRootPath,context,linkType,search);
+    public static ArrayList<File> getAllImageFile(String filterRootPath, Context context, ISearch search) {
+        String linkType = " like '%.jpg' or _data like '%.png' or _data like '%.gif' or _data like '%.jpeg' or _data like '%.bmp'";
+        return searchFilesByType(filterRootPath, context, linkType, search);
     }
 
-    public static ArrayList<File> getAllDocFile(String filterRootPath,Context context,ISearch search)
-    {
-        String linkType=" like '%.txt' or _data like '%.doc' or _data like '%.ppt' or _data like '%.html' or _data like '%.xls' or _data like '%.pdf'";
-        return searchFilesByType(filterRootPath,context,linkType,search);
+    public static ArrayList<File> getAllDocFile(String filterRootPath, Context context, ISearch search) {
+        String linkType = " like '%.txt' or _data like '%.doc' or _data like '%.ppt' or _data like '%.html' or _data like '%.xls' or _data like '%.pdf'";
+        return searchFilesByType(filterRootPath, context, linkType, search);
     }
 
-    public static ArrayList<File> getAllRarFile(String filterRootPath,Context context,ISearch search)
-    {
-        String linkType=" like '%.rar' or _data like '%.zip' or _data like '%.gzip' or _data like '%.bz2'" +
+    public static ArrayList<File> getAllRarFile(String filterRootPath, Context context, ISearch search) {
+        String linkType = " like '%.rar' or _data like '%.zip' or _data like '%.gzip' or _data like '%.bz2'" +
                 " or _data like '%7-zip'";
-        return searchFilesByType(filterRootPath,context,linkType,search);
+        return searchFilesByType(filterRootPath, context, linkType, search);
     }
 
-    public static ArrayList<File> searchFilesByType(String filterRootPath,Context context,String linkType,ISearch search)
-    {
+    public static ArrayList<File> searchFilesByType(String filterRootPath, Context context, String linkType, ISearch search) {
 
-        ArrayList<File> fileList=new ArrayList<>();
-        ContentResolver cr=context.getContentResolver();
-        if(cr!=null)
-        {
-            Uri uri= android.provider.MediaStore.Files.getContentUri("external");
-            Cursor c=cr.query(uri,new String[]{
+        ArrayList<File> fileList = new ArrayList<>();
+        ContentResolver cr = context.getContentResolver();
+        if (cr != null) {
+            Uri uri = android.provider.MediaStore.Files.getContentUri("external");
+            Cursor c = cr.query(uri, new String[]{
                             android.provider.MediaStore.Files.FileColumns.DATA,
                             android.provider.MediaStore.Files.FileColumns.SIZE},
-                    android.provider.MediaStore.Files.FileColumns.DATA+linkType,null,null);
+                    android.provider.MediaStore.Files.FileColumns.DATA + linkType, null, null);
 
-            if(c!=null)
-            {
+            if (c != null) {
                 c.moveToFirst();
-                while (!c.isAfterLast())
-                {
-                    String filePath=c.getString(
+                while (!c.isAfterLast()) {
+                    String filePath = c.getString(
                             c.getColumnIndex(android.provider.MediaStore
                                     .Files.FileColumns.DATA));
-                    if(filePath==null)
+                    if (filePath == null)
                         continue;
-                    if(filePath.startsWith(filterRootPath)){
-                        File f=new File(filePath);
+                    if (filePath.startsWith(filterRootPath)) {
+                        File f = new File(filePath);
                         fileList.add(f);
 
-                        if(search!=null)
+                        if (search != null)
                             search.search(f);
                     }
                     c.moveToNext();
@@ -95,8 +85,7 @@ public class FileSearchUtil {
         return fileList;
     }
 
-    public interface ISearch
-    {
+    public interface ISearch {
         void search(File file);
     }
 

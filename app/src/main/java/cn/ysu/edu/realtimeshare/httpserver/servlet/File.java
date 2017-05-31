@@ -22,58 +22,40 @@ public class File implements ServletBase{
 
     @Override
     public void doGet(HTTPRequest httpReq, HTTPResponse res) {
-
         String uri=httpReq.getURI();
         String filePaths = uri.substring(5);
         int indexOf = filePaths.indexOf("&");
-
-        if (indexOf != -1)
-        {
+        if (indexOf != -1){
             filePaths = filePaths.substring(0, indexOf);
         }
-
-        if(filePaths.startsWith("/"))
+        if(filePaths.startsWith("/")){
             filePaths=filePaths.substring(1);
-
-        try
-        {
+        }
+        try{
             int index=filePaths.indexOf("/");
-            if(index>=0)
-            {
+            if(index>=0){
                 filePaths=filePaths.substring(index+1);
             }
-
             filePaths=filePaths.substring(0, filePaths.indexOf("."));
-        }catch (IndexOutOfBoundsException e)
-        {
+        }catch (IndexOutOfBoundsException e){
             httpReq.returnBadRequest();
             return;
         }
-
-
-        try
-        {
+        try{
             filePaths=getFilePathByHash(Integer.valueOf(filePaths));
-        }catch (Exception e)
-        {
+        }catch (Exception e){
             e.printStackTrace();
             httpReq.returnBadRequest();
             return;
         }
 
-        try
-        {
+        try{
             java.io.File file = new java.io.File(filePaths);
-
             long contentLen = file.length();
-
             String contentType = FileUtil.getFileType(filePaths);
-
             FileInputStream contentIn = new FileInputStream(file);
-
             if (contentLen <= 0 || contentType.length() <= 0
-                    || contentIn == null)
-            {
+                    || contentIn == null){
                 httpReq.returnBadRequest();
                 return ;
             }
@@ -83,9 +65,7 @@ public class File implements ServletBase{
             httpRes.setStatusCode(HTTPStatus.OK);
             httpRes.setContentLength(contentLen);
             httpRes.setContentInputStream(contentIn);
-
             httpReq.post(httpRes);
-
             contentIn.close();
         }
         catch (MalformedURLException e)

@@ -71,7 +71,6 @@ public class AccessResourceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_access_resource);
         mConnectedWifiInfo = getIntent().getParcelableExtra(EXTRA_WIFI_INFO_FALG);
         initView();
-
     }
 
     private void initView() {
@@ -399,7 +398,7 @@ public class AccessResourceActivity extends AppCompatActivity {
         protected void onPostExecute(Boolean isShareScreen) {
             progressDialog.dismiss();
             if (!isShareScreen) {//主机没有分享屏幕
-                Toast.makeText(AccessResourceActivity.this, "false", Toast.LENGTH_SHORT).show();
+                Toast.makeText(AccessResourceActivity.this, R.string.access_none_screen_tip, Toast.LENGTH_SHORT).show();
             } else {//主机分享屏幕，获得rtsp路径
                 String urlPath = "rtsp://" + mConnectedWifiInfo.groupOwnerAddress.getHostAddress() + ":" + RtspServer.DEFAULT_RTSP_PORT;
 

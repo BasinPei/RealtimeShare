@@ -20,12 +20,12 @@
         "source": "E:\\soft-en\\Java\\AndroidStudio\\WorkSpace\\RealtimeShare\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\ic_launcher.png"
     },
     {
-        "merged": "E:\\soft-en\\Java\\AndroidStudio\\WorkSpace\\RealtimeShare\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\mediacontroller_pause.png",
-        "source": "E:\\soft-en\\Java\\AndroidStudio\\WorkSpace\\RealtimeShare\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\mediacontroller_pause.png"
-    },
-    {
         "merged": "E:\\soft-en\\Java\\AndroidStudio\\WorkSpace\\RealtimeShare\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\scrubber_control_focused_holo.png",
         "source": "E:\\soft-en\\Java\\AndroidStudio\\WorkSpace\\RealtimeShare\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\scrubber_control_focused_holo.png"
+    },
+    {
+        "merged": "E:\\soft-en\\Java\\AndroidStudio\\WorkSpace\\RealtimeShare\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\mediacontroller_pause.png",
+        "source": "E:\\soft-en\\Java\\AndroidStudio\\WorkSpace\\RealtimeShare\\vitamio\\build\\intermediates\\bundles\\debug\\res\\drawable-xhdpi-v4\\mediacontroller_pause.png"
     },
     {
         "merged": "E:\\soft-en\\Java\\AndroidStudio\\WorkSpace\\RealtimeShare\\vitamio\\build\\intermediates\\res\\merged\\androidTest\\debug\\drawable-xhdpi-v4\\mediacontroller_play.png",

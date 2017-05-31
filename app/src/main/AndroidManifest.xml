@@ -2,15 +2,15 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="cn.ysu.edu.realtimeshare">
 
-    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE"/>
-    <uses-permission android:name="android.permission.WAKE_LOCK"/>
-    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.INTERNET"/>
-    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
-    <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
-    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE"/>
-    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE"/>
+    <uses-permission android:name="android.permission.ACCESS_WIFI_STATE" />
+    <uses-permission android:name="android.permission.CHANGE_WIFI_STATE" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="android.permission.CHANGE_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.READ_PHONE_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
 
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.CAPTURE_AUDIO_OUTPUT" />
@@ -20,7 +20,9 @@
 
 
     <!--Market filtering-->
-    <uses-feature android:name="android.hardware.wifi.direct" android:required="true"/>
+    <uses-feature
+        android:name="android.hardware.wifi.direct"
+        android:required="true" />
 
     <application
         android:allowBackup="true"
@@ -29,10 +31,11 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
 
-        <activity android:name=".activity.WelcomeActivity"
-            android:theme="@style/AppWelcome"
+        <activity
+            android:name=".activity.WelcomeActivity"
+            android:launchMode="singleTop"
             android:screenOrientation="portrait"
-            android:launchMode="singleTop">
+            android:theme="@style/AppWelcome">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -40,15 +43,18 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".activity.LaunchActivity"
+        <activity
+            android:name=".activity.LaunchActivity"
             android:screenOrientation="portrait"
-            android:theme="@style/AppWelcome"/>
+            android:theme="@style/AppWelcome" />
 
-        <activity android:name=".activity.MainActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.MainActivity"
+            android:screenOrientation="portrait" />
 
-        <activity android:name=".activity.FileAddActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.FileAddActivity"
+            android:screenOrientation="portrait" />
         <activity
             android:name=".activity.FileListByTypeActivity"
             android:parentActivityName=".activity.FileAddActivity"
@@ -59,8 +65,9 @@
                 android:value=".activity.FileAddActivity" />
         </activity>
 
-        <activity android:name=".activity.LocalStorageActivity"
-            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".activity.LocalStorageActivity"
+            android:screenOrientation="portrait" />
 
         <activity
             android:name=".activity.SharedFileListActivity"
@@ -74,34 +81,41 @@
         </activity>
 
 
-
-        <activity android:name=".activity.AccessResourceActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.ScreenCaptureActivity"
-            android:screenOrientation="portrait"/>
-        <activity android:name=".activity.VideoViewActivity"/>
-        <activity android:name="io.vov.vitamio.activity.InitActivity"/>
-        <activity android:name=".activity.MediaPlayerActivity"
-            android:screenOrientation="portrait"/>
-            <!--android:configChanges="orientation|keyboardHidden|navigation"/>-->
+        <activity
+            android:name=".activity.AccessResourceActivity"
+            android:screenOrientation="portrait" />
+        <activity
+            android:name=".activity.ScreenCaptureActivity"
+            android:screenOrientation="portrait" />
+        <activity android:name=".activity.VideoViewActivity" />
+        <activity android:name="io.vov.vitamio.activity.InitActivity" />
+        <activity
+            android:name=".activity.MediaPlayerActivity"
+            android:screenOrientation="portrait" />
+        <!--android:configChanges="orientation|keyboardHidden|navigation"/>-->
 
         <activity
             android:name=".activity.ScreenCaptureFileActivity"
             android:label="@string/screen_capture_file_brows"
-            android:screenOrientation="portrait"
-            android:parentActivityName=".activity.ScreenCaptureActivity" >
+            android:parentActivityName=".activity.ScreenCaptureActivity"
+            android:screenOrientation="portrait">
             <!-- Parent activity meta-data to support 4.0 and lower -->
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".activity.FileAddActivity" />
         </activity>
 
+        <activity
+            android:name=".activity.ManageShareFileActivity"
+            android:label="@string/settings_manage_shared_files"
+            android:screenOrientation="portrait">
+        </activity>
 
-        <service android:name=".service.InitService"/>
-        <service android:name=".screenreplay.service.ScreenRecorderService"/>
-        <service android:name=".httpserver.service.PlayFileService"/>
-        <service android:name=".httpserver.service.HttpFileService"/>
-        <service android:name=".librtsp.rtsp.RtspServer"/>
+        <service android:name=".service.InitService" />
+        <service android:name=".screenreplay.service.ScreenRecorderService" />
+        <service android:name=".httpserver.service.PlayFileService" />
+        <service android:name=".httpserver.service.HttpFileService" />
+        <service android:name=".librtsp.rtsp.RtspServer" />
 
 
     </application>

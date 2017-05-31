@@ -164,7 +164,6 @@ public class FileListByTypeActivity extends AppCompatActivity {
                         mSearchListData.addAll(FileSearchUtil.getAllMediaFile(rootPath,FileListByTypeActivity.this, new FileSearchUtil.ISearch() {
                             @Override
                             public void search(File file) {
-                                //callback for file
                             }
                         }));
                         break;
@@ -172,7 +171,6 @@ public class FileListByTypeActivity extends AppCompatActivity {
                         mSearchListData.addAll(FileSearchUtil.getAllMusicFile(rootPath,FileListByTypeActivity.this, new FileSearchUtil.ISearch() {
                             @Override
                             public void search(File file) {
-
                             }
                         }));
                         break;
@@ -180,7 +178,6 @@ public class FileListByTypeActivity extends AppCompatActivity {
                         mSearchListData.addAll(FileSearchUtil.getAllImageFile(rootPath,FileListByTypeActivity.this, new FileSearchUtil.ISearch() {
                             @Override
                             public void search(File file) {
-
                             }
                         }));
                         break;
