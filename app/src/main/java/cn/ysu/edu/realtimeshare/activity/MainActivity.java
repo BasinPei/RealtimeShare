@@ -283,7 +283,6 @@ public class MainActivity extends BaseExitActivity implements NearByDeviceFragme
                 }
             });
         }
-
     }
 
     /**

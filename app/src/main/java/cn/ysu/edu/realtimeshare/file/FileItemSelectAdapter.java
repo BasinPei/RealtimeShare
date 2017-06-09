@@ -23,10 +23,10 @@ import cn.ysu.edu.realtimeshare.file.operation.SharedFileOperation;
  * Created by BasinPei on 2017/4/16.
  */
 
-public class FileItemSelectAdapter extends FileItemScanAdapter implements Filterable{
+public class FileItemSelectAdapter extends FileItemScanAdapter implements Filterable {
     private FileFilter mFileFilter;
     private ArrayList<FileProperty> mFilterOriginList = new ArrayList<>();
-    private Map<FileProperty,Boolean> mSelectedMap;
+    private Map<FileProperty, Boolean> mSelectedMap;
 
     public FileItemSelectAdapter(Context context) {
         super(context);
@@ -72,18 +72,18 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
             viewHolder.fileSize.setVisibility(View.VISIBLE);
             viewHolder.isSelected.setVisibility(View.VISIBLE);
             viewHolder.fileSize.setText(temp.getFileSize());
-
-            viewHolder.isSelected.setChecked(mSelectedMap.get(temp));
+            boolean isCheck = mSelectedMap.get(temp);
+            viewHolder.isSelected.setChecked(isCheck);
             viewHolder.isSelected.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     boolean lastSelected = mSelectedMap.get(temp);
-                    if(!lastSelected){
+                    if (!lastSelected) {
                         SharedFileOperation.addSharedFile(temp);
-                    }else {
+                    } else {
                         SharedFileOperation.deleteSharedFile(temp);
                     }
-                    mSelectedMap.put(temp,!lastSelected);
+                    mSelectedMap.put(temp, !lastSelected);
 
                 }
             });
@@ -94,7 +94,7 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
 
     @Override
     public Filter getFilter() {
-        if(null == mFileFilter){
+        if (null == mFileFilter) {
             mFileFilter = new FileFilter();
         }
         return mFileFilter;
@@ -102,19 +102,22 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
 
     @Override
     public void resetData(ArrayList<FileProperty> fileInfo) {
-        if(mSelectedMap == null){
+        if (mSelectedMap == null) {
             mSelectedMap = new HashMap<>(fileInfo.size());
-            for(FileProperty selectedHolder:fileInfo){
-                boolean isSelected = false;
-                for(FileProperty judgeSelected:SharedFileOperation.getSharedFileList()){
-                    if(selectedHolder.equals(judgeSelected)){
-                        isSelected = true;
-                        break;
-                    }
-                }
-                mSelectedMap.put(selectedHolder,isSelected);
-            }
+        }else{
+            mSelectedMap.clear();
         }
+        for (FileProperty selectedHolder : fileInfo) {
+            boolean isSelected = false;
+            for (FileProperty judgeSelected : SharedFileOperation.getSharedFileList()) {
+                if (selectedHolder.equals(judgeSelected)) {
+                    isSelected = true;
+                    break;
+                }
+            }
+            mSelectedMap.put(selectedHolder, isSelected);
+        }
+
         mFileDataList.clear();
         mFileDataList.addAll(fileInfo);
 
@@ -130,7 +133,7 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
         CheckBox isSelected;
     }
 
-    class FileFilter extends Filter{
+    class FileFilter extends Filter {
         //该方法在子线程中执行
         //自定义过滤规则
         @Override
@@ -139,13 +142,13 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
             ArrayList<FileProperty> fileterDate = new ArrayList<>();
             String filterString = constraint.toString().trim();
 
-            if(TextUtils.isEmpty(filterString)){
+            if (TextUtils.isEmpty(filterString)) {
                 fileterDate.clear();
                 fileterDate.addAll(mFileDataList);
-            }else{
+            } else {
                 //过滤新数据
-                for(FileProperty filterTemp:mFileDataList){
-                    if(filterTemp.getFileName().contains(constraint)){
+                for (FileProperty filterTemp : mFileDataList) {
+                    if (filterTemp.getFileName().contains(constraint)) {
                         fileterDate.add(filterTemp);
                     }
                 }
@@ -160,9 +163,9 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
             mFilterOriginList.clear();
             mFilterOriginList.addAll((ArrayList<FileProperty>) results.values);
 
-            if(mFilterOriginList.size() > 0){
+            if (mFilterOriginList.size() > 0) {
                 FileItemSelectAdapter.this.resetData(mFilterOriginList);
-            }else{
+            } else {
                 FileItemSelectAdapter.this.notifyDataSetInvalidated();
             }
         }
