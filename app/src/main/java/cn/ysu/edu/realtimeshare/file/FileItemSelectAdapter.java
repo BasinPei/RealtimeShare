@@ -170,5 +170,4 @@ public class FileItemSelectAdapter extends FileItemScanAdapter implements Filter
             }
         }
     }
-
 }

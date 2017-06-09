@@ -181,6 +181,7 @@ public class LocalDeviceFragment extends Fragment{
                 mWiFiPeerDeviceAdapter.resetData(connectedDevices);
             }else if(connectedDevices.size() == 0){
                 noneConnectedDeviceTip.setVisibility(View.VISIBLE);
+                mWiFiPeerDeviceAdapter.resetData(new ArrayList<WifiP2pDevice>());
             }
         }
     }

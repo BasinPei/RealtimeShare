@@ -272,17 +272,14 @@ public class HTTPSocket {
                     // Thanks for Lee Peik Feng <pflee@users.sourceforge.CyberGarage.net>
                     // (07/07/05)
                     String chunSizeBuf = Long.toHexString(readLen);
-
                     out.write(chunSizeBuf.getBytes());
-
                     out.write(HTTP.CRLF.getBytes());
                 }
 
-                //// TODO: 2017/5/16  thread on pause another thread
-                out.write(readBuf, 0, readLen);
-
                 Thread thread = Thread.currentThread();
                 Log.d(TAG, "post: " + thread.equals(current));
+                //// TODO: 2017/5/16  thread on pause another thread
+                out.write(readBuf, 0, readLen);
 
                 if (isChunkedResponse == true) {
                     out.write(HTTP.CRLF.getBytes());
