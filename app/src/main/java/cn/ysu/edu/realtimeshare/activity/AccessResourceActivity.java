@@ -112,13 +112,13 @@ public class AccessResourceActivity extends AppCompatActivity {
                             + SharedFileOperation.HTTP_FILE_PORT + "/File/"
                             + fileProperty.hashCode() + suffix;
 
-                    try {
+                   /* try {
                         path = URLEncoder.encode(path, "utf-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
                     }
 
-                    /*Intent mediaPlayIntent = new Intent(AccessResourceActivity.this, MediaPlayerActivity.class);
+                    Intent mediaPlayIntent = new Intent(AccessResourceActivity.this, MediaPlayerActivity.class);
                     mediaPlayIntent.putExtra("path", path);
                     mediaPlayIntent.putExtra("type", MediaPlayerActivity.ONLINE_VIDEO);
                     startActivity(mediaPlayIntent);*/
