@@ -101,6 +101,7 @@ public class AccessResourceActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final FileProperty fileProperty = mSharedFileList.get(position);
+//                new GetSharedFileTask().execute(fileProperty);
                 int fileType = FileOperationOfType.getFileType(fileProperty.getFileName());
                 if (fileType == FileOperationOfType.TYPE_VIDEO) {
 
@@ -111,14 +112,15 @@ public class AccessResourceActivity extends AppCompatActivity {
                             + SharedFileOperation.HTTP_FILE_PORT + "/File/"
                             + fileProperty.hashCode() + suffix;
 
-                   /* try {
+                    try {
                         path = URLEncoder.encode(path, "utf-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
-                    }*/
+                    }
 
                     /*Intent mediaPlayIntent = new Intent(AccessResourceActivity.this, MediaPlayerActivity.class);
                     mediaPlayIntent.putExtra("path", path);
+                    mediaPlayIntent.putExtra("type", MediaPlayerActivity.ONLINE_VIDEO);
                     startActivity(mediaPlayIntent);*/
 
                     Intent i = new Intent(Intent.ACTION_VIEW);

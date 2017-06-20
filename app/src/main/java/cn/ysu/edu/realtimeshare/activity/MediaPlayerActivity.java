@@ -49,10 +49,7 @@ public class MediaPlayerActivity extends ActionBarActivity {
      * add in 2017/5/4 fixed crash bug, by BasinPei
      */
     private boolean _isBufferFinish = false;
-    private ProgressDialog _progressDlg = null;
-
-
-    public static final int LOCAL_VIDEO = 0x001;
+//    private ProgressDialog _progressDlg = null;
     public static final int ONLINE_VIDEO = 0x002;
 
     @Override
@@ -146,8 +143,8 @@ public class MediaPlayerActivity extends ActionBarActivity {
         _mediaPlayer = new MediaPlayer(this);
         _mediaPlayer.setDisplay(_surfaceHolder);
         try {
-
             _mediaPlayer.setDataSource(this, Uri.parse(_videoPath));
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -173,13 +170,14 @@ public class MediaPlayerActivity extends ActionBarActivity {
                             }
                         });
                     }
+
                 }
             }).start();
 
-            _progressDlg = new ProgressDialog(MediaPlayerActivity.this);
+            /*_progressDlg = new ProgressDialog(MediaPlayerActivity.this);
             _progressDlg.setMessage(getResources().getString(R.string.search_loading));
             _progressDlg.setCanceledOnTouchOutside(false);
-            _progressDlg.show();
+            _progressDlg.show();*/
             _mediaPlayer.setOnBufferingUpdateListener(new MediaPlayer.OnBufferingUpdateListener() {
                 @Override
                 public void onBufferingUpdate(MediaPlayer mp, int percent) {
@@ -188,7 +186,7 @@ public class MediaPlayerActivity extends ActionBarActivity {
                      *  fixed in 2017/5/4 crash bug,by BasinPei
                      */
                     if (percent > 0.1) {
-                        _progressDlg.dismiss();
+//                        _progressDlg.dismiss();
                         if (!_isBufferFinish)
                             _isBufferFinish = true;
                     }
@@ -392,6 +390,7 @@ public class MediaPlayerActivity extends ActionBarActivity {
             e.printStackTrace();
         } catch (IOException e) {
             e.printStackTrace();
+            return false;
         }finally {
             if(connection != null){
                 connection.disconnect();

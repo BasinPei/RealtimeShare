@@ -133,10 +133,6 @@ public class FileOperationOfType {
                 return getTextFileIntent(filePath);
             case TYPE_XLS:
                 return getExcelFileIntent(filePath);
-            /*case TYPE_COMPRESSED:
-                return getAllIntent(filePath);
-            case TYPE_OTHERS:
-                return getAllIntent(filePath);*/
             default:
                 return getAllIntent(filePath);
         }

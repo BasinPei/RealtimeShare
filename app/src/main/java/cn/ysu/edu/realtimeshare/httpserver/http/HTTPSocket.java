@@ -274,6 +274,7 @@ public class HTTPSocket {
                     String chunSizeBuf = Long.toHexString(readLen);
                     out.write(chunSizeBuf.getBytes());
                     out.write(HTTP.CRLF.getBytes());
+                    out.flush();
                 }
 
                 Thread thread = Thread.currentThread();

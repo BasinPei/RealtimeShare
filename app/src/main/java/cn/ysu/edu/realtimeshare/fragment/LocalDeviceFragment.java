@@ -159,7 +159,6 @@ public class LocalDeviceFragment extends Fragment{
             mCreateGroupSwitch.setChecked(isCheck);
             mCreateGroupSwitch.setOnCheckedChangeListener(mCreateGroupSwitchListener);
         }
-
     }
 
     public void setShareScreenSwitch(boolean isCheck){
