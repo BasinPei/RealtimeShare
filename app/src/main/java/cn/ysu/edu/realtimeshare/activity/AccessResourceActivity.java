@@ -101,8 +101,8 @@ public class AccessResourceActivity extends AppCompatActivity {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 final FileProperty fileProperty = mSharedFileList.get(position);
-//                new GetSharedFileTask().execute(fileProperty);
-                int fileType = FileOperationOfType.getFileType(fileProperty.getFileName());
+                new GetSharedFileTask().execute(fileProperty);
+                /*int fileType = FileOperationOfType.getFileType(fileProperty.getFileName());
                 if (fileType == FileOperationOfType.TYPE_VIDEO) {
 
                     //请求媒体文件
@@ -112,7 +112,7 @@ public class AccessResourceActivity extends AppCompatActivity {
                             + SharedFileOperation.HTTP_FILE_PORT + "/File/"
                             + fileProperty.hashCode() + suffix;
 
-                   /* try {
+                   *//* try {
                         path = URLEncoder.encode(path, "utf-8");
                     } catch (UnsupportedEncodingException e) {
                         e.printStackTrace();
@@ -121,18 +121,19 @@ public class AccessResourceActivity extends AppCompatActivity {
                     Intent mediaPlayIntent = new Intent(AccessResourceActivity.this, MediaPlayerActivity.class);
                     mediaPlayIntent.putExtra("path", path);
                     mediaPlayIntent.putExtra("type", MediaPlayerActivity.ONLINE_VIDEO);
-                    startActivity(mediaPlayIntent);*/
+                    startActivity(mediaPlayIntent);*//*
 
-                    Intent i = new Intent(Intent.ACTION_VIEW);
+                    *//*Intent i = new Intent(Intent.ACTION_VIEW);
                     Uri uri = Uri.parse(path);
                     i.setData(uri);
-                    startActivity(i);
+                    startActivity(i);*//*
+
 
 
                 } else {
                     //请求非媒体文件
                     new GetSharedFileTask().execute(fileProperty);
-                }
+                }*/
             }
         });
         lv_sharedFileList.setOnScrollListener(new AbsListView.OnScrollListener() {

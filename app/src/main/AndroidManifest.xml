@@ -80,14 +80,12 @@
                 android:value=".activity.FileAddActivity" />
         </activity>
 
-
         <activity
             android:name=".activity.AccessResourceActivity"
             android:screenOrientation="portrait" />
         <activity
             android:name=".activity.ScreenCaptureActivity"
             android:screenOrientation="portrait" />
-        <activity android:name=".activity.VideoViewActivity" />
         <activity android:name="io.vov.vitamio.activity.InitActivity" />
         <activity
             android:name=".activity.MediaPlayerActivity"/>

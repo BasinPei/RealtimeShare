@@ -274,11 +274,8 @@ public class HTTPSocket {
                     String chunSizeBuf = Long.toHexString(readLen);
                     out.write(chunSizeBuf.getBytes());
                     out.write(HTTP.CRLF.getBytes());
-                    out.flush();
                 }
 
-                Thread thread = Thread.currentThread();
-                Log.d(TAG, "post: " + thread.equals(current));
                 //// TODO: 2017/5/16  thread on pause another thread
                 out.write(readBuf, 0, readLen);
 
@@ -290,7 +287,7 @@ public class HTTPSocket {
                         : (contentLength - readCnt);
                 readLen = in.read(readBuf, 0, (int) readSize);
                 //add in 2017/05/21 By BasinPei
-                out.flush();
+//                out.flush();
             }
 
 
